@@ -1,8 +1,16 @@
 import Boom from 'boom';
+import userStore from '../stores/userStore';
 
 const userController = {
   createUser(req, reply) {
-    reply('Hi there').code(201);
+    userStore.createUser(req.payload)
+    .then((user) => {
+      reply(user).code(201);
+    })
+    .catch((err) => {
+      req.server.log('Error. Could not create User');
+      Boom.badRequest(err);
+    });
   },
 };
 

@@ -11,6 +11,12 @@
   ],
   "registrations": [
     {
+      "plugin": "./app/shared/plugins/db.js",
+      "options": {
+        "select": ["api", "admin"]
+      }
+    },
+    {
       "plugin": "./app/api",
       "options": {
         "select": ["api"],
@@ -21,3 +27,4 @@
     }
   ]
 }
+
