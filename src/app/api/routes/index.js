@@ -1,3 +1,3 @@
 import userRoutes from './user';
 
-export default [].concat(profileRoutes);
+export default [].concat(userRoutes);
