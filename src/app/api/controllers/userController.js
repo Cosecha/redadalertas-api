@@ -12,6 +12,16 @@ const userController = {
       Boom.badRequest(err);
     });
   },
+  getUser(req, reply) {
+    userStore.getUser(req.params.userID)
+    .then((user) => {
+      reply(user).code(200);
+    })
+    .catch((err) => {
+      req.server.log('Error. Could not retrieve user.');
+      Boom.badRequest(err);
+    });
+  },
   createSession(req, reply) {
     // Stores a new session in db
     //

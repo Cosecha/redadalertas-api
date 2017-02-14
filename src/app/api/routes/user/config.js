@@ -16,3 +16,10 @@ export const newSession = {
   },
 };
 
+export const id = {
+  validate: {
+    params: {
+      userID: Joi.string().required(),
+    },
+  },
+};

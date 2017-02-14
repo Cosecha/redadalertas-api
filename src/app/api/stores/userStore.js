@@ -6,6 +6,12 @@ const userStore = {
       phoneNumber: payload.phoneNumber,
     });
   },
+  getUser(payload) {
+    console.log(payload);
+    return User.findOne({
+      _id: payload,
+    });
+  },
 };
 
 export default userStore;
