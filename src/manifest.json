@@ -1,0 +1,23 @@
+{
+  "connections": [
+    {
+      "port": 3000,
+      "labels": ["api"]
+    },
+    {
+      "port": 3001,
+      "labels": ["admin"]
+    }
+  ],
+  "registrations": [
+    {
+      "plugin": "./app/api",
+      "options": {
+        "select": ["api"],
+        "routes": {
+          "prefix": "/api"
+        } 
+      }
+    }
+  ]
+}
