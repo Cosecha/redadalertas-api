@@ -8,3 +8,11 @@ export const user = {
   },
 };
 
+export const newSession = {
+  validate: {
+    payload: {
+      phoneNumber: Joi.string().required().min(10).max(10),
+    },
+  },
+};
+

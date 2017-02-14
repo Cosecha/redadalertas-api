@@ -8,5 +8,11 @@ export default [
     handler: userController.createUser,
     config: config.user,
   },
+  {
+    method: 'POST',
+    path: '/user/session',
+    handler: userController.createSession,
+    config: config.newSession,
+  },
 ];
 
