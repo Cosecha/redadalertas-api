@@ -14,4 +14,7 @@ This project is part of that. This repo will house the code to make the public f
 - Plan out sprints
 - Create issues for the sprints
 
+## Documentation
+
+[https://cosecha.github.io/redadalertas-api/](https://cosecha.github.io/redadalertas-api/)
 
