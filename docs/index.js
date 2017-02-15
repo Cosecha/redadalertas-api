@@ -3,7 +3,7 @@ require('bootprint')
   // Load bootprint-swagger
   .load(require('bootprint-openapi'))
   // Customize configuration, override any options
-  .merge(require('./bootprint-config.js'))
+  .merge(require('./config.js'))
   // Specify build source and target
   .build('main.yaml', 'gh-pages')
   // Generate swagger-documentation into "target" directory
