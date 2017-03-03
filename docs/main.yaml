@@ -105,6 +105,25 @@ paths:
           description: Error. Could not verify the subscriber
           schema:
             $ref: '#/definitions/Error'
+  /raids:
+    get:
+      summary: Get a list of raids
+      description: Will return an array of raids. Optional parameters.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successfully retrieved raids
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Raid'
+        400:
+          description: Error. Could not retrieve raids
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   User:
     type: object
@@ -148,6 +167,23 @@ definitions:
       zipCode:
         type: integer
         format: int32
+  Raid:
+    type: object
+    properties:
+      id:
+        type: string
+      date:
+        type: string
+      description:
+        type: string
+      location:
+        type: array
+        items:
+          type: number
+      type:
+        type: string
+      verified:
+        type: boolean
   UserLogin:
     type: object
     properties:
