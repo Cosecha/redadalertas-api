@@ -58,6 +58,26 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+      createdAt:
+        type: string
+      credibility:
+        type: object
+        properties:
+          automated:
+            type: integer
+            format: int32
+          social:
+            type: integer
+            format: int32
   UserLogin:
     type: object
     properties:
