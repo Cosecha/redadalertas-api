@@ -7,7 +7,6 @@ const userStore = {
     });
   },
   getUser(payload) {
-    console.log(payload);
     return User.findOne({
       _id: payload,
     });

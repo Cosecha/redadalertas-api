@@ -9,6 +9,14 @@ const raidStore = {
       type: payload.type,
     });
   },
+  getRaid(payload) {
+    return Raid.findOne({
+      _id: payload._id,
+    });
+  },
+  getRaids() {
+    return Raid.find({});
+  },
 };
 
 export default raidStore;

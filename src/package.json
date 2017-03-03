@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "lab -T node_modules/lab-babel test",
-    "start": "nodemon ./server.js --exec babel-node"
+    "start": "nodemon ./server.js --exec babel-node",
+    "lint": "eslint .",
+    "bootstrap": "babel-node ./scripts/bootstrap"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,7 @@
   },
   "homepage": "https://github.com/cosecha/redadalertas-api#readme",
   "dependencies": {
+    "bcrypt": "^1.0.2",
     "bluebird": "^3.4.7",
     "boom": "^4.2.0",
     "dotenv": "^4.0.0",

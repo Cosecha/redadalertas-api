@@ -50,29 +50,6 @@ lab.experiment('Raid model', () => {
     });
   });
 
-  lab.test('Location requires both lon and lat', (done) => {
-    let longitude = -112.097008;
-    let raid = Raid({
-      location: [longitude]
-    });
-    raid.validate((err) => {
-      expect(err.errors.location).to.exist;
-      done();
-    });
-  });
-
-  lab.test('Location requires exactly two coordinates', (done) => {
-    let longitude = -112.097008;
-    let latitude = 33.448304;
-    let raid = Raid({
-      location: [longitude, latitude, latitude]
-    });
-    raid.validate((err) => {
-      expect(err.errors.location).to.exist;
-      done();
-    });
-  });
-
   lab.test('It is unverified by default', (done) => {
     let raid = Raid();
     expect(raid.verified).to.be.false;
@@ -88,7 +65,7 @@ lab.experiment('Raid model', () => {
   });
 
   lab.test('It requires verified', (done) => {
-    let raid = Raid();
+    const raid = Raid();
     raid.verified = undefined;
     raid.validate((err) => {
       expect(err.errors.verified).to.exist;
