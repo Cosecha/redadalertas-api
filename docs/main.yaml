@@ -3,7 +3,7 @@ info:
   title: Redadalertas API
   description: API Documentation of REST API for Redadalertas
   version: '1.0.0'
-host: example.com
+host: api.redadalertas.com
 schemes:
   - https
 basePath: /api/v1
@@ -12,7 +12,8 @@ produces:
 paths:
   /session:
     post:
-      summary: Creates a new session
+      summary: Creates a new session, logging the user in
+      description: Accepts a username and password, return an accessToken
       consumes:
         - application/json
       produces:
@@ -24,21 +25,234 @@ paths:
           description: Object with user login details
           required: true
           schema:
-            $ref: '#/definitions/userLogin'
+            $ref: '#/definitions/UserLogin'
       responses:
         201:
           description: A new session was created. Returns an accessToken
           schema:
-            $ref: '#/definitions/Session'
+            $ref: '#/definitions/AccessToken'
         500:
           description: Server error
           schema:
             $ref: '#/definitions/Error'
+    delete:
+      summary: Deletes a session, loggin the user out.
+      description: This will return nothing
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: accessToken
+          description: The accessToken received on login
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AccessToken'
+      responses:
+        200:
+          description: Successfully logged user out, deleting user session
+        400:
+          description: Server error.
+          schema:
+            $ref: '#/definitions/Error'
+  /subscriber:
+    post:
+      summary: Creates a new subscriber
+      description: Takes in a phone number and zip code, then required verification.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: NewSubsriber
+          description: Phone number and Zip Code
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/NewSubsriber'
+      responses:
+        201:
+          description: Successfully created a new subscriber, but need verification
+          schema:
+            $ref: '#/definitions/AccessToken'
+        400:
+          description: Could not create new subscriber
+          schema:
+            $ref: '#/definitions/Error'
+  /subscriber/verify:
+    post:
+      summary: Verifies a subscribers phone number
+      description: Takes in a verification code sent to the user via SMS
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: verificationCode
+          description: Code sent to user by SMS
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/VerificationCode'
+      responses:
+        201:
+          description: Successfully verified the subscriber
+        400:
+          description: Error. Could not verify the subscriber
+          schema:
+            $ref: '#/definitions/Error'
+  /raids:
+    get:
+      summary: Get a list of raids
+      description: Will return an array of raids. Optional parameters.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successfully retrieved raids
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Raid'
+        400:
+          description: Error. Could not retrieve raids
+          schema:
+            $ref: '#/definitions/Error'
+  /raid/{id}:
+    get:
+      summary: Gets a specific raid
+      description: Will return an object with raid details
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of the raid to retrieve
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successfully retrieved specified raid
+          schema:
+            $ref: '#/definitions/Raid'
+        400:
+          description: Error. Could not retrieve specified raid.
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: Updates a specified raid
+      description: Will take a complete or partial Raid object.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of the raid to retrieve
+          required: true
+          type: string
+        -
+          name: updatedRaid
+          description: Updated raid object. Note this can be a partial object.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Raid'
+      responses:
+        201:
+          description: Successfully updated specified raid
+          schema:
+            $ref: '#/definitions/Raid'
+        400:
+          description: Error. Could not update specified raid
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
-  userLogin:
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+      createdAt:
+        type: string
+      credibility:
+        type: object
+        properties:
+          automated:
+            type: integer
+            format: int32
+          social:
+            type: integer
+            format: int32
+  Subscriber:
+    type: object
+    properties:
+      id:
+        type: string
+      phoneNumber:
+        type: integer
+        format: int32
+      zipCode:
+        type: integer
+        format: int32
+      isVerified:
+        type: boolean
+  NewSubsriber:
     type: object
     properties:
       phoneNumber:
+        type: integer
+        format: int32
+      zipCode:
+        type: integer
+        format: int32
+  Raid:
+    type: object
+    properties:
+      id:
+        type: string
+      date:
+        type: string
+      description:
+        type: string
+      location:
+        type: array
+        items:
+          type: number
+      type:
+        type: string
+      verified:
+        type: boolean
+      verifiedAutomated:
+        type: boolean
+      verifiedBy:
+        type: array
+        items:
+          type: object
+          properties:
+            userId:
+              type: string
+            timestamp:
+              type: string
+  UserLogin:
+    type: object
+    properties:
+      username:
         type: string
       password:
         type: string
@@ -47,6 +261,10 @@ definitions:
     properties:
       accessToken:
         type: string
+  AccessToken:
+    type: string
+  VerificationCode:
+    type: string
   Error:
     type: object
     properties:
