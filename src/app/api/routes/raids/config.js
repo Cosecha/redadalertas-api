@@ -14,3 +14,17 @@ export const raid = {
     },
   },
 };
+
+export const updatedRaid = {
+  validate: {
+    payload: {
+      date: Joi.date(),
+      description: Joi.string()
+        .max(200),
+      location: Joi.array().items(Joi.number())
+        .min(2)
+        .max(2),
+      type: Joi.string(),
+    },
+  },
+};

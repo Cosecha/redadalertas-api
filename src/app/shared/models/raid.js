@@ -9,7 +9,7 @@ export const raidSchema = new Schema({
   location: {
     type: [Number],
     required: true,
-    index: '2d'
+    index: '2d',
   },
   type: {
     type: String,

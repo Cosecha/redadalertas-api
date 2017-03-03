@@ -6,7 +6,7 @@ const getDBConnectionString = () => {
   if (process.env.NODE_ENV === 'test') {
     return `${defaultConnectionString}_test`;
   } else {
-    return defaultConnectionString
+    return defaultConnectionString;
   }
 };
 
@@ -21,4 +21,3 @@ export default register;
 register.attributes = {
   name: 'db',
 };
-

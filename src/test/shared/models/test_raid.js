@@ -65,7 +65,7 @@ lab.experiment('Raid model', () => {
   });
 
   lab.test('It requires verified', (done) => {
-    let raid = Raid();
+    const raid = Raid();
     raid.verified = undefined;
     raid.validate((err) => {
       expect(err.errors.verified).to.exist;

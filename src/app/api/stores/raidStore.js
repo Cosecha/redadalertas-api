@@ -11,12 +11,12 @@ const raidStore = {
   },
   getRaid(payload) {
     return Raid.findOne({
-      _id: payload._id
+      _id: payload._id,
     });
   },
   getRaids() {
     return Raid.find({});
-  }
+  },
 };
 
 export default raidStore;

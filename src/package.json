@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "lab -T node_modules/lab-babel test",
-    "start": "nodemon ./server.js --exec babel-node"
+    "start": "nodemon ./server.js --exec babel-node",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
