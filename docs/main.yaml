@@ -57,6 +57,54 @@ paths:
           description: Server error.
           schema:
             $ref: '#/definitions/Error'
+  /subscriber:
+    post:
+      summary: Creates a new subscriber
+      description: Takes in a phone number and zip code, then required verification.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: NewSubsriber
+          description: Phone number and Zip Code
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/NewSubsriber'
+      responses:
+        201:
+          description: Successfully created a new subscriber, but need verification
+          schema:
+            $ref: '#/definitions/AccessToken'
+        400:
+          description: Could not create new subscriber
+          schema:
+            $ref: '#/definitions/Error'
+  /subscriber/verify:
+    post:
+      summary: Verifies a subscribers phone number
+      description: Takes in a verification code sent to the user via SMS
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: verificationCode
+          description: Code sent to user by SMS
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/VerificationCode'
+      responses:
+        201:
+          description: Successfully verified the subscriber
+        400:
+          description: Error. Could not verify the subscriber
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   User:
     type: object
@@ -78,6 +126,28 @@ definitions:
           social:
             type: integer
             format: int32
+  Subscriber:
+    type: object
+    properties:
+      id:
+        type: string
+      phoneNumber:
+        type: integer
+        format: int32
+      zipCode:
+        type: integer
+        format: int32
+      isVerified:
+        type: boolean
+  NewSubsriber:
+    type: object
+    properties:
+      phoneNumber:
+        type: integer
+        format: int32
+      zipCode:
+        type: integer
+        format: int32
   UserLogin:
     type: object
     properties:
@@ -91,6 +161,8 @@ definitions:
       accessToken:
         type: string
   AccessToken:
+    type: string
+  VerificationCode:
     type: string
   Error:
     type: object
