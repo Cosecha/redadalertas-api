@@ -148,6 +148,7 @@ paths:
           description: Error. Could not retrieve specified raid.
           schema:
             $ref: '#/definitions/Error'
+
 definitions:
   User:
     type: object
@@ -208,6 +209,17 @@ definitions:
         type: string
       verified:
         type: boolean
+      verifiedAutomated:
+        type: boolean
+      verifiedBy:
+        type: array
+        items:
+          type: object
+          properties:
+            userId:
+              type: string
+            timestamp:
+              type: string 
   UserLogin:
     type: object
     properties:
