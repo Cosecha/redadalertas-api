@@ -148,7 +148,36 @@ paths:
           description: Error. Could not retrieve specified raid.
           schema:
             $ref: '#/definitions/Error'
-
+    patch:
+      summary: Updates a specified raid
+      description: Will take a complete or partial Raid object.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of the raid to retrieve
+          required: true
+          type: string
+        -
+          name: updatedRaid
+          description: Updated raid object. Note this can be a partial object.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Raid'
+      responses:
+        201:
+          description: Successfully updated specified raid
+          schema:
+            $ref: '#/definitions/Raid'
+        400:
+          description: Error. Could not update specified raid
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   User:
     type: object
@@ -219,7 +248,7 @@ definitions:
             userId:
               type: string
             timestamp:
-              type: string 
+              type: string
   UserLogin:
     type: object
     properties:
