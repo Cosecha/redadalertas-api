@@ -14,11 +14,10 @@ export default [
     handler: userController.getUser,
     config: config.id,
   },
-  {
-    method: 'POST',
-    path: '/user/session',
-    handler: userController.createSession,
-    config: config.newSession,
-  },
+  // {
+  //   method: 'POST',
+  //   path: '/user/session',
+  //   handler: userController.createSession,
+  //   config: config.newSession,
+  // },
 ];
-

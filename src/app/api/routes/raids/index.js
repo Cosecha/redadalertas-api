@@ -8,4 +8,9 @@ export default [
     handler: raidController.createRaid,
     config: config.raid,
   },
+  {
+    method: 'GET',
+    path: '/raids',
+    handler: raidController.getRaids,
+  },
 ];
