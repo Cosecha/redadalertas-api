@@ -3,7 +3,7 @@ info:
   title: Redadalertas API
   description: API Documentation of REST API for Redadalertas
   version: '1.0.0'
-host: example.com
+host: api.redadalertas.com
 schemes:
   - https
 basePath: /api/v1
@@ -12,7 +12,8 @@ produces:
 paths:
   /session:
     post:
-      summary: Creates a new session
+      summary: Creates a new session, logging the user in
+      description: Accepts a username and password, return an accessToken
       consumes:
         - application/json
       produces:
@@ -24,7 +25,7 @@ paths:
           description: Object with user login details
           required: true
           schema:
-            $ref: '#/definitions/userLogin'
+            $ref: '#/definitions/UserLogin'
       responses:
         201:
           description: A new session was created. Returns an accessToken
@@ -34,11 +35,33 @@ paths:
           description: Server error
           schema:
             $ref: '#/definitions/Error'
+    delete:
+      summary: Deletes a session, loggin the user out.
+      description: This will return nothing
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: accessToken
+          description: The accessToken received on login
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AccessToken'
+      responses:
+        200:
+          description: Successfully logged user out, deleting user session
+        400:
+          description: Server error.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
-  userLogin:
+  UserLogin:
     type: object
     properties:
-      phoneNumber:
+      username:
         type: string
       password:
         type: string
@@ -47,6 +70,8 @@ definitions:
     properties:
       accessToken:
         type: string
+  AccessToken:
+    type: string
   Error:
     type: object
     properties:
