@@ -1,10 +1,11 @@
 import Glue from 'glue';
 import manifest from './manifest.json';
 import env from 'dotenv';
-env.config();
 import Labbable from 'labbable';
-
+/*eslint-disable*/
 export const labbable = new Labbable();
+/*eslint-enable*/
+env.config();
 
 Glue.compose(manifest, { relativeTo: __dirname }, (err, server) => {
   labbable.using(server);
@@ -26,4 +27,3 @@ Glue.compose(manifest, { relativeTo: __dirname }, (err, server) => {
     });
   });
 });
-

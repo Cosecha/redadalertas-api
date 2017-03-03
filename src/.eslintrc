@@ -64,7 +64,7 @@
     "no-tabs": 1,
     "no-trailing-spaces": 0,
     "no-undef": 1,
-    "no-underscore-dangle": 1,
+    "no-underscore-dangle": 0,
     "no-unneeded-ternary": 1,
     "no-useless-constructor": 1,
     "no-useless-escape": 1,

@@ -22,19 +22,19 @@ const userController = {
       Boom.badRequest(err);
     });
   },
-  createSession(req, reply) {
-    // Stores a new session in db
-    //
-    // Will need to wait for authentication for session to be active
-  },
-  authenticateSession(req, reply) {
-    // Will authenticate session with code received through SMS
-    //
-    // Will set the session to authenticated
-  },
-  deleteSession(req, reply) {
-    // Will delete the session
-  },
+  // createSession(req, reply) {
+  //   // Stores a new session in db
+  //   //
+  //   // Will need to wait for authentication for session to be active
+  // },
+  // authenticateSession(req, reply) {
+  //   // Will authenticate session with code received through SMS
+  //   //
+  //   // Will set the session to authenticated
+  // },
+  // deleteSession(req, reply) {
+  //   // Will delete the session
+  // },
 };
 
 export default userController;
