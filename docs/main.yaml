@@ -6,7 +6,7 @@ info:
 host: api.redadalertas.com
 schemes:
   - https
-basePath: /api/v1
+basePath: /api
 produces:
   - application/json
 paths:
