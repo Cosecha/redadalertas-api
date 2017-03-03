@@ -14,11 +14,11 @@ export const raidSchema = new Schema({
   type: {
     type: String,
     required: true,
-    enum: ['workplace', 'home'],
+    enum: ['workplace', 'home', 'checkpoint'],
   },
   verified: {
     type: Boolean,
-    required: true,
+    required: false,
     default: false,
   },
 });
