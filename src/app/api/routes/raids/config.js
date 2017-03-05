@@ -13,6 +13,11 @@ export const raid = {
       type: Joi.string().required(),
     },
   },
+  cors: {
+    origin: ['*'],
+    additionalHeaders: ['cache-control', 'x-requested-with', 'accept-language'],
+  },
+  auth: false,
 };
 
 export const updatedRaid = {
