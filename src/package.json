@@ -26,6 +26,7 @@
     "dotenv": "^4.0.0",
     "glue": "^4.1.0",
     "hapi": "^16.1.0",
+    "hapi-cors-headers": "^1.0.0",
     "inert": "^4.1.0",
     "joi": "^10.2.2",
     "mongoose": "^4.8.2",

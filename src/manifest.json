@@ -1,15 +1,21 @@
 {
   "connections": [
     {
-      "port": 3000,
+      "port": 8000,
       "labels": ["api"]
     },
     {
-      "port": 3001,
+      "port": 8001,
       "labels": ["admin"]
     }
   ],
   "registrations": [
+    {
+      "plugin": "./app/shared/plugins/cors",
+      "options": {
+        "select": ["api", "admin"]
+      }
+    },
     {
       "plugin": "./app/shared/plugins/db.js",
       "options": {
@@ -22,9 +28,8 @@
         "select": ["api"],
         "routes": {
           "prefix": "/api"
-        } 
+        }
       }
     }
   ]
 }
-
