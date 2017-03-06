@@ -68,7 +68,7 @@ lab.experiment('Raid model', () => {
     const raid = Raid();
     raid.verified = undefined;
     raid.validate((err) => {
-      expect(err.errors.verified).to.exist;
+      expect(err.errors.type.message).to.exist;
       done();
     });
   });

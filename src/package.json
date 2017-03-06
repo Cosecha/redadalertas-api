@@ -1,10 +1,11 @@
+
 {
   "name": "redadalertas-api",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "lab -T node_modules/lab-babel test",
+    "test": "lab -T node_modules/lab-babel test --leaks",
     "start": "nodemon ./server.js --exec babel-node",
     "lint": "eslint .",
     "bootstrap": "babel-node ./scripts/bootstrap"
