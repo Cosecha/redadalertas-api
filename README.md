@@ -22,11 +22,14 @@ Make sure you have the following installed on your computer
 
 ## Development Setup
 
-1. Clone the repository.
-1. Install node modules, we recommend using Yarn. > yarn in the 'src' directory
-1. Setup the environment variables. > cp src/.env.example src/.env
-1. Run mongodb service. '> brew services start mongodb'
-1. Update the mongodb database. '> npm run bootstrap' in the 'src' directory
+1. Clone the repository
+1. Setup the environment variables in the / directory: `cp src/.env.example src/.env`
+1. Install node modules in the /src directory, we recommend using Yarn: `yarn` in the /src directory
+1. Run MongoDB service: `brew services start mongodb`
+1. Update the MongoDB database: `yarn run bootstrap` in the /src directory
+
+1. To shut down server: `Ctrl + c` in server terminal
+1. To shut down database: `brew services stop mongodb`
 
 ## Scripts
 
