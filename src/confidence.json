@@ -1,0 +1,61 @@
+{
+  "connections": [
+    {
+      "port": 8080,
+      "labels": ["api"]
+    },
+    {
+      "port": 8081,
+      "labels": ["admin"]
+    }
+  ],
+  "registrations": {
+      "$filter": "env",
+      "development": [
+        {
+          "plugin": "./app/shared/plugins/cors",
+          "options": {
+            "select": ["api", "admin"]
+          }
+        },
+        {
+          "plugin": "./app/shared/plugins/db.js",
+          "options": {
+            "select": ["api", "admin"]
+          }
+        },
+        {
+          "plugin": "./app/api",
+          "options": {
+            "select": ["api"],
+            "routes": {
+              "prefix": "/api"
+            }
+          }
+        }
+      ],
+      "test": [
+        {
+          "plugin": "./app/shared/plugins/cors",
+          "options": {
+            "select": ["api", "admin"]
+          }
+        },
+        {
+          "plugin": "./app/shared/plugins/db-test.js",
+          "options": {
+            "select": ["api", "admin"]
+          }
+        },
+        {
+          "plugin": "./app/api",
+          "options": {
+            "select": ["api"],
+            "routes": {
+              "prefix": "/api"
+            }
+          }
+        }
+      ]
+  }
+}

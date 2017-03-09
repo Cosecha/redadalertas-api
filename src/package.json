@@ -1,11 +1,12 @@
-
 {
   "name": "redadalertas-api",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "lab -T node_modules/lab-babel test --leaks",
+    "pretest": "NODE_ENV=test babel-node ./scripts/bootstrap",
+    "test": "confidence -c confidence.json --filter.env=test > manifest.json | mocha --compilers js:babel-register --recursive ./app/**/*.spec.js",
+    "posttest": "babel-node ./scripts/drop-test-db",
     "start": "nodemon ./server.js --exec babel-node",
     "lint": "eslint .",
     "bootstrap": "babel-node ./scripts/bootstrap"
@@ -24,6 +25,7 @@
     "bcrypt": "^1.0.2",
     "bluebird": "^3.4.7",
     "boom": "^4.2.0",
+    "confidence": "^3.0.2",
     "dotenv": "^4.0.0",
     "glue": "^4.1.0",
     "hapi": "^16.1.0",
@@ -45,9 +47,6 @@
     "chai": "^3.5.0",
     "eslint": "^3.15.0",
     "eslint-plugin-import": "^2.2.0",
-    "lab": "^12.1.0",
-    "lab-babel": "^1.1.1",
-    "labbable": "^2.1.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "sinon": "^1.17.7"
