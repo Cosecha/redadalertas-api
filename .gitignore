@@ -42,3 +42,5 @@ jspm_packages
 .env
 
 docs/gh-pages
+manifest.json
+src/manifest.json
