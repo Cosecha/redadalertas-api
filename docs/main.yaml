@@ -178,7 +178,58 @@ paths:
           description: Error. Could not update specified raid
           schema:
             $ref: '#/definitions/Error'
+  /raid:
+    post:
+      summary: Creates a report of a raid
+      description: Takes in a RaidReport object
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: RaidReport
+          in: body
+          description: A RaidReport object
+          required: true
+          schema:
+            $ref: '#/definitions/RaidReport'
+        -
+          name: sessionToken
+          in: header
+          description: Authorization Token
+          required: true
+          type: string
+      responses:
+        201:
+          description: Successfully recorded new reported raid
+          schema:
+            type: string
+        400:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
+  RaidReport:
+    type: object
+    properties:
+      dateReported:
+        type: string
+      reportedBy:
+        type: string
+      location:
+        type: object
+        properties:
+          lat:
+            type: string
+          long:
+            type: string
+      description:
+        type: string
+      photos:
+        type: array
+        items:
+          type: string
   User:
     type: object
     properties:
