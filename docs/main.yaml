@@ -12,8 +12,8 @@ produces:
 paths:
   /reporter:
     post:
-      summary: Registers a new reporter account
-      description: This is how people will create accounts. They will need an inviteCode to join.
+      summary: Registers and verifies a new reporter account
+      description: This is how people will create accounts. They will need an inviteCode to join. They will recieve an sessionToken.
       consumes:
         - application/json
       produces:
@@ -30,13 +30,41 @@ paths:
         201:
           description: Successfully created an account.
           schema:
-            $ref: '#/definitions/Reporter'
+            $ref: '#/definitions/Session'
         404:
           description: inviteCode not valid
           schema:
             $ref: '#/definitions/Error'
         400:
           description: Error
+          schema:
+            $ref: '#/definitions/Error'
+  /profile:
+    patch:
+      summary: Updates the users profile data
+      description: Note that it does not have to be the complete profile object. Partial updates are accepted.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: sessionToken
+          in: header
+          description: Authorization Header. Bearer Acess Token.
+          required: true
+          type: string
+      responses:
+        201:
+          description: Successfully updated profile
+          schema:
+            $ref: '#/definitions/Profile'
+        401:
+          description: Unauthorized.
+          schema:
+            $ref: '#/definitions/Error'
+        400:
+          description: Invalid input
           schema:
             $ref: '#/definitions/Error'
   /session:
@@ -259,18 +287,20 @@ definitions:
       credibility:
         type: integer
       profile:
-        type: object
-        properties:
-          firstName:
-            type: string
-          lastName:
-            type: string
-          phone:
-            type: string
-          email:
-            type: string
-          password:
-            type: string
+        $ref: '#/definitions/Profile'
+  Profile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
   newReporterRequest:
     type: object
     properties:
@@ -384,7 +414,7 @@ definitions:
   Session:
     type: object
     properties:
-      accessToken:
+      sessionToken:
         type: string
   AccessToken:
     type: string
