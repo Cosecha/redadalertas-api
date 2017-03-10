@@ -10,6 +10,35 @@ basePath: /api
 produces:
   - application/json
 paths:
+  /reporter:
+    post:
+      summary: Registers a new reporter account
+      description: This is how people will create accounts. They will need an inviteCode to join.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: newReporterRequest
+          in: body
+          description: Object with account creation details
+          required: true
+          schema:
+            $ref: '#/definitions/newReporterRequest'
+      responses:
+        201:
+          description: Successfully created an account.
+          schema:
+            $ref: '#/definitions/Reporter'
+        404:
+          description: inviteCode not valid
+          schema:
+            $ref: '#/definitions/Error'
+        400:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
   /session:
     post:
       summary: Creates a new session, logging the user in
@@ -210,6 +239,51 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 definitions:
+  Reporter:
+    type: object
+    properties:
+      id:
+        type: string
+      reports:
+        type: array
+        items:
+          type: string
+      endorsedBy:
+        type: array
+        items:
+          type: string
+      endorses:
+        type: array
+        items:
+          type: string
+      credibility:
+        type: integer
+      profile:
+        type: object
+        properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
+          phone:
+            type: string
+          email:
+            type: string
+          password:
+            type: string
+  newReporterRequest:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      inviteCode:
+        type: string
   RaidReport:
     type: object
     properties:
