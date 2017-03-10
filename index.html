@@ -46,10 +46,10 @@
                     </tr>
                     <tr>
                             <td class="swagger--summary-path" rowspan="1">
-                                <a href="#path--raid">/raid</a>
+                                <a href="#path--raid-report">/raid-report</a>
                             </td>
                         <td>
-                            <a href="#operation--raid-post">POST</a>
+                            <a href="#operation--raid-report-post">POST</a>
                         </td>
                         <td>
                             <p>Creates a report of a raid</p>
@@ -57,7 +57,19 @@
                         </td>
                     </tr>
                     <tr>
-                            <td class="swagger--summary-path" rowspan="2">
+                            <td class="swagger--summary-path" rowspan="1">
+                                <a href="#path--raid-report--id-">/raid-report/{id}</a>
+                            </td>
+                        <td>
+                            <a href="#operation--raid-report--id--patch">PATCH</a>
+                        </td>
+                        <td>
+                            <p>Updates a specified raid report</p>
+        
+                        </td>
+                    </tr>
+                    <tr>
+                            <td class="swagger--summary-path" rowspan="1">
                                 <a href="#path--raid--id-">/raid/{id}</a>
                             </td>
                         <td>
@@ -65,15 +77,6 @@
                         </td>
                         <td>
                             <p>Gets a specific raid</p>
-        
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="#operation--raid--id--patch">PATCH</a>
-                        </td>
-                        <td>
-                            <p>Updates a specified raid</p>
         
                         </td>
                     </tr>
@@ -274,11 +277,11 @@
                         </section>
                 </div>
             </div>    
-        <span id="path--raid"></span>
-            <div id="operation--raid-post" class="swagger--panel-operation-post panel">
+        <span id="path--raid-report"></span>
+            <div id="operation--raid-report-post" class="swagger--panel-operation-post panel">
                 <div class="panel-heading">
                     <div class="operation-summary">Creates a report of a raid</div>
-                    <h3 class="panel-title"><span class="operation-name">POST</span> <strong>/raid</strong></h3>
+                    <h3 class="panel-title"><span class="operation-name">POST</span> <strong>/raid-report</strong></h3>
                 </div>
                 <div class="panel-body">
                     <section class="sw-operation-description">
@@ -385,108 +388,11 @@
                         </section>
                 </div>
             </div>    
-        <span id="path--raid--id-"></span>
-            <div id="operation--raid--id--get" class="swagger--panel-operation-get panel">
+        <span id="path--raid-report--id-"></span>
+            <div id="operation--raid-report--id--patch" class="swagger--panel-operation-patch panel">
                 <div class="panel-heading">
-                    <div class="operation-summary">Gets a specific raid</div>
-                    <h3 class="panel-title"><span class="operation-name">GET</span> <strong>/raid/{id}</strong></h3>
-                </div>
-                <div class="panel-body">
-                    <section class="sw-operation-description">
-                        <p>Will return an object with raid details</p>
-            
-                    </section>
-                        
-                            <section class="sw-request-body">
-                                
-                                    <p><span class="label label-default">application/json</span> 
-                        </p>
-                            </section>        
-                        <section class="sw-request-params">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th class="sw-param-name"></th>
-                                    <th class="sw-param-description"></th>
-                                    <th class="sw-param-type"></th>
-                                    <th class="sw-param-data-type"></th>
-                                    <th class="sw-param-annotation"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                        <tr>
-                                            <td>
-                                                id
-                                            <td><p>ID of the raid to retrieve</p>
-                                        </td>
-                                            <td>path</td>
-                                            <td>
-                                        <span class="json-property-type">string</span>
-                                        <span class="json-property-range" title="Value limits"></span>
-                                        
-                                            </td>
-                                            <td>
-                                                    <span class="json-property-required"></span>
-                                            </td>
-                                        </tr>
-                                </tbody>
-                            </table>
-                        </section>
-                    
-                        <section class="sw-responses">
-                                <p><span class="label label-default">application/json</span> 
-                    </p>
-                    
-                            <dl>
-                                    <dt class="sw-response-200">
-                                        200 OK
-                                    
-                                    </dt>
-                                    <dd class="sw-response-200">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <p>Successfully retrieved specified raid</p>
-                                            
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                
-                                                <div class="col-md-6 sw-response-model">
-                                                <div  class="panel panel-definition">
-                                                    <div class="panel-body">
-                                                                <a class="json-schema-ref" href="#/definitions/Raid">Raid</a>
-                                                    </div>
-                                                </div></div>
-                                            
-                                            </div>                </dd>
-                                    <dt class="sw-response-400">
-                                        400 Bad Request
-                                    
-                                    </dt>
-                                    <dd class="sw-response-400">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <p>Error. Could not retrieve specified raid.</p>
-                                            
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                
-                                                <div class="col-md-6 sw-response-model">
-                                                <div  class="panel panel-definition">
-                                                    <div class="panel-body">
-                                                                <a class="json-schema-ref" href="#/definitions/Error">Error</a>
-                                                    </div>
-                                                </div></div>
-                                            
-                                            </div>                </dd>
-                            </dl>
-                        </section>
-                </div>
-            </div>    <div id="operation--raid--id--patch" class="swagger--panel-operation-patch panel">
-                <div class="panel-heading">
-                    <div class="operation-summary">Updates a specified raid</div>
-                    <h3 class="panel-title"><span class="operation-name">PATCH</span> <strong>/raid/{id}</strong></h3>
+                    <div class="operation-summary">Updates a specified raid report</div>
+                    <h3 class="panel-title"><span class="operation-name">PATCH</span> <strong>/raid-report/{id}</strong></h3>
                 </div>
                 <div class="panel-body">
                     <section class="sw-operation-description">
@@ -576,6 +482,105 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <p>Error. Could not update specified raid</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                                <div  class="panel panel-definition">
+                                                    <div class="panel-body">
+                                                                <a class="json-schema-ref" href="#/definitions/Error">Error</a>
+                                                    </div>
+                                                </div></div>
+                                            
+                                            </div>                </dd>
+                            </dl>
+                        </section>
+                </div>
+            </div>    
+        <span id="path--raid--id-"></span>
+            <div id="operation--raid--id--get" class="swagger--panel-operation-get panel">
+                <div class="panel-heading">
+                    <div class="operation-summary">Gets a specific raid</div>
+                    <h3 class="panel-title"><span class="operation-name">GET</span> <strong>/raid/{id}</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <section class="sw-operation-description">
+                        <p>Will return an object with raid details</p>
+            
+                    </section>
+                        
+                            <section class="sw-request-body">
+                                
+                                    <p><span class="label label-default">application/json</span> 
+                        </p>
+                            </section>        
+                        <section class="sw-request-params">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-param-name"></th>
+                                    <th class="sw-param-description"></th>
+                                    <th class="sw-param-type"></th>
+                                    <th class="sw-param-data-type"></th>
+                                    <th class="sw-param-annotation"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+                                                id
+                                            <td><p>ID of the raid to retrieve</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">string</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    
+                        <section class="sw-responses">
+                                <p><span class="label label-default">application/json</span> 
+                    </p>
+                    
+                            <dl>
+                                    <dt class="sw-response-200">
+                                        200 OK
+                                    
+                                    </dt>
+                                    <dd class="sw-response-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Successfully retrieved specified raid</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                                <div  class="panel panel-definition">
+                                                    <div class="panel-body">
+                                                                <a class="json-schema-ref" href="#/definitions/Raid">Raid</a>
+                                                    </div>
+                                                </div></div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-400">
+                                        400 Bad Request
+                                    
+                                    </dt>
+                                    <dd class="sw-response-400">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Error. Could not retrieve specified raid.</p>
                                             
                                                 </div>
                                             </div>
