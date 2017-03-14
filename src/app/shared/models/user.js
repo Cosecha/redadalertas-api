@@ -4,7 +4,6 @@ export const userSchema = new Schema({
   createdAt: Date,
   password: String,
   profile: {
-    username: String,
     email: String,
     phone: String,
     receivesAlerts: Boolean,
