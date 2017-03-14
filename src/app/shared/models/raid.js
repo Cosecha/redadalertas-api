@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 
-export const raidSchema = new Schema({
+const raidSchema = new Schema({
   date: {
     type: Date,
     required: true,
@@ -21,6 +21,9 @@ export const raidSchema = new Schema({
     required: false,
     default: false,
   },
+  zip: String,
+  photos: [String],
+  reports: [{type: Schema.Types.ObjectId, ref: 'RaidReport'}],
 });
 
-export default mongoose.model('Raid', raidSchema);
+export default raidSchema;

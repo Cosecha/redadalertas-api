@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 
-export const userSchema = new Schema({
+const userSchema = new Schema({
   createdAt: Date,
   password: String,
   accessLevel: Number,
@@ -19,4 +19,4 @@ export const userSchema = new Schema({
   },
 });
 
-export default mongoose.model('User', userSchema);
+export default userSchema;
