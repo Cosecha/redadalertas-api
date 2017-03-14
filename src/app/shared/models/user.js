@@ -1,16 +1,22 @@
 import mongoose, { Schema } from 'mongoose';
 
 export const userSchema = new Schema({
-  username: String,
-  password: String,
   createdAt: Date,
+  password: String,
+  profile: {
+    username: String,
+    email: String,
+    phone: String,
+    receivesAlerts: Boolean,
+  },
   credibility: {
     automated: Number,
     social: Number,
+    endorsedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    hasEndorsed: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    raidsReported: [{ type: Schema.Types.ObjectId, ref: 'Raid' }],
+    raidsVerified: [{ type: Schema.Types.ObjectId, ref: 'Raid' }],
   },
-  phoneNumber: String,
-  receiveAlerts: Boolean,
-  hasReported: Boolean,
 });
 
 export default mongoose.model('User', userSchema);

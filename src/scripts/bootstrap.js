@@ -73,29 +73,41 @@ deletedb().then(disconnect)
   .then(reconnect)
   .then(() => {
     return User.create({
-      username: 'jlopez',
+      profile: {
+        email: 'person@mail.com',
+        phoneNumber: '5555555555',
+        receiveAlerts: false,
+      },
       password: hash1,
+      createdAt: new Date(),
       credibility: {
         automated: 0,
         social: 0,
+        endorsedBy: [],
+        hasEndorsed: [],
+        raidsReported: [],
+        raidsVerified: [],
       },
-      phoneNumber: 5555555555,
-      receiveAlerts: false,
-      hasReported: false,
     });
   })
   .then((user) => {
     console.log(`New user created (${user.username})... now creating another user...`);
     return User.create({
-      username: 'jdoe',
+      profile: {
+        email: 'person2@mail.com',
+        phoneNumber: '5556667777',
+        receiveAlerts: false,
+      },
       password: hash1,
+      createdAt: new Date(),
       credibility: {
         automated: 0,
         social: 0,
+        endorsedBy: [],
+        hasEndorsed: [],
+        raidsReported: [],
+        raidsVerified: [],
       },
-      phoneNumber: 5555555555,
-      receiveAlerts: false,
-      hasReported: false,
     });
   })
   .then((user) => {
