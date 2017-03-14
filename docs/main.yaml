@@ -10,6 +10,63 @@ basePath: /api
 produces:
   - application/json
 paths:
+  /reporter:
+    post:
+      summary: Registers and verifies a new reporter account
+      description: This is how people will create accounts. They will need an inviteCode to join. They will recieve an sessionToken.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: newReporterRequest
+          in: body
+          description: Object with account creation details
+          required: true
+          schema:
+            $ref: '#/definitions/newReporterRequest'
+      responses:
+        201:
+          description: Successfully created an account.
+          schema:
+            $ref: '#/definitions/Session'
+        404:
+          description: inviteCode not valid
+          schema:
+            $ref: '#/definitions/Error'
+        400:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+  /profile:
+    patch:
+      summary: Updates the users profile data
+      description: Note that it does not have to be the complete profile object. Partial updates are accepted.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: sessionToken
+          in: header
+          description: Authorization Header. Bearer Acess Token.
+          required: true
+          type: string
+      responses:
+        201:
+          description: Successfully updated profile
+          schema:
+            $ref: '#/definitions/Profile'
+        401:
+          description: Unauthorized.
+          schema:
+            $ref: '#/definitions/Error'
+        400:
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/Error'
   /session:
     post:
       summary: Creates a new session, logging the user in
@@ -148,37 +205,7 @@ paths:
           description: Error. Could not retrieve specified raid.
           schema:
             $ref: '#/definitions/Error'
-    patch:
-      summary: Updates a specified raid
-      description: Will take a complete or partial Raid object.
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        -
-          name: id
-          in: path
-          description: ID of the raid to retrieve
-          required: true
-          type: string
-        -
-          name: updatedRaid
-          description: Updated raid object. Note this can be a partial object.
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Raid'
-      responses:
-        201:
-          description: Successfully updated specified raid
-          schema:
-            $ref: '#/definitions/Raid'
-        400:
-          description: Error. Could not update specified raid
-          schema:
-            $ref: '#/definitions/Error'
-  /raid:
+  /raid-report:
     post:
       summary: Creates a report of a raid
       description: Takes in a RaidReport object
@@ -209,7 +236,85 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'
+  /raid-report/{id}:
+    patch:
+      summary: Updates a specified raid report
+      description: Will take a complete or partial Raid object.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        -
+          name: id
+          in: path
+          description: ID of the raid to retrieve
+          required: true
+          type: string
+        -
+          name: updatedRaid
+          description: Updated raid object. Note this can be a partial object.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Raid'
+      responses:
+        201:
+          description: Successfully updated specified raid
+          schema:
+            $ref: '#/definitions/Raid'
+        400:
+          description: Error. Could not update specified raid
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
+  Reporter:
+    type: object
+    properties:
+      id:
+        type: string
+      reports:
+        type: array
+        items:
+          type: string
+      endorsedBy:
+        type: array
+        items:
+          type: string
+      endorses:
+        type: array
+        items:
+          type: string
+      credibility:
+        type: integer
+      profile:
+        $ref: '#/definitions/Profile'
+  Profile:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+  newReporterRequest:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      inviteCode:
+        type: string
   RaidReport:
     type: object
     properties:
@@ -310,7 +415,7 @@ definitions:
   Session:
     type: object
     properties:
-      accessToken:
+      sessionToken:
         type: string
   AccessToken:
     type: string
