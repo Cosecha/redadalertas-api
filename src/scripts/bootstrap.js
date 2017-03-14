@@ -79,6 +79,7 @@ deletedb().then(disconnect)
         receiveAlerts: false,
       },
       password: hash1,
+      accessLevel: 1,
       createdAt: new Date(),
       credibility: {
         automated: 0,
@@ -98,6 +99,7 @@ deletedb().then(disconnect)
         phoneNumber: '5556667777',
         receiveAlerts: false,
       },
+      accessLevel: 1,
       password: hash1,
       createdAt: new Date(),
       credibility: {
