@@ -16,7 +16,7 @@
     "url": "git+ssh://git@github.com/cosecha/redadalertas-api.git"
   },
   "author": "Celso Mireles",
-  "license": "AGPL-3.0",
+  "license": "AGPL",
   "bugs": {
     "url": "https://github.com/cosecha/redadalertas-api/issues"
   },
