@@ -1,4 +1,4 @@
-import User from '../../shared/models/user';
+import { User } from '../../shared/models';
 
 const userStore = {
   createUser(payload) {
@@ -10,6 +10,14 @@ const userStore = {
     return User.findOne({
       _id: payload,
     });
+  },
+  // This method will be used for when loggin in. People will have the option to
+  // use their email of phone as a username.
+  getUserByPhoneOrEmail(payload) {
+    return User.findOne().or([
+      { 'profile.phone': payload },
+      { 'profile.email': payload },
+    ]);
   },
 };
 

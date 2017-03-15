@@ -7,7 +7,7 @@
     "pretest": "NODE_ENV=test babel-node ./scripts/bootstrap",
     "test": "confidence -c confidence.json --filter.env=test > manifest.json | mocha --compilers js:babel-register --recursive ./app/**/*.spec.js",
     "posttest": "babel-node ./scripts/drop-test-db",
-    "start": "nodemon ./server.js --exec babel-node",
+    "start": "confidence -c confidence.json --filter.env=development > manifest.json | nodemon ./server.js --exec babel-node",
     "lint": "eslint .",
     "bootstrap": "babel-node ./scripts/bootstrap"
   },

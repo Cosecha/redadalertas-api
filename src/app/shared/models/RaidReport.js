@@ -2,7 +2,10 @@ import { Schema } from 'mongoose';
 
 const raidReportSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
-  createdAt: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   zip: String,
   geo: {
     lat: String,

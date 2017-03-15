@@ -19,7 +19,7 @@
           }
         },
         {
-          "plugin": "./app/shared/plugins/db.js",
+          "plugin": "./app/shared/plugins/db",
           "options": {
             "select": ["api", "admin"]
           }
@@ -42,7 +42,7 @@
           }
         },
         {
-          "plugin": "./app/shared/plugins/db-test.js",
+          "plugin": "./app/shared/plugins/db-test",
           "options": {
             "select": ["api", "admin"]
           }
