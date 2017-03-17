@@ -124,12 +124,12 @@ paths:
         - application/json
       parameters:
         -
-          name: NewSubsriber
+          name: NewSubscriber
           description: Phone number and Zip Code
           in: body
           required: true
           schema:
-            $ref: '#/definitions/NewSubsriber'
+            $ref: '#/definitions/NewSubscriber'
       responses:
         201:
           description: Successfully created a new subscriber, but need verification
@@ -368,7 +368,7 @@ definitions:
         format: int32
       isVerified:
         type: boolean
-  NewSubsriber:
+  NewSubscriber:
     type: object
     properties:
       phoneNumber:
