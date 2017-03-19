@@ -1,4 +1,4 @@
-import Raid from '../../shared/models/raid';
+import { Raid } from '../../shared/models';
 
 const raidStore = {
   createRaid(payload) {
@@ -15,7 +15,7 @@ const raidStore = {
     });
   },
   getRaids() {
-    return Raid.find({});
+    return Raid.find();
   },
 };
 

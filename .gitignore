@@ -44,3 +44,4 @@ jspm_packages
 docs/gh-pages
 manifest.json
 src/manifest.json
+*.swp

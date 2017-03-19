@@ -6,25 +6,25 @@ import {
   Raid
 } from '../app/shared/models';
 
+mongoose.Promise = bluebird;
+
 
 const envTesting = process.env.NODE_ENV === 'test';
-let dbURL = '';
+let dbURL = 'mongodb://localhost/redadalertas';
 
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 
 if (envTesting) {
-  dbURL = 'mongodb://localhost/redadalertas-test';
+  dbURL += '-test';
   console.log('Setting up test database...');
-} else {
-  dbURL = 'mongodb://localhost/redadalertas';
 }
+
+console.log(`Mongo connection: ${dbURL}`);
 
 const hash1 = bcrypt.hashSync("password", 10);
 console.log(`Hash created: ${hash1}`);
-
-mongoose.Promise = bluebird;
 
 const deletedb = () => {
   return new Promise((resolve, reject) => {
@@ -72,34 +72,49 @@ const reconnect = () => {
 deletedb().then(disconnect)
   .then(reconnect)
   .then(() => {
+    console.log('Creating first user...');
     return User.create({
-      username: 'jlopez',
+      profile: {
+        email: 'person@mail.com',
+        phoneNumber: '5555555555',
+        receiveAlerts: false,
+      },
       password: hash1,
+      accessLevel: 1,
+      createdAt: new Date(),
       credibility: {
         automated: 0,
         social: 0,
+        endorsedBy: [],
+        hasEndorsed: [],
+        raidsReported: [],
+        raidsVerified: [],
       },
-      phoneNumber: 5555555555,
-      receiveAlerts: false,
-      hasReported: false,
     });
   })
   .then((user) => {
-    console.log(`New user created (${user.username})... now creating another user...`);
+    console.log(`New user created (${user.profile.email})... now creating another user...`);
     return User.create({
-      username: 'jdoe',
+      profile: {
+        email: 'person2@mail.com',
+        phoneNumber: '5556667777',
+        receiveAlerts: false,
+      },
+      accessLevel: 1,
       password: hash1,
+      createdAt: new Date(),
       credibility: {
         automated: 0,
         social: 0,
+        endorsedBy: [],
+        hasEndorsed: [],
+        raidsReported: [],
+        raidsVerified: [],
       },
-      phoneNumber: 5555555555,
-      receiveAlerts: false,
-      hasReported: false,
     });
   })
   .then((user) => {
-    console.log(`New user created (${user.username})... now creating a raid...`);
+    console.log(`New user created (${user.profile.email})... now creating a raid...`);
     return Raid.create({
       date: new Date(),
       description: 'Traffic checkpoint on central and McDowell',
