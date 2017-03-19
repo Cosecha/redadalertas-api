@@ -24,7 +24,7 @@ const raidSchema = new Schema({
   },
   zip: String,
   photos: [String],
-  reports: [{type: Schema.Types.ObjectId, ref: 'RaidReport'}],
+  reports: [{ type: Schema.Types.ObjectId, ref: 'RaidReport' }],
 });
 
 export default raidSchema;

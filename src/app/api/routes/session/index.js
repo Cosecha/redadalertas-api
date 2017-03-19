@@ -1,5 +1,5 @@
 import sessionController from '../../controllers/sessionController';
-import * as config from './config';
+import config from './config';
 
 export default [
   {
@@ -14,4 +14,3 @@ export default [
     handler: sessionController.deleteSession,
   },
 ];
-
