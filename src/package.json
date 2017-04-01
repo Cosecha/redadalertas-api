@@ -9,7 +9,8 @@
     "posttest": "babel-node ./scripts/drop-test-db",
     "start": "confidence -c confidence.json --filter.env=development > manifest.json | nodemon ./server.js --exec babel-node",
     "lint": "eslint .",
-    "bootstrap": "babel-node ./scripts/bootstrap"
+    "bootstrap": "babel-node ./scripts/bootstrap",
+    "prepush": "yarn test",
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
     "chai": "^3.5.0",
     "eslint": "^3.15.0",
     "eslint-plugin-import": "^2.2.0",
+    "husky": "^0.13.3",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "sinon": "^1.17.7"
