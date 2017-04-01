@@ -24,7 +24,7 @@
             }
         },
         {
-            "plugin": "./app/shared/plugins/db",
+            "plugin": "./app/shared/plugins/db-test",
             "options": {
                 "select": [
                     "api",

@@ -10,7 +10,7 @@
     "start": "confidence -c confidence.json --filter.env=development > manifest.json | nodemon ./server.js --exec babel-node",
     "lint": "eslint .",
     "bootstrap": "babel-node ./scripts/bootstrap",
-    "prepush": "yarn test",
+    "prepush": "yarn test"
   },
   "repository": {
     "type": "git",
