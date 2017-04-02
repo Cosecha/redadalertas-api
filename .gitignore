@@ -20,9 +20,6 @@ coverage
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
-# Yarn build file
-yarn.lock
-
 # node-waf configuration
 .lock-wscript
 
@@ -45,3 +42,5 @@ docs/gh-pages
 manifest.json
 src/manifest.json
 *.swp
+
+# coverage report
