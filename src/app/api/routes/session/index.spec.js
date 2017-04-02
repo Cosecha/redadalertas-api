@@ -19,7 +19,7 @@ describe('POST /api/session', () => {
     });
   });
 
-  it('fails gracefully', (done) => {
+  it('returns 404 with wrong password', (done) => {
     const options = {
       payload: {
         email: 'person@mail.com',
@@ -29,6 +29,35 @@ describe('POST /api/session', () => {
     Wreck.post(`${baseURL}/api/v1/session`, options, (err, res) => {
       expect(err).to.be.null;
       expect(res.statusCode).to.equal(404);
+      done();
+    });
+  });
+
+  it('returns 404 with wrong email', (done) => {
+    const options = {
+      payload: {
+        email: 'wrong-person@mail.com',
+        password: 'password',
+      },
+    };
+    Wreck.post(`${baseURL}/api/v1/session`, options, (err, res) => {
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(404);
+      done();
+    });
+  });
+
+  it('returns an object with a sessionToken key', (done) => {
+    const options = {
+      payload: {
+        email: 'person@mail.com',
+        password: 'password',
+      },
+    };
+    Wreck.post(`${baseURL}/api/session`, options, (err, res, payload) => {
+      expect(err).to.be.null;
+      expect(res.statusCode).to.equal(201);
+      expect(JSON.parse(payload)).to.include.keys('sessionToken');
       done();
     });
   });
