@@ -1,11 +1,12 @@
 import { Session } from '../../shared/models';
 
 const sessionStore = {
-  createSession(userId) {
+  createSession(user) {
     return Session.create({
-      userId,
+      userId: user._id,
+      accessLevel: user.accessLevel,
     });
-  },  
+  },
 };
 
 export default sessionStore;

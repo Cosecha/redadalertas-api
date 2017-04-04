@@ -11,9 +11,14 @@ const sessionController = {
     // compare passwords using bcrypt
       .then((password) => comparePassword(req.payload.password, password))
       .then((matches) => getUserIfPasswordMatches(matches, req.payload.username))
-      .then((user) => createSession(user.id))
+      .then((user) => {
+        console.log(user);
+        return createSession(user);
+      })
       .then((session) => {
-        reply({ sessionToken: session.id }).code(201);
+        reply({
+          sessionToken: session.id,
+        }).code(201);
       })
     // if match create session
     // reply with the sessionToken only
@@ -44,6 +49,6 @@ const getUserIfPasswordMatches = (matches, username) => {
   }
 };
 
-const createSession = (userId) => sessionStore.createSession(userId);
+const createSession = (user) => sessionStore.createSession(user);
 
 export default sessionController;
