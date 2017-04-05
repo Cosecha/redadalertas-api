@@ -12,7 +12,6 @@ const sessionController = {
       .then((password) => comparePassword(req.payload.password, password))
       .then((matches) => getUserIfPasswordMatches(matches, req.payload.username))
       .then((user) => {
-        console.log(user);
         return createSession(user);
       })
       .then((session) => {
