@@ -12,6 +12,9 @@ mongoose.Promise = bluebird;
 const envTesting = process.env.NODE_ENV === 'test';
 let dbURL = 'mongodb://localhost/redadalertas';
 
+let user1;
+let user2;
+
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
@@ -77,76 +80,56 @@ deletedb().then(disconnect)
       profile: {
         email: 'person@mail.com',
         phoneNumber: '5555555555',
-        receiveAlerts: false,
       },
       password: hash1,
-      accessLevel: 1,
-      createdAt: new Date(),
-      credibility: {
-        automated: 0,
-        social: 0,
-        endorsedBy: [],
-        hasEndorsed: [],
-        raidsReported: [],
-        raidsVerified: [],
-      },
     });
   })
   .then((user) => {
+    user1 = user;
     console.log(`New user created (${user.profile.email})... now creating another user...`);
     return User.create({
       profile: {
         email: 'person2@mail.com',
         phoneNumber: '5556667777',
-        receiveAlerts: false,
       },
-      accessLevel: 1,
       password: hash1,
-      createdAt: new Date(),
-      credibility: {
-        automated: 0,
-        social: 0,
-        endorsedBy: [],
-        hasEndorsed: [],
-        raidsReported: [],
-        raidsVerified: [],
-      },
     });
   })
   .then((user) => {
+    user2 = user;
     console.log(`New user created (${user.profile.email})... now creating a raid...`);
     return Raid.create({
-      date: new Date(),
-      description: 'Traffic checkpoint on central and McDowell',
-      location: [
-        40.029,
-        -132,
-      ],
+      userId: user1.id,
+      zip: '85004',
+      geo: {
+        lat: '33.4591465',
+        long: '-112.0774334',
+      },
+      description: 'ICE checkpoint',
       type: 'checkpoint',
+      present: {
+        police: false,
+        ice: true,
+        cpb: false,
+      },
     });
   })
   .then((raid) => {
     console.log(`New raid created (${raid.description})... now creating a raid...`);
     return Raid.create({
-      date: new Date(),
-      description: 'ICE is at my neighbor\'s door.',
-      location: [
-        40.029,
-        -132,
-      ],
-      type: 'home',
-    });
-  })
-  .then((raid) => {
-    console.log(`New raid created (${raid.description})... now creating a raid...`);
-    return Raid.create({
-      date: new Date(),
-      description: 'ICE is at my door.',
-      location: [
-        40.029,
-        -132,
-      ],
-      type: 'home',
+      userId: user2.id,
+      zip: '85012',
+      geo: {
+        lat: '33.5083858',
+        long: '-112.0774334',
+      },
+      description: 'ICE is at the school',
+      type: 'public',
+      present: {
+        police: true,
+        ice: true,
+        cpb: false,
+      },
     });
   })
   .then(() => {

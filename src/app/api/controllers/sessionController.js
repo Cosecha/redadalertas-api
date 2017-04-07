@@ -6,14 +6,18 @@ import bcrypt from 'bcrypt';
 const sessionController = {
   createSession(req, reply) {
     // get User by email or phone
-    userStore.getUserByPhoneOrEmail(req.payload.username)
+    userStore.getUserByPhoneOrEmail(req.payload.email)
       .then((user) => checkPasswordExists(user))
     // compare passwords using bcrypt
       .then((password) => comparePassword(req.payload.password, password))
       .then((matches) => getUserIfPasswordMatches(matches, req.payload.username))
-      .then((user) => createSession(user.id))
+      .then((user) => {
+        return createSession(user);
+      })
       .then((session) => {
-        reply({ sessionToken: session.id });
+        reply({
+          sessionToken: session.id,
+        }).code(201);
       })
     // if match create session
     // reply with the sessionToken only
@@ -44,6 +48,6 @@ const getUserIfPasswordMatches = (matches, username) => {
   }
 };
 
-const createSession = (userId) => sessionStore.createSession(userId);
+const createSession = (user) => sessionStore.createSession(user);
 
 export default sessionController;

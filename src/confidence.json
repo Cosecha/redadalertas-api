@@ -2,7 +2,10 @@
   "connections": [
     {
       "port": 8080,
-      "labels": ["api"]
+      "labels": ["api"],
+      "routes": {
+        "cors": true
+      }
     },
     {
       "port": 8081,

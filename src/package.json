@@ -9,7 +9,11 @@
     "posttest": "babel-node ./scripts/drop-test-db",
     "start": "confidence -c confidence.json --filter.env=development > manifest.json | nodemon ./server.js --exec babel-node",
     "lint": "eslint .",
-    "bootstrap": "babel-node ./scripts/bootstrap"
+    "bootstrap": "babel-node ./scripts/bootstrap",
+    "precommit": "npm test",
+    "prepush": "npm run cover",
+    "cover-run": "confidence -c confidence.json --filter.env=test > manifest.json | istanbul cover -x ./app/**/*.spec.js _mocha -- -u tdd -R spec --report text --check-coverage --coverage --compilers js:babel-register --recursive ./app/**/*.spec.js",
+    "cover": "npm run pretest && npm run cover-run && npm run posttest"
   },
   "repository": {
     "type": "git",
@@ -47,6 +51,8 @@
     "chai": "^3.5.0",
     "eslint": "^3.15.0",
     "eslint-plugin-import": "^2.2.0",
+    "husky": "^0.13.3",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
     "sinon": "^1.17.7"

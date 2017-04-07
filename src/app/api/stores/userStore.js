@@ -3,7 +3,10 @@ import { User } from '../../shared/models';
 const userStore = {
   createUser(payload) {
     return User.create({
-      phoneNumber: payload.phoneNumber,
+      password: payload.password,
+      profile: {
+        email: payload.email,
+      },
     });
   },
   getUser(payload) {
