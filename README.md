@@ -15,7 +15,7 @@ This project is part of that. This repo will house the code to make the public f
 
 Make sure you have the following installed on your computer
 
-1. Node.js
+1. Node.js (latest)
 1. Yarn
 1. Git
 1. Mongo
