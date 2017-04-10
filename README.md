@@ -15,10 +15,11 @@ This project is part of that. This repo will house the code to make the public f
 
 Make sure you have the following installed on your computer
 
-1. Node.js
+1. Node.js (latest)
 1. Yarn
 1. Git
 1. Mongo
+1. Xcode Command Line Tools: `xcode-select --install` (required to properly install the bcrypt package)
 
 ## Development Setup
 
@@ -27,6 +28,7 @@ Make sure you have the following installed on your computer
 1. Install node modules in the /src directory, we recommend using Yarn: `yarn` in the /src directory
 1. Run MongoDB service: `brew services start mongodb`
 1. Update the MongoDB database: `yarn run bootstrap` in the /src directory
+1. Start server: `yarn start` in the /src directory
 
 1. To shut down server: `Ctrl + c` in server terminal
 1. To shut down database: `brew services stop mongodb`
