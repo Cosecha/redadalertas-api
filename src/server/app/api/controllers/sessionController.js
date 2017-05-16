@@ -1,7 +1,8 @@
 import Boom from 'boom';
 import sessionStore from '../stores/sessionStore';
 import userStore from '../stores/userStore';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt-nodejs';
+import { comparePassword, checkPasswordExists } from '../../shared/utils';
 
 const sessionController = {
   createSession(req, reply) {
@@ -26,18 +27,6 @@ const sessionController = {
   deleteSession(req, reply) {
     reply('deleted session');
   },
-};
-
-const checkPasswordExists = (user) => {
-  if (user.password) {
-    return user.password;
-  } else {
-    throw new Error('No password stored');
-  }
-};
-
-const comparePassword = (providedPassword, storedPassword) => {
-  return bcrypt.compare(providedPassword, storedPassword);
 };
 
 const getUserIfPasswordMatches = (matches, username) => {

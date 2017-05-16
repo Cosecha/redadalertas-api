@@ -10,7 +10,7 @@ Glue.compose(manifest, { relativeTo: __dirname }, (err, server) => {
       throw err;
     } else {
       /* eslint-disable no-console */
-      console.log('Server has started...');
+      console.log(`Server has started: ${new Date()}`);
       /* eslint-enable no-console */
     }
   });

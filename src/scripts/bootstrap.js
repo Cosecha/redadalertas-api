@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt-nodejs';
 import {
   User,
   Raid
-} from '../app/shared/models';
+} from '../server/app/shared/models';
 
 mongoose.Promise = bluebird;
 
@@ -26,7 +26,7 @@ if (envTesting) {
 
 console.log(`Mongo connection: ${dbURL}`);
 
-const hash1 = bcrypt.hashSync("password", 10);
+let hash1;
 console.log(`Hash created: ${hash1}`);
 
 const deletedb = () => {
@@ -74,7 +74,27 @@ const reconnect = () => {
 
 deletedb().then(disconnect)
   .then(reconnect)
-  .then(() => {
+  .then(() => new Promise((resolve, reject) => {
+    bcrypt.genSalt(10, (err, res) => {
+      if (!err) {
+        resolve(res);
+      } else {
+        reject('Error generating salt...');
+      }
+    });
+  }))
+  .then((salt) => new Promise((resolve, reject) => {
+    bcrypt.hash('password', salt, null, (err, res) => {
+      if (!err) {
+        resolve(res);
+      } else {
+        reject('Error generating password');
+      }
+    });
+  }))
+  .then((res) => {
+    hash1 = res;
+    console.log(`Password: ${res}`);
     console.log('Creating first user...');
     return User.create({
       profile: {
