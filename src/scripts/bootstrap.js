@@ -1,16 +1,34 @@
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import bcrypt from 'bcrypt-nodejs';
+import env from 'dotenv';
 import {
   User,
   Raid
 } from '../server/app/shared/models';
 
+env.config();
+
 mongoose.Promise = bluebird;
 
 
-const envTesting = process.env.NODE_ENV === 'test';
-let dbURL = 'mongodb://localhost/redadalertas';
+let dbURL;
+
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
+switch (process.env.NODE_ENV) {
+  case 'test':
+    dbURL = process.env.DB_CONNECTION_STRING_TEST;
+    break;
+
+  case 'docker':
+    dbURL = process.env.DB_CONNECTION_STRING_DOCKER;
+    break;
+
+  default:
+    dbURL = process.env.DB_CONNECTION_STRING_DEFAULT;
+    break;
+}
 
 let user1;
 let user2;
@@ -19,15 +37,9 @@ let user2;
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 
-if (envTesting) {
-  dbURL += '-test';
-  console.log('Setting up test database...');
-}
-
 console.log(`Mongo connection: ${dbURL}`);
 
 let hash1;
-console.log(`Hash created: ${hash1}`);
 
 const deletedb = () => {
   return new Promise((resolve, reject) => {
