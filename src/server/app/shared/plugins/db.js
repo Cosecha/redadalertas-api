@@ -6,11 +6,11 @@ export const register = (server, options, next) => {
   let dbConnectionString;
   switch (process.env.NODE_ENV) {
     case 'docker':
-      dbConnectionString = process.env.DB_CONNECTION_STRING;
+      dbConnectionString = process.env.DB_CONNECTION_STRING_DOCKER;
       break;
 
     default:
-      dbConnectionString = process.env.DB_CONNECTION_STRING_DEFAULT;
+      dbConnectionString = process.env.DB_CONNECTION_STRING;
       break;
   }
   mongoose.connect(dbConnectionString);
