@@ -16,7 +16,7 @@ This project is part of that. This repo will house the code to make the public f
 Make sure you have the following installed on your computer
 
 1. Node.js (latest)
-1. Yarn
+2. Docker (Docker for Mac)
 1. Git
 1. Mongo
 1. Xcode Command Line Tools: `xcode-select --install` (required to properly install the bcrypt package)
@@ -25,17 +25,19 @@ Make sure you have the following installed on your computer
 
 1. Clone the repository
 1. Setup the environment variables in the / directory: `cp src/.env.example src/.env`
-1. Install node modules in the /src directory, we recommend using Yarn: `yarn` in the /src directory
 1. Run MongoDB service: `brew services start mongodb`
-1. Update the MongoDB database: `yarn run bootstrap` in the /src directory
-1. Start server: `yarn start` in the /src directory
+1. Figure out what your DB_CONNECTION_STRING_DOCKER should be in src/.env (Docker for Mac users can use `DB_CONNECTION_STRING_DOCKER=mongodb://docker.for.mac.localhost:27017/redadalertas`)
+1. Create local Mongo database with test data: `npm run bootstrap` in the /src directory
+1. Set up Docker: `docker build .` in the / directory (should end with "Successfully built [image ID]")
+1. Run Docker container from built image and forward traffic from localhost: `docker run -p 127.0.0.1:8080:8080 -it [image id]`
+1. Should be able to receive calls from localhost:8080/api
 
-1. To shut down server: `Ctrl + c` in server terminal
-1. To shut down database: `brew services stop mongodb`
+1. To shut down server: `Ctrl + c` in server terminal (since you used -it flag on docker run), or `docker stop [container ID]` (run `docker ps` to get list of active container IDs)
+1. To shut down database cleanly: `brew services stop mongodb`
 
 ## Scripts
 
-* `yarn start`: starts the server (also `npm start`)
-* `yarn test`: performs testing (also `npm test`)
-* `yarn run lint`: runs the linter (also `npm run lint`)
-* `yarn run bootstrap`: populates your local mongo db with sample data (also `npm run bootstrap`)
+* `npm start`: starts the server
+* `npm test`: performs testing
+* `npm run lint`: runs the linter
+* `npm run bootstrap`: populates your local mongo db with sample data (also `npm run bootstrap`)
