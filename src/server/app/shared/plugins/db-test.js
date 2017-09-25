@@ -3,7 +3,7 @@ import bluebird from 'bluebird';
 
 export const register = (server, options, next) => {
   mongoose.Promise = bluebird;
-  mongoose.connect(`${process.env.DB_CONNECTION_STRING}-test`);
+  mongoose.connect(`${process.env.DB_CONNECTION_STRING_TEST}`);
   next();
 };
 

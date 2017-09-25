@@ -10,7 +10,7 @@ export const register = (server, options, next) => {
       break;
 
     default:
-      dbConnectionString = process.env.DB_CONNECTION_STRING;
+      dbConnectionString = process.env.DB_CONNECTION_STRING_DEFAULT;
       break;
   }
   mongoose.connect(dbConnectionString);
