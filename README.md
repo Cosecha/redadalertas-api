@@ -25,9 +25,11 @@ Make sure you have the following installed on your computer
 
 1. Clone the repository
 1. Setup the environment variables in the / directory: `cp src/.env.example src/.env`
+1. Make sure your MongoDB is up to date (`brew upgrade mongodb`; you may have to clear /data/db for 4.0)
 1. Run MongoDB service: `brew services start mongodb`
 1. Figure out what your DB_CONNECTION_STRING_DOCKER should be in src/.env (Docker for Mac users can use `DB_CONNECTION_STRING_DOCKER=mongodb://docker.for.mac.localhost:27017/redadalertas`)
 1. Create local Mongo database with test data: `npm run bootstrap` in the /src directory
+1. Make sure the Docker desktop app is running
 1. Set up Docker: `docker build .` in the / directory (should end with "Successfully built [image ID]")
 1. Run Docker container from built image and forward traffic from localhost: `docker run -p 127.0.0.1:8080:8080 -it [image id]`
 1. Should be able to receive calls from localhost:8080/api
@@ -37,7 +39,8 @@ Make sure you have the following installed on your computer
 
 ## Scripts
 
+* `cd src; npm install`: installs Node modules in /src
 * `npm start`: starts the server
 * `npm test`: performs testing
 * `npm run lint`: runs the linter
-* `npm run bootstrap`: populates your local mongo db with sample data (also `npm run bootstrap`)
+* `npm run bootstrap`: populates your local mongo db with sample data
