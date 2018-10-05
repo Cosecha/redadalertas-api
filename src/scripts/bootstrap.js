@@ -41,14 +41,17 @@ console.log(`Mongo connection: ${dbURL}`);
 
 let hash1;
 
-const deletedb = () => {
-  return new Promise((resolve, reject) => {
-    mongoose.connect(dbURL, () => {
-      mongoose.connection.db.dropDatabase((err) => {
+const deletedb = ()=> {
+  return new Promise((resolve, reject)=> {
+    mongoose.connect(dbURL, { useNewUrlParser: true }, ()=> {
+      console.log('Connecting to database.');
+      mongoose.connection.db.dropDatabase((err)=> {
+        console.log('Dropping database.');
         if (!err) {
-          console.log('Database dropped...');
+          console.log('Database dropped.');
           resolve();
         } else {
+          console.error('Error dropping database: ', err);
           reject(err);
         }
       });
@@ -56,11 +59,11 @@ const deletedb = () => {
   });
 };
 
-const disconnect = () => {
-  return new Promise((resolve, reject) => {
-    mongoose.disconnect((err) => {
+const disconnect = ()=> {
+  return new Promise((resolve, reject)=> {
+    mongoose.disconnect((err)=> {
       if (!err) {
-        console.log('Disconnected...');
+        console.log('Disconnected.');
         resolve();
       } else {
         reject(err);
@@ -69,12 +72,12 @@ const disconnect = () => {
   });
 };
 
-const reconnect = () => {
-  return new Promise((resolve, reject) => {
-    mongoose.createConnection(dbURL, (err) => {
+const reconnect = ()=> {
+  return new Promise((resolve, reject)=> {
+    mongoose.createConnection(dbURL, { useNewUrlParser: true }, (err)=> {
       if (!err) {
         console.log('Reconnected..');
-        mongoose.connect(dbURL);
+        mongoose.connect(dbURL, { useNewUrlParser: true });
         resolve();
       } else {
         console.log(err);
@@ -86,8 +89,8 @@ const reconnect = () => {
 
 deletedb().then(disconnect)
   .then(reconnect)
-  .then(() => new Promise((resolve, reject) => {
-    bcrypt.genSalt(10, (err, res) => {
+  .then(()=> new Promise((resolve, reject)=> {
+    bcrypt.genSalt(10, (err, res)=> {
       if (!err) {
         resolve(res);
       } else {
@@ -95,7 +98,7 @@ deletedb().then(disconnect)
       }
     });
   }))
-  .then((salt) => new Promise((resolve, reject) => {
+  .then((salt)=> new Promise((resolve, reject) => {
     bcrypt.hash('password', salt, null, (err, res) => {
       if (!err) {
         resolve(res);
@@ -104,7 +107,7 @@ deletedb().then(disconnect)
       }
     });
   }))
-  .then((res) => {
+  .then((res)=> {
     hash1 = res;
     console.log(`Password: ${res}`);
     console.log('Creating first user...');
@@ -116,7 +119,7 @@ deletedb().then(disconnect)
       password: hash1,
     });
   })
-  .then((user) => {
+  .then((user)=> {
     user1 = user;
     console.log(`New user created (${user.profile.email})... now creating another user...`);
     return User.create({
@@ -127,7 +130,7 @@ deletedb().then(disconnect)
       password: hash1,
     });
   })
-  .then((user) => {
+  .then((user)=> {
     user2 = user;
     console.log(`New user created (${user.profile.email})... now creating a raid...`);
     return Raid.create({
@@ -146,7 +149,7 @@ deletedb().then(disconnect)
       },
     });
   })
-  .then((raid) => {
+  .then((raid)=> {
     console.log(`New raid created (${raid.description})... now creating a raid...`);
     return Raid.create({
       userId: user2.id,
@@ -164,12 +167,12 @@ deletedb().then(disconnect)
       },
     });
   })
-  .then(() => {
+  .then(()=> {
     console.log('Finished bootstrapping.');
     process.exit(0);
   })
-  .catch((err) => {
-    console.log(err);
+  .catch((err)=> {
+    console.error(err);
     process.exit(1);
     return err;
   });
