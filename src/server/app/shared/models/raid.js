@@ -1,3 +1,5 @@
+// TO-DO: this is superseded by eventSchema and should be removed
+
 import { Schema } from 'mongoose';
 
 const raidReportSchema = new Schema({

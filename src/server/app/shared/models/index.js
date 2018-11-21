@@ -3,11 +3,16 @@ import removeUnderscore from '../plugins/removeUnderscore';
 import userSchema from './user';
 import sessionSchema from './session';
 import raidReportSchema from './raid';
+import eventSchema from './event';
+import groupSchema from './group';
+import agencySchema from './group';
 
 const schemas = [
   userSchema,
   sessionSchema,
   raidReportSchema,
+  eventSchema,
+  groupSchema
 ];
 
 schemas.map((schema) => {
