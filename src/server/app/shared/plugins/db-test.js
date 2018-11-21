@@ -1,14 +1,12 @@
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 
-export const register = (server, options, next) => {
+const register = (server, options)=> {
   mongoose.Promise = bluebird;
   mongoose.connect(`${process.env.DB_CONNECTION_STRING_TEST}`, { useNewUrlParser: true });
-  next();
 };
 
-export default register;
-
-register.attributes = {
+exports.plugin = {
   name: 'db-test',
+  register: register
 };

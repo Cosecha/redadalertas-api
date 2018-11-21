@@ -1,13 +1,14 @@
 import routes from './routes';
 
-export const register = (server, options, next) => {
-  server.route(routes);
-  next();
+const register = (server, options)=> {
+  try {
+    server.route(routes);
+  } catch (error) {
+    console.error("API register error: ", error);
+  }
 };
 
-export default register;
-
-register.attributes = {
+exports.plugin = {
   name: 'api',
+  register: register
 };
-
