@@ -4,31 +4,79 @@ import env from 'dotenv';
 
 env.config();
 
-async function startApiServer() {
+let servers = {};
+let stopSignal = false;
+
+function log(string, object = null) {
+  /* eslint-disable no-console */
+  console.log(string);
+  if (object) console.log(object);
+  /* eslint-enable no-console */
+}
+
+function err(string, error = null) {
+  /* eslint-disable no-console */
+  console.error(string);
+  if (error) console.error(error);
+  /* eslint-enable no-console */
+}
+
+async function startServer(name) {
   let server;
   try {
-    server = await Glue.compose(manifest.api, { relativeTo: __dirname });
+    server = await Glue.compose(manifest[name], { relativeTo: __dirname });
+    servers[name] = server;
     await server.start();
-    /* eslint-disable no-console */
-    console.log(`API server has started: ${new Date()}`);
-    /* eslint-enable no-console */
+    log(`The ${name} server has started: ${new Date()}`);
   } catch (error) {
-    console.error("Error starting API server: ", error);
+    err(`Error starting ${name} server: `, error);
   }
 }
 
-async function startAdminServer() {
-  let server;
+async function stopServer(name) {
   try {
-    server = await Glue.compose(manifest.admin, { relativeTo: __dirname });
-    await server.start();
-    /* eslint-disable no-console */
-    console.log(`Admin server has started: ${new Date()}`);
-    /* eslint-enable no-console */
+    log(`Stopping ${name} server...`);
+    await servers[name].stop({ timeout: 10000 });
+    log(`The ${name} server has stopped: ${new Date()}`);
   } catch (error) {
-    console.error("Error starting admin server: ", error);
+    err(`Error stopping ${name} server: `, error);
   }
 }
 
-startApiServer();
-startAdminServer();
+async function startServers() {
+  try {
+    await startServer("api");
+    await startServer("admin");
+  } catch (error) {
+    err("Error starting process: ", error);
+  }
+};
+
+async function stopServers(signal) {
+  stopSignal = true;
+  try {
+    await stopServer("api");
+    await stopServer("admin");
+  } catch (error) {
+    err("Error stopping servers: ", error);
+  }
+}
+
+startServers();
+['SIGINT', 'SIGTERM', 'SIGQUIT'].forEach(signal=> {
+  process.on(signal, async()=> {
+    try {
+      if (!stopSignal) {
+        log(`${signal} received, stopping servers...`);
+        await stopServers(signal);
+        log('Exiting Node process.');
+        process.exit();
+      } else {
+        log(`(${signal} received but Node process already exiting.)`);
+      }
+    } catch (error) {
+      err("Error exiting Node process: ", error);
+      process.exit(1);
+    }
+  });
+});
