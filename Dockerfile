@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:latest
 
 ENV NODE_ENV docker
 
