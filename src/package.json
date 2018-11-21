@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "clean": "rm -rf build && mkdir build",
+    "clean": "rm -rf ./build && mkdir ./build",
     "build-server": "babel -d ./build ./server -s",
     "build": "npm run clean && npm run build-server && confidence -c ./server/confidence.json --filter.env=development > ./build/manifest.json",
     "start": "node ./build",
@@ -29,7 +29,11 @@
     "url": "https://github.com/cosecha/redadalertas-api/issues"
   },
   "homepage": "https://github.com/cosecha/redadalertas-api#readme",
+  "engines": {
+    "node": ">=11.2.0"
+  },
   "dependencies": {
+    "babel-preset-env": "^1.7.0",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.5.3",
     "boom": "^7.2.2",
