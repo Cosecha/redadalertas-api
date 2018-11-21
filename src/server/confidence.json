@@ -10,26 +10,20 @@
       "plugins": {
         "$filter": "env",
         "development": [
-          "./app/shared/plugins/cors",
           "./app/shared/plugins/db",
           {
             "plugin": "./app/api",
-            "options": {
-              "routes": {
-                "prefix": "/api"
-              }
+            "routes": {
+              "prefix": "/api"
             }
           }
         ],
         "test": [
-          "./app/shared/plugins/cors",
           "./app/shared/plugins/db-test",
           {
             "name": "./app/api",
-            "options": {
-              "routes": {
-                "prefix": "/api"
-              }
+            "routes": {
+              "prefix": "/api"
             }
           }
         ]
@@ -44,11 +38,9 @@
       "plugins": {
         "$filter": "env",
         "development": [
-          "./app/shared/plugins/cors",
           "./app/shared/plugins/db",
         ],
         "test": [
-          "./app/shared/plugins/cors",
           "./app/shared/plugins/db-test",
         ]
       }

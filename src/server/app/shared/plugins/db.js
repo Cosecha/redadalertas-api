@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 
-const register = (server, options, next) => {
+const register = (server, options)=> {
   mongoose.Promise = bluebird;
   let dbConnectionString;
   switch (process.env.NODE_ENV) {
