@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 
-export const register = (server, options, next) => {
+const register = (server, options, next) => {
   mongoose.Promise = bluebird;
   let dbConnectionString;
   switch (process.env.NODE_ENV) {
@@ -18,11 +18,9 @@ export const register = (server, options, next) => {
     if (err) console.error('Connection error: ', err);
     else console.log('Database connected.');
   });
-  next();
 };
 
-export default register;
-
-register.attributes = {
+exports.plugin = {
   name: 'db',
+  register: register
 };

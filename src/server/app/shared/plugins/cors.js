@@ -1,12 +1,10 @@
 import addCorsHeaders from 'hapi-cors-headers';
 
-export const register = (server, options, next) => {
+const register = (server, options, next) => {
   server.ext('onPreResponse', addCorsHeaders);
-  next();
 };
 
-export default register;
-
-register.attributes = {
+exports.plugin = {
   name: 'cors',
+  register: register
 };

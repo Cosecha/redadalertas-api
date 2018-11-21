@@ -1,64 +1,57 @@
 {
-  "connections": [
-    {
+  "api": {
+    "server": {
       "port": 8080,
-      "labels": ["api"],
       "routes": {
         "cors": true
       }
     },
-    {
-      "port": 8081,
-      "labels": ["admin"]
+    "register": {
+      "plugins": {
+        "$filter": "env",
+        "development": [
+          "./app/shared/plugins/cors",
+          "./app/shared/plugins/db",
+          {
+            "plugin": "./app/api",
+            "options": {
+              "routes": {
+                "prefix": "/api"
+              }
+            }
+          }
+        ],
+        "test": [
+          "./app/shared/plugins/cors",
+          "./app/shared/plugins/db-test",
+          {
+            "name": "./app/api",
+            "options": {
+              "routes": {
+                "prefix": "/api"
+              }
+            }
+          }
+        ]
+      },
+    },
+  },
+  "admin": {
+    "server": {
+      "port": 8081
+    },
+    "register": {
+      "plugins": {
+        "$filter": "env",
+        "development": [
+          "./app/shared/plugins/cors",
+          "./app/shared/plugins/db",
+        ],
+        "test": [
+          "./app/shared/plugins/cors",
+          "./app/shared/plugins/db-test",
+        ]
+      }
     }
-  ],
-  "registrations": {
-      "$filter": "env",
-      "development": [
-        {
-          "plugin": "./app/shared/plugins/cors",
-          "options": {
-            "select": ["api", "admin"]
-          }
-        },
-        {
-          "plugin": "./app/shared/plugins/db",
-          "options": {
-            "select": ["api", "admin"]
-          }
-        },
-        {
-          "plugin": "./app/api",
-          "options": {
-            "select": ["api"],
-            "routes": {
-              "prefix": "/api"
-            }
-          }
-        }
-      ],
-      "test": [
-        {
-          "plugin": "./app/shared/plugins/cors",
-          "options": {
-            "select": ["api", "admin"]
-          }
-        },
-        {
-          "plugin": "./app/shared/plugins/db-test",
-          "options": {
-            "select": ["api", "admin"]
-          }
-        },
-        {
-          "plugin": "./app/api",
-          "options": {
-            "select": ["api"],
-            "routes": {
-              "prefix": "/api"
-            }
-          }
-        }
-      ]
   }
 }
