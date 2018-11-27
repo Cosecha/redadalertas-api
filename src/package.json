@@ -11,12 +11,12 @@
     "dev": "confidence -c ./server/confidence.json --filter.env=development > ./server/manifest.json | nodemon --ignore './uploads/'  --exec babel-node ./server",
     "docker-dev": "NODE_ENV=docker npm run dev",
     "pretest": "NODE_ENV=test babel-node ./scripts/bootstrap",
-    "test": "confidence -c confidence.json --filter.env=test > manifest.json | mocha --compilers js:babel-register --recursive ./app/**/*.spec.js",
+    "test": "confidence -c confidence.json --filter.env=test > manifest.json | mocha --compilers js:@babel/register --recursive ./app/**/*.spec.js",
     "posttest": "babel-node ./scripts/drop-test-db",
     "lint": "eslint .",
     "bootstrap": "babel-node ./scripts/bootstrap",
     "docker-bootstrap": "NODE_ENV=docker npm run bootstrap",
-    "cover-run": "confidence -c confidence.json --filter.env=test > manifest.json | istanbul cover -x ./app/**/*.spec.js _mocha -- -u tdd -R spec --report text --check-coverage --coverage --compilers js:babel-register --recursive ./app/**/*.spec.js",
+    "cover-run": "confidence -c confidence.json --filter.env=test > manifest.json | istanbul cover -x ./app/**/*.spec.js _mocha -- -u tdd -R spec --report text --check-coverage --coverage --compilers js:@babel/register --recursive ./app/**/*.spec.js",
     "cover": "npm run pretest && npm run cover-run && npm run posttest"
   },
   "repository": {
@@ -33,7 +33,8 @@
     "node": ">=11.2.0"
   },
   "dependencies": {
-    "babel-preset-env": "^1.7.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.5.3",
     "boom": "^7.2.2",
@@ -41,7 +42,6 @@
     "dotenv": "^6.1.0",
     "glue": "^5.0.0",
     "hapi": "^17.7.0",
-    "hapi-cors-headers": "^1.0.3",
     "inert": "^5.1.2",
     "joi": "^14.1.0",
     "mongoose": "^5.3.12",
@@ -50,19 +50,27 @@
     "yarn": "^1.12.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.0.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-inline-json-import": "^0.3.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
     "husky": "^1.1.3",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.6",
+    "nodemon": "^1.18.7",
     "sinon": "^7.1.1"
   }
 }
