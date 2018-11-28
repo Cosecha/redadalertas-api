@@ -1,50 +1,56 @@
 import { Schema } from 'mongoose';
 
 const userSchema = new Schema({
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  password: String,
-  accessLevel: {
-    type: Number,
-    default: 1,
-  },
-  profile: {
-    type: {
-      _id: false,
-      email: {
-        type: String,
-        required: true,
+  created: {
+    at: {
+      type: Date,
+      default: Date.now
+    },
+    by: {
+      group: {
+        type: Schema.Types.ObjectId,
+        ref: 'Group',
+        required: false
       },
-      phone: {
-        type: String,
-        required: false,
-      },
-      receivesAlerts: {
-        type: Boolean,
-        default: false,
-      },
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
+      }
     },
   },
-  credibility: {
-    type: {
-      _id: false,
-      automated: {
-        type: Number,
-        default: 0,
-      },
-      social: {
-        type: Number,
-        default: 0,
-      },
-      endorsedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-      hasEndorsed: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-      raidsReported: [{ type: Schema.Types.ObjectId, ref: 'Raid' }],
-      raidsVerified: [{ type: Schema.Types.ObjectId, ref: 'Raid' }],
-      flaggedBy: [{ type: Schema.Types.ObjectId, ref: 'Raid' }],
+  updated: {
+    at: {
+      type: Date,
+      default: Date.now
+    },
+    by: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: false
     },
   },
+  belongs: {
+    type: [{
+      _id: false,
+      to: {
+        type: Schema.Types.ObjectId,
+        ref: 'Group'
+      },
+      since: {
+        type: Date,
+        default: Date.now
+      },
+      as: {
+        type: Number,
+        default: 1
+      },
+    }]
+  },
+  name: String,
+  email: String,
+  phone: String,
+  password: String
 });
 
 

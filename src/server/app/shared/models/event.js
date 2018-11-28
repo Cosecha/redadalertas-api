@@ -3,50 +3,6 @@ import { Schema } from 'mongoose';
 // TO-DO: replace Strings with more appropriate data types
 
 const eventSchema = new Schema({
-
-  created: {
-    at: {
-      type: Date,
-      default: Date.now
-    },
-    by: {
-      type: Schema.Types.ObjectId,
-      ref: 'Group',
-      required: false,
-      default: false
-    },
-  },
-  updated: {
-    at: {
-      type: Date,
-      default: Date.now
-    },
-    by: {
-      type: Schema.Types.ObjectId,
-      ref: 'Group',
-      required: false,
-      default: false
-    },
-  },
-  expire: {
-    at: Date,
-    deleteOnExpire: Boolean
-  },
-  verified: {
-    type: [{
-      _id: false,
-      required: false,
-      default: false,
-      id: {
-        type: Schema.Types.ObjectId,
-        ref: 'Group'
-      },
-      at: {
-        type: Date,
-        default: Date.now,
-      },
-    }]
-  },
   type: {
     type: String,
     required: true,
@@ -63,11 +19,60 @@ const eventSchema = new Schema({
   description: String,
   present: {
     type: [{
-      _id: false,
-      groupId: {
+      // TO-DO: implement Agency stub in bootstrap.js
+      // _id: false,
+      // agency: {
+      //   type: Schema.Types.ObjectId,
+      //   ref: 'Agency'
+      // }
+      agency: String
+    }]
+  },
+  created: {
+    at: {
+      type: Date,
+      default: Date.now
+    },
+    by: {
+      group: {
         type: Schema.Types.ObjectId,
-        ref: 'Agency'
+        ref: 'Group',
+        required: false
+      },
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
       }
+    },
+  },
+  updated: {
+    at: {
+      type: Date,
+      default: Date.now
+    },
+    by: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: false
+    },
+  },
+  expire: {
+    at: Date,
+    deleteOnExpire: Boolean
+  },
+  verified: {
+    type: [{
+      _id: false,
+      required: false,
+      by: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      },
+      at: {
+        type: Date,
+        default: Date.now,
+      },
     }]
   },
   location: {

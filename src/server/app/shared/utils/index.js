@@ -46,3 +46,17 @@ export const hashPassword = (nonHashed, salt) => new Promise((resolve, reject) =
     }
   });
 });
+
+export const log = async (string, object = null)=> {
+  /* eslint-disable no-console */
+  console.log(string);
+  if (object) console.log(object);
+  /* eslint-enable no-console */
+}
+
+export const err = async (string, error = null)=> {
+  /* eslint-disable no-console */
+  console.error(string);
+  if (error) console.error(error);
+  /* eslint-enable no-console */
+}

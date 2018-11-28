@@ -4,9 +4,7 @@ const userStore = {
   createUser(payload) {
     return User.create({
       password: payload.password,
-      profile: {
-        email: payload.email,
-      },
+      email: payload.email,
     });
   },
   getUser(payload) {
@@ -18,8 +16,8 @@ const userStore = {
   // use their email of phone as a username.
   getUserByPhoneOrEmail(payload) {
     return User.findOne().or([
-      { 'profile.phone': payload },
-      { 'profile.email': payload },
+      { 'phone': payload },
+      { 'email': payload },
     ]);
   },
 };
