@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const raid = {
+export const event = {
   validate: {
     payload: {
       date: Joi.date().required(),
@@ -20,7 +20,7 @@ export const raid = {
   auth: false,
 };
 
-export const updatedRaid = {
+export const updatedEvent = {
   validate: {
     payload: {
       date: Joi.date(),

@@ -2,15 +2,13 @@ import mongoose from 'mongoose';
 import removeUnderscore from '../plugins/removeUnderscore';
 import userSchema from './user';
 import sessionSchema from './session';
-import raidReportSchema from './raid';
 import eventSchema from './event';
 import groupSchema from './group';
-import agencySchema from './group';
+import agencySchema from './agency';
 
 const schemas = [
   userSchema,
   sessionSchema,
-  raidReportSchema,
   eventSchema,
   groupSchema
 ];
@@ -19,6 +17,7 @@ schemas.map((schema) => {
   schema.plugin(removeUnderscore);
 });
 
-export const Raid = mongoose.model('Raid', raidReportSchema);
-export const Session = mongoose.model('Session', sessionSchema);
+export const Event = mongoose.model('Event', eventSchema);
 export const User = mongoose.model('User', userSchema);
+export const Group = mongoose.model('Group', groupSchema);
+export const Session = mongoose.model('Session', sessionSchema);

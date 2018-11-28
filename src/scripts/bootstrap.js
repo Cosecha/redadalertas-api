@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt-nodejs';
 import env from 'dotenv';
 import {
   User,
-  Raid
+  Event
 } from '../server/app/shared/models';
 
 env.config();
@@ -132,8 +132,8 @@ deletedb().then(disconnect)
   })
   .then((user)=> {
     user2 = user;
-    console.log(`New user created (${user.profile.email})... now creating a raid...`);
-    return Raid.create({
+    console.log(`New user created (${user.profile.email})... now creating event...`);
+    return Event.create({
       userId: user1.id,
       zip: '85004',
       geo: {
@@ -149,9 +149,9 @@ deletedb().then(disconnect)
       },
     });
   })
-  .then((raid)=> {
-    console.log(`New raid created (${raid.description})... now creating a raid...`);
-    return Raid.create({
+  .then((event)=> {
+    console.log(`New event created (${event.description})... now creating event...`);
+    return Event.create({
       userId: user2.id,
       zip: '85012',
       geo: {

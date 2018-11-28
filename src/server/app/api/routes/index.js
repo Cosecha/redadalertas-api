@@ -1,5 +1,5 @@
 import userRoutes from './user';
-import raidRoutes from './raids';
+import eventRoutes from './events';
 import sessionRoutes from './session';
 
-export default [].concat(userRoutes, raidRoutes, sessionRoutes);
+export default [].concat(userRoutes, eventRoutes, sessionRoutes);
