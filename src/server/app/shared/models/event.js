@@ -19,11 +19,13 @@ const eventSchema = new Schema({
   description: String,
   present: {
     type: [{
-      _id: false,
-      agency: {
-        type: Schema.Types.ObjectId,
-        ref: 'Agency'
-      }
+      // TO-DO: implement Agency stub in bootstrap.js
+      // _id: false,
+      // agency: {
+      //   type: Schema.Types.ObjectId,
+      //   ref: 'Agency'
+      // }
+      agency: String
     }]
   },
   created: {
@@ -35,14 +37,12 @@ const eventSchema = new Schema({
       group: {
         type: Schema.Types.ObjectId,
         ref: 'Group',
-        required: true,
-        default: false
+        required: false
       },
       user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
-        default: false
+        required: false
       }
     },
   },
@@ -54,8 +54,7 @@ const eventSchema = new Schema({
     by: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
-      default: false
+      required: false
     },
   },
   expire: {
@@ -66,7 +65,6 @@ const eventSchema = new Schema({
     type: [{
       _id: false,
       required: false,
-      default: false,
       by: {
         type: Schema.Types.ObjectId,
         ref: 'User'

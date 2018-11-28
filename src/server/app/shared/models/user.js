@@ -10,14 +10,12 @@ const userSchema = new Schema({
       group: {
         type: Schema.Types.ObjectId,
         ref: 'Group',
-        required: true,
-        default: false
+        required: false
       },
       user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
-        default: false
+        required: false
       }
     },
   },
@@ -29,8 +27,7 @@ const userSchema = new Schema({
     by: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
-      default: false
+      required: false
     },
   },
   belongs: {
