@@ -1,4 +1,5 @@
 import Glue from 'glue';
+import { log, err } from './app/shared/utils';
 import manifest from './manifest.json';
 import env from 'dotenv';
 
@@ -6,20 +7,6 @@ env.config();
 
 let servers = {};
 let stopSignal = false;
-
-function log(string, object = null) {
-  /* eslint-disable no-console */
-  console.log(string);
-  if (object) console.log(object);
-  /* eslint-enable no-console */
-}
-
-function err(string, error = null) {
-  /* eslint-disable no-console */
-  console.error(string);
-  if (error) console.error(error);
-  /* eslint-enable no-console */
-}
 
 async function startServer(name) {
   let server;
