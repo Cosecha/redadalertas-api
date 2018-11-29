@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongooseIntl from 'mongoose-intl';
 import removeUnderscore from '../plugins/removeUnderscore';
 import userSchema from './user';
 import sessionSchema from './session';
@@ -15,6 +16,10 @@ const schemas = [
 
 schemas.map((schema) => {
   schema.plugin(removeUnderscore);
+  schema.plugin(mongooseIntl, {
+    languages: [ 'en', 'es', 'fr' ],
+    defaultLanguage: 'en'
+  });
 });
 
 export const Event = mongoose.model('Event', eventSchema);
