@@ -42,7 +42,10 @@ Make sure you have the following installed on your computer
 
 ## Development Setup
 
-You can run direct Yarn commands whenever you make changes. Instead of using Docker in steps 10 and 11 above:
+You can run direct Yarn commands whenever you make changes.
+
+Instead of using Docker in steps 10 and 11 above:
+
 10. `yarn run build`: compiles the app into /build
 11. `yarn start`: starts the server (`Ctrl + c` still stops it)
 
