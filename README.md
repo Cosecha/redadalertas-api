@@ -53,7 +53,7 @@ Instead of using Docker in steps 10 and 11 above:
 
 We  use [Yarn](https://yarnpkg.com/en/) instead of NPM commands in the /src directory.
 
-* `yarn install`: installs Node modules in /src
+* `yarn install`: installs Node modules
 * `yarn run build`: compiles the app into /build
 * `yarn start`: starts the server
 * `yarn test`: performs testing
