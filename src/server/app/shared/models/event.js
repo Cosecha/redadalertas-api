@@ -16,7 +16,10 @@ const eventSchema = new Schema({
       'other'
     ],
   },
-  description: String,
+  description: {
+    type: String,
+    intl: true
+  },
   present: {
     type: [{
       // TO-DO: implement Agency stub in bootstrap.js
@@ -85,7 +88,10 @@ const eventSchema = new Schema({
       latitude: Number,
       longitude: Number
     },
-    description: String
+    description: {
+      type: String,
+      intl: true
+    }
   }
 });
 

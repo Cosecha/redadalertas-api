@@ -134,9 +134,17 @@ deletedb().then(disconnect)
         zipcode: '85004',
         latitude: '33.4591465',
         longitude: '-112.0774334',
-        description: 'A car behind the building on the corner.'
+        description: {
+          en: 'A car behind the building on the corner.',
+          es: 'Un coche detrás del edificio en la esquina.',
+          fr: 'Une voiture derrière du bâtiment au coin.'
+        }
       },
-      description: 'ICE checkpoint',
+      description: {
+        en: 'ICE checkpoint',
+        es: 'Punto de control de ICE',
+        fr: 'Point de contrôle de ICE'
+      },
       type: 'checkpoint',
       present: [{
         agency: 'ICE'
@@ -152,9 +160,17 @@ deletedb().then(disconnect)
         zipcode: '85012',
         latitude: '33.5083858',
         longitude: '-112.0774334',
-        description: 'Public School'
+        description: {
+          en: 'Public school',
+          es: 'Escuela publica',
+          fr: 'École publique'
+        }
       },
-      description: 'ICE is at the school',
+      description: {
+        en: 'ICE is at the school',
+        es: 'ICE esta en la escuela',
+        fr: "ICE est à l'école"
+      },
       type: 'targeted',
       present: [{
         agency: 'ICE'
@@ -163,8 +179,8 @@ deletedb().then(disconnect)
       }],
     });
   })
-  .then(()=> {
-    console.log('Finished bootstrapping.');
+  .then((event)=> {
+    console.log(`Second event created (${event.description}), finished bootstrapping.`);
     process.exit(0);
   })
   .catch((err)=> {
