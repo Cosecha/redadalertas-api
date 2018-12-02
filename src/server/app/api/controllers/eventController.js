@@ -2,15 +2,16 @@ import Boom from 'boom';
 import eventStore from '../stores/eventStore';
 
 const eventController = {
-  async createEvent(req, reply) {
-    eventStore.createEvent(req.payload)
-    .then((event) => {
-      reply(event).code(201);
-    })
-    .catch((err) => {
-      req.server.log('Error. Could not create Event');
-      Boom.badRequest(err);
-    });
+  async createEvent(req, h) {
+    let event;
+    try {
+      event = await eventStore.createEvent(req.payload);
+      const response = h.response(event);
+      return response;
+    } catch (err) {
+      console.error("createEvent error: ", err);
+      h.response(Boom.badRequest(err));
+    }
   },
   async getEvents(req, h) {
     let events;
