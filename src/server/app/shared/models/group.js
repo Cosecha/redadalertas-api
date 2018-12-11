@@ -37,7 +37,9 @@ const groupSchema = new Schema({
     }
   },
   accessTokens: {
-    type: [ String ]
+    type: [{
+      hash: String
+    }]
   }
 });
 
