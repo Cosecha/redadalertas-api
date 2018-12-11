@@ -5,6 +5,12 @@ const eventStore = {
     // TO-DO: fill out CRUD stubs
     return Event.create({ ...payload });
   },
+  updateEvent(payload) {
+    return Event.findOneAndUpdate(
+      { _id: payload._id },
+      payload
+    );
+  },
   getEvent(payload) {
     return Event.findOne({
       _id: payload._id,

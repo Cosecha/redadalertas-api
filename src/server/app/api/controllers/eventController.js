@@ -13,6 +13,17 @@ const eventController = {
       h.response(Boom.badRequest(err));
     }
   },
+  async updateEvent(req, h) {
+    let event;
+    try {
+      event = await eventStore.updateEvent(req.payload);
+      const response = h.response(event);
+      return response;
+    } catch (err) {
+      console.error("updateEvent error: ", err);
+      h.response(Boom.badRequest(err));
+    }
+  },
   async getEvents(req, h) {
     let events;
     try {
