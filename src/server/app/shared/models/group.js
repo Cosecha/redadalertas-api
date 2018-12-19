@@ -1,11 +1,46 @@
 import { Schema } from 'mongoose';
 
 const groupSchema = new Schema({
+  created: {
+    at: {
+      type: Date,
+      default: Date.now
+    },
+    by: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  },
   name: String,
-  // TO-DO:
-  // event alert preferences defaults
-  // members
-  // what to do when an event expires-- delete or archive?
+  description: {
+    type: String,
+    intl: true
+  },
+  location: {
+    city: String,
+    state: String,
+    zipcode: Number
+  },
+  defaults: {
+    event: {
+      expire: {
+        at: Date,
+        deleteOnExpire: Boolean
+      },
+    },
+    alert: {
+      radius: Number,
+      expire: {
+        at: Date,
+        deleteOnExpire: Boolean
+      },
+    }
+  },
+  accessTokens: {
+    type: [{
+      hash: String
+    }]
+  }
 });
 
 export default groupSchema;

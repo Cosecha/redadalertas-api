@@ -3,12 +3,13 @@ import { Event } from '../../shared/models';
 const eventStore = {
   createEvent(payload) {
     // TO-DO: fill out CRUD stubs
-    return Event.create({
-      date: payload.date,
-      description: payload.description,
-      location: payload.location,
-      type: payload.type,
-    });
+    return Event.create({ ...payload });
+  },
+  updateEvent(payload) {
+    return Event.findOneAndUpdate(
+      { _id: payload._id },
+      payload
+    );
   },
   getEvent(payload) {
     return Event.findOne({

@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt-nodejs';
 import env from 'dotenv';
 import {
   User,
+  Group,
   Event
 } from '../server/app/shared/models';
 
@@ -30,6 +31,7 @@ switch (process.env.NODE_ENV) {
     break;
 }
 
+let group1;
 let user1;
 let user2;
 
@@ -90,6 +92,30 @@ const reconnect = ()=> {
 deletedb().then(disconnect)
   .then(reconnect)
   .then(()=> new Promise((resolve, reject)=> {
+    console.log('Creating test group...');
+    return Group.create([{
+      name: 'Test Group',
+      description: {
+        en: 'A test group'
+      },
+      location: {
+        zipcode: '85012'
+      }
+    }], {
+      authLevel: 'admin'
+    },
+    function(err, doc) {
+      if (err) {
+        console.error('Error creating test group: ', err);
+        reject(err);
+      } else if (doc) {
+        resolve(doc);
+      }
+    });
+  }))
+  .then((res)=> new Promise((resolve, reject)=> {
+    group1 = res[0];
+    console.log(`New group created (${group1.name}) with id (${group1.id})... now creating a password salt...`);
     bcrypt.genSalt(10, (err, res)=> {
       if (!err) {
         resolve(res);
@@ -111,25 +137,37 @@ deletedb().then(disconnect)
     hash1 = res;
     console.log(`Password: ${res}`);
     console.log('Creating first user...');
-    return User.create({
+    return User.create([{
       email: 'person@mail.com',
       phone: '5555555555',
-      password: hash1
+      password: hash1,
+      belongs: [{
+        to: group1.id,
+        as: 'admin'
+      }]
+    }], {
+      authLevel: 'admin'
     });
   })
-  .then((user)=> {
-    user1 = user;
-    console.log(`New user created (${user.email})... now creating another user...`);
-    return User.create({
+  .then((res)=> {
+    user1 = res[0];
+    console.log(`New user created (${user1.email})... now creating another user...`);
+    return User.create([{
       email: 'person2@mail.com',
       phone: '5556667777',
       password: hash1,
+      belongs: [{
+        to: group1.id,
+        as: 'member'
+      }]
+    }], {
+      authLevel: 'admin'
     });
   })
-  .then((user)=> {
-    user2 = user;
-    console.log(`New user created (${user.email})... now creating event...`);
-    return Event.create({
+  .then((res)=> {
+    user2 = res[0];
+    console.log(`New user created (${user2.email})... now creating event...`);
+    return Event.create([{
       location: {
         zipcode: '85004',
         latitude: '33.4591465',
@@ -151,11 +189,13 @@ deletedb().then(disconnect)
       }, {
         agency: 'CBP'
       }],
+    }], {
+      authLevel: 'member'
     });
   })
-  .then((event)=> {
-    console.log(`New event created (${event.description})... now creating event...`);
-    return Event.create({
+  .then((res)=> {
+    console.log(`New event created (${res[0].description})... now creating event...`);
+    return Event.create([{
       location: {
         zipcode: '85012',
         latitude: '33.5083858',
@@ -177,10 +217,12 @@ deletedb().then(disconnect)
       }, {
         agency: 'Police'
       }],
+    }], {
+      authLevel: 'admin'
     });
   })
   .then((event)=> {
-    console.log(`Second event created (${event.description}), finished bootstrapping.`);
+    console.log(`Second event created (${event[0].description}), finished bootstrapping.`);
     process.exit(0);
   })
   .catch((err)=> {

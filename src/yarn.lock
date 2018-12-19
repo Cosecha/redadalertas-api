@@ -2930,6 +2930,13 @@ mongodb@3.1.8:
     mongodb-core "3.1.7"
     safe-buffer "^5.1.2"
 
+mongoose-authorization@^2.0.0-alpha.1:
+  version "2.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/mongoose-authorization/-/mongoose-authorization-2.0.0-alpha.1.tgz#c0f5dc1a6afa0bc5e6303d847a208d6a1902fc77"
+  integrity sha1-wPXcGmr6C8XmMD2EeiCNahkC/Hc=
+  dependencies:
+    lodash "^4.17.5"
+
 mongoose-intl@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/mongoose-intl/-/mongoose-intl-3.1.0.tgz#a40bc29e2fe5eb0bece3b4cc93a8227ba1c2946e"

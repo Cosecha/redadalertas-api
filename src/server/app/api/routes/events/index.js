@@ -9,6 +9,12 @@ export default [
     config: config.event,
   },
   {
+    method: 'PUT',
+    path: '/event/{eventID}',
+    handler: eventController.updateEvent,
+    // config: config.updatedEvent,
+  },
+  {
     method: 'GET',
     path: '/events',
     handler: eventController.getEvents,

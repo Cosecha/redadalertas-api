@@ -45,6 +45,7 @@
     "inert": "^5.1.2",
     "joi": "^14.1.0",
     "mongoose": "^5.3.12",
+    "mongoose-authorization": "^2.0.0-alpha.1",
     "mongoose-intl": "^3.1.0",
     "vision": "^5.4.3",
     "wreck": "^14.1.3",
