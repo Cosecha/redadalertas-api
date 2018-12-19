@@ -35,19 +35,19 @@ const userSchema = new Schema({
       _id: false,
       to: {
         type: Schema.Types.ObjectId,
-        ref: 'Group',
-        since: {
-          type: Date,
-          default: Date.now
-        },
-        as: {
-          type: String,
-          enum: [
-            'member',
-            'admin'
-          ]
-        },
+        ref: 'Group'
       },
+      since: {
+        type: Date,
+        default: Date.now
+      },
+      as: {
+        type: String,
+        enum: [
+          'member',
+          'admin'
+        ]
+      }
     }]
   },
   name: String,
