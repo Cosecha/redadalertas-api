@@ -17,30 +17,55 @@ const schemas = [
 
 schemas.map((schema) => {
 
-  // Default permissions for mongoose-authorization
-  if (!schema.permissions) schema.permissions = {
-    defaults: {
-      read: Object.keys(schema)
-    },
-    member: {
-      write: Object.keys(schema),
-      create: true
-    },
-    admin: ()=> {
-      return {
-        ...this.member,
-        remove: true
-      }
-    }
-  };
+  var langs = [ 'en', 'es', 'fr' ];
 
   // Initialize plugins
   schema.plugin(removeUnderscore);
   schema.plugin(mongooseAuth);
   schema.plugin(mongooseIntl, {
-    languages: [ 'en', 'es', 'fr' ],
+    languages: langs,
     defaultLanguage: 'en'
   });
+
+  // Include first-level and subdoc paths
+  // for mongooseAuth with mongooseIntl
+  const paths = Object.keys(schema.paths);
+  var fullPaths = paths.slice(0, paths.length);
+  paths.forEach(path => {
+    if (path.indexOf('.') > -1) {
+      var firstLevel = path.slice(0, path.indexOf('.'));
+      if (!fullPaths.includes(firstLevel)) {
+        fullPaths.push(firstLevel);
+      }
+    }
+    langs.forEach(lang => {
+      if (path.endsWith('.' + lang)) {
+        var nestLevel = path.slice(0, path.indexOf('.' + lang));
+        if (!fullPaths.includes(nestLevel)) {
+          fullPaths.push(nestLevel);
+        }
+      }
+    });
+  });
+
+  // Default permissions for mongoose-authorization
+  if (!schema.permissions) {
+    schema.permissions = {
+      defaults: {
+        read: fullPaths
+      },
+      member: {
+        write: fullPaths,
+        create: true
+      },
+      admin: {
+        write: fullPaths,
+        create: true,
+        remove: true
+      }
+    };
+  }
+
 });
 
 export const Event = mongoose.model('Event', eventSchema);
