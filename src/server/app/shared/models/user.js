@@ -51,8 +51,14 @@ const userSchema = new Schema({
     }]
   },
   name: String,
-  email: String,
-  phone: String,
+  email: {
+    type: String,
+    unique: true
+  },
+  phone: {
+    type: String,
+    unique: true
+  },
   password: String
 });
 

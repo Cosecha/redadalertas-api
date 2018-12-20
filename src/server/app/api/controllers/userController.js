@@ -2,7 +2,7 @@ import Boom from 'boom';
 import userStore from '../stores/userStore';
 
 const userController = {
-  async createUser(req, reply) {
+  async createUser(req, h) {
     let user;
     try {
       user = await userStore.createUser(req.payload);
@@ -10,7 +10,7 @@ const userController = {
       return response;
     } catch (err) {
       console.error("createUser error: ", err);
-      h.response(Boom.badRequest(err));
+      return h.response(Boom.badRequest(err));
     }
   },
   async getUser(req, h) {
@@ -21,7 +21,7 @@ const userController = {
       return response;
     } catch (err) {
       console.error("getUser error: ", err);
-      h.response(Boom.badRequest(err));
+      return h.response(Boom.badRequest(err));
     }
   },
   async getUsers(req, h) {
@@ -32,7 +32,7 @@ const userController = {
       return response;
     } catch (err) {
       console.error("getUsers error: ", err);
-      h.response(Boom.badRequest(err));
+      return h.response(Boom.badRequest(err));
     }
   },
   async updateUser(req, h) {
@@ -43,7 +43,7 @@ const userController = {
       return response;
     } catch (err) {
       console.error("updateUser error: ", err);
-      h.response(Boom.badRequest(err));
+      return h.response(Boom.badRequest(err));
     }
   },
 };

@@ -27,26 +27,6 @@ export const comparePassword = (providedPassword, storedPassword) => new Promise
     });
   });
 
-export const generateSalt = new Promise((resolve, reject) => {
-  bcrypt.genSalt(10, (err, res) => {
-    if (!err) {
-      resolve(res);
-    } else {
-      reject('Error generating salt...');
-    }
-  });
-});
-
-export const hashPassword = (nonHashed, salt) => new Promise((resolve, reject) => {
-  bcrypt.hash(nonHashed, salt, null, (err, res) => {
-    if (!err) {
-      resolve(res);
-    } else {
-      reject('Error generating password');
-    }
-  });
-});
-
 export const log = async (string, object = null)=> {
   /* eslint-disable no-console */
   console.log(string);
@@ -60,3 +40,29 @@ export const err = async (string, error = null)=> {
   if (error) console.error(error);
   /* eslint-enable no-console */
 }
+
+async function generateSalt() {
+  return new Promise((resolve, reject) => {
+    bcrypt.genSalt(10, (err, res) => {
+      if (!err) {
+        resolve(res);
+      } else {
+        reject('Error generating salt...');
+      }
+    });
+  });
+}
+
+async function hashPassword(nonHashed, salt) {
+ return new Promise((resolve, reject) => {
+   bcrypt.hash(nonHashed, salt, null, (err, res) => {
+     if (!err) {
+       resolve(res);
+     } else {
+       reject('Error generating password');
+     }
+   });
+ });
+}
+module.exports.generateSalt = generateSalt;
+module.exports.hashPassword = hashPassword;

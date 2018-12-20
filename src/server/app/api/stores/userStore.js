@@ -1,16 +1,24 @@
 import { User } from '../../shared/models';
+import { generateSalt, hashPassword } from '../../shared/utils';
 
 const userStore = {
   // TO-DO: fill in authLevel stubs
-  createUser(payload) {
+  // TO-DO: assume the password gets hashed and salted on the client side
+  // TO-DO: use .findOne(query).populate() to populate subdocs
+  async createUser(payload) {
+    const salt = await generateSalt();
     return User.create([{
-      password: payload.password,
-      email: payload.email,
+      ...payload,
+      password: await hashPassword(payload.password, salt),
     }], {
       authLevel: false
     });
   },
-  updateUser(payload) {
+  async updateUser(payload) {
+    if (payload.password) {
+      const salt = await generateSalt();
+      payload.password = await hashPassword(payload.password, salt);
+    }
     return User.findOneAndUpdate(
       { _id: payload._id },
       payload,
@@ -23,7 +31,7 @@ const userStore = {
   getUsers() {
     return User.find();
   },
-  // This method will be used for when loggin in. People will have the option to
+  // This method will be used for when logging in. People will have the option to
   // use their email of phone as a username.
   getUserByPhoneOrEmail(payload) {
     return User.findOne().or([
