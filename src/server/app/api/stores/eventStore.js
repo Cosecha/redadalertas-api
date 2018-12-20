@@ -1,20 +1,23 @@
 import { Event } from '../../shared/models';
 
 const eventStore = {
+  // TO-DO: fill in authLevel stubs
   createEvent(payload) {
-    // TO-DO: fill out CRUD stubs
-    return Event.create({ ...payload });
+    return Event.create([
+      { ...payload }
+    ], {
+      authLevel: false
+    });
   },
   updateEvent(payload) {
     return Event.findOneAndUpdate(
       { _id: payload._id },
-      payload
+      payload,
+      { authLevel: false }
     );
   },
-  getEvent(payload) {
-    return Event.findOne({
-      _id: payload._id,
-    });
+  getEvent(id) {
+    return Event.findById(id);
   },
   getEvents() {
     return Event.find();
