@@ -35,6 +35,17 @@ const eventController = {
       h.response(Boom.badRequest(err));
     }
   },
+  async getEvent(req, h) {
+    let event;
+    try {
+      event = await eventStore.getEvent(req.params.eventID);
+      const response = h.response(event);
+      return response;
+    } catch (err) {
+      console.error("getEvent error: ", err);
+      h.response(Boom.badRequest(err));
+    }
+  },
 };
 
 export default eventController;
