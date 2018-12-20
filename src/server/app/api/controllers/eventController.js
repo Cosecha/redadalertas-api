@@ -10,7 +10,7 @@ const eventController = {
       return response;
     } catch (err) {
       console.error("createEvent error: ", err);
-      h.response(Boom.badRequest(err));
+      return h.response(Boom.badRequest(err));
     }
   },
   async updateEvent(req, h) {
@@ -21,7 +21,7 @@ const eventController = {
       return response;
     } catch (err) {
       console.error("updateEvent error: ", err);
-      h.response(Boom.badRequest(err));
+      return h.response(Boom.badRequest(err));
     }
   },
   async getEvents(req, h) {
@@ -32,7 +32,7 @@ const eventController = {
       return response;
     } catch (err) {
       console.error("getEvents error: ", err);
-      h.response(Boom.badRequest(err));
+      return h.response(Boom.badRequest(err));
     }
   },
   async getEvent(req, h) {
@@ -43,7 +43,7 @@ const eventController = {
       return response;
     } catch (err) {
       console.error("getEvent error: ", err);
-      h.response(Boom.badRequest(err));
+      return h.response(Boom.badRequest(err));
     }
   },
 };
