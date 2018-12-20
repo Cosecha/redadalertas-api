@@ -6,7 +6,7 @@ export default [
     method: 'POST',
     path: '/user',
     handler: userController.createUser,
-    config: config.user,
+    // config: config.user,
   },
   {
     method: 'PUT',
