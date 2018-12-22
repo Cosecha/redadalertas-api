@@ -141,10 +141,10 @@ deletedb().then(disconnect)
       email: 'person@mail.com',
       phone: '5555555555',
       password: hash1,
-      belongs: [{
+      belongs: {
         to: group1.id,
         as: 'admin'
-      }]
+      }
     }], {
       authLevel: 'admin'
     });
@@ -156,10 +156,10 @@ deletedb().then(disconnect)
       email: 'person2@mail.com',
       phone: '5556667777',
       password: hash1,
-      belongs: [{
+      belongs: {
         to: group1.id,
         as: 'member'
-      }]
+      }
     }], {
       authLevel: 'admin'
     });
