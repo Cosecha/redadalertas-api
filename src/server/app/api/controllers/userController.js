@@ -37,9 +37,11 @@ const userController = {
   },
   async updateUser(req, h) {
     let user;
+    let updatedUser;
     try {
       user = await userStore.updateUser(req.payload);
-      const response = h.response(user);
+      updatedUser = await userStore.getUser(user.id);
+      const response = h.response(updatedUser);
       return response;
     } catch (err) {
       console.error("updateUser error: ", err);
