@@ -84,10 +84,8 @@ const eventSchema = new Schema({
     city: String,
     state: String,
     zipcode: Number,
-    geo: {
-      latitude: Number,
-      longitude: Number
-    },
+    latitude: Number,
+    longitude: Number,
     description: {
       type: String,
       intl: true
