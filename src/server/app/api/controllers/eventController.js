@@ -15,9 +15,11 @@ const eventController = {
   },
   async updateEvent(req, h) {
     let event;
+    let updatedEvent;
     try {
       event = await eventStore.updateEvent(req.payload);
-      const response = h.response(event);
+      updatedEvent = await eventStore.getEvent(event.id);
+      const response = h.response(updatedEvent);
       return response;
     } catch (err) {
       console.error("updateEvent error: ", err);
