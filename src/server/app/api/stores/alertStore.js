@@ -9,9 +9,9 @@ const alertStore = {
       authLevel: false
     });
   },
-  updateAlert(payload) {
+  updateAlert(id) {
     return Alert.findOneAndUpdate(
-      { _id: payload._id },
+      { _id: id },
       { expireNow: true },
       { authLevel: false }
     );
