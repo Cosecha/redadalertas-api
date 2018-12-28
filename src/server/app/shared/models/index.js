@@ -5,6 +5,7 @@ import removeUnderscore from '../plugins/removeUnderscore';
 import userSchema from './user';
 import sessionSchema from './session';
 import { eventSchema } from './event';
+import alertSchema from './alert';
 import groupSchema from './group';
 import agencySchema from './agency';
 
@@ -12,6 +13,7 @@ const schemas = [
   userSchema,
   sessionSchema,
   eventSchema,
+  alertSchema,
   groupSchema
 ];
 
@@ -69,6 +71,7 @@ schemas.map((schema) => {
 });
 
 export const Event = mongoose.model('Event', eventSchema);
+export const Alert = mongoose.model('Alert', alertSchema);
 export const User = mongoose.model('User', userSchema);
 export const Group = mongoose.model('Group', groupSchema);
 export const Session = mongoose.model('Session', sessionSchema);
