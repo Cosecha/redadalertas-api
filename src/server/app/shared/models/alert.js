@@ -16,7 +16,10 @@ const alertSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    at: Date,
+    at: {
+      type: Date,
+      default: Date.now
+    },
   },
   expireNow: {
     // TO-DO: make sure this is the only thing users can edit
