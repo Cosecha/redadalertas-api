@@ -2,7 +2,7 @@ import { Event } from '../../shared/models';
 
 const eventStore = {
   // TO-DO: fill in authLevel stubs
-  createEvent(payload) {
+  async createEvent(payload) {
     return Event.create([
       { ...payload }
     ], {

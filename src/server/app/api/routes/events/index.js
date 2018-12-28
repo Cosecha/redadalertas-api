@@ -6,7 +6,7 @@ export default [
     method: 'POST',
     path: '/event',
     handler: eventController.createEvent,
-    config: config.event,
+    // config: config.event,
   },
   {
     method: 'PUT',
