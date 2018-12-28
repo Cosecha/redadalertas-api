@@ -3,6 +3,7 @@ import { Schema } from 'mongoose';
 // TO-DO: replace Strings with more appropriate data types
 
 const eventSchema = new Schema({
+  
   type: {
     type: String,
     required: true,
@@ -90,6 +91,10 @@ const eventSchema = new Schema({
       type: String,
       intl: true
     }
+  },
+  radius: {
+    mi: Number, // miles
+    km: Number
   }
 });
 
