@@ -1,8 +1,9 @@
 import { Schema } from 'mongoose';
 
 // TO-DO: replace Strings with more appropriate data types
+// TO-DO: everything with "required: false" should be true
 
-const eventSchema = new Schema({
+const eventSchemaObj = {
   type: {
     type: String,
     required: true,
@@ -61,8 +62,14 @@ const eventSchema = new Schema({
     },
   },
   expire: {
-    at: Date,
-    deleteOnExpire: Boolean
+    at: {
+      type: Date,
+      required: false
+    },
+    deleteOnExpire: {
+      type: Boolean,
+      required: false
+    },
   },
   verified: {
     type: [{
@@ -90,8 +97,20 @@ const eventSchema = new Schema({
       type: String,
       intl: true
     }
+  },
+  radius: {
+    mi: { // miles
+      type: Number,
+      required: false
+    },
+    km: { // kilometers
+      type: Number,
+      required: false
+    },
   }
-});
+};
+
+const eventSchema = new Schema(eventSchemaObj);
 
 eventSchema.getAuthLevel = (payload, doc)=> {
   if (payload && doc && payload.user && doc.created) {
@@ -102,4 +121,5 @@ eventSchema.getAuthLevel = (payload, doc)=> {
   }
 }
 
-export default eventSchema;
+module.exports.eventSchema = eventSchema;
+module.exports.eventSchemaObj = eventSchemaObj;

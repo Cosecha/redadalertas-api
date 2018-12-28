@@ -5,7 +5,8 @@ import env from 'dotenv';
 import {
   User,
   Group,
-  Event
+  Event,
+  Alert
 } from '../server/app/shared/models';
 
 env.config();
