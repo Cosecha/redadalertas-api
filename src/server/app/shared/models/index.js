@@ -4,7 +4,7 @@ import mongooseIntl from 'mongoose-intl';
 import removeUnderscore from '../plugins/removeUnderscore';
 import userSchema from './user';
 import sessionSchema from './session';
-import eventSchema from './event';
+import { eventSchema } from './event';
 import groupSchema from './group';
 import agencySchema from './agency';
 
