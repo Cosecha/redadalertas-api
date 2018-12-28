@@ -31,6 +31,12 @@ const userStore = {
   getUsers() {
     return User.find();
   },
+  deleteUser(id) {
+    return User.findOneAndDelete(
+      { _id: id },
+      { authLevel: false }
+    );
+  },
   // This method will be used for when logging in. People will have the option to
   // use their email of phone as a username.
   getUserByPhoneOrEmail(payload) {

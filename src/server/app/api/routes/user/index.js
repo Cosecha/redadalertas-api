@@ -25,4 +25,9 @@ export default [
     handler: userController.getUser,
     // config: config.id,
   },
+  {
+    method: 'DELETE',
+    path: '/user/{userID}',
+    handler: userController.deleteUser
+  }
 ];

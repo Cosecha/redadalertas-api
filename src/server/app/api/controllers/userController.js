@@ -48,6 +48,17 @@ const userController = {
       return h.response(Boom.badRequest(err));
     }
   },
+  async deleteUser(req, h) {
+    let res;
+    try {
+      res = await userStore.deleteUser(req.params.userID);
+      const response = h.response(res);
+      return response;
+    } catch (err) {
+      console.error("deleteUser error: ", err);
+      return h.response(Boom.badRequest(err));
+    }
+  }
 };
 
 export default userController;
