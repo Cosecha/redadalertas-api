@@ -46,6 +46,17 @@ const eventController = {
       return h.response(Boom.badRequest(err));
     }
   },
+  async deleteEvent(req, h) {
+    let res;
+    try {
+      res = await eventStore.deleteEvent(req.params.eventID);
+      const response = h.response(res);
+      return response;
+    } catch (err) {
+      console.error("deleteEvent error: ", err);
+      return h.response(Boom.badRequest(err));
+    }
+  }
 };
 
 export default eventController;

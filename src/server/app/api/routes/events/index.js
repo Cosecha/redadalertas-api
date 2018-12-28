@@ -24,4 +24,9 @@ export default [
     path: '/event/{eventID}',
     handler: eventController.getEvent,
   },
+  {
+    method: 'DELETE',
+    path: '/event/{eventID}',
+    handler: eventController.deleteEvent
+  }
 ];

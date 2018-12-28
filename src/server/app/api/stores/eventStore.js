@@ -22,6 +22,12 @@ const eventStore = {
   getEvents() {
     return Event.find();
   },
+  deleteEvent(id) {
+    return Event.findOneAndDelete(
+      { _id: id },
+      { authLevel: false }
+    );
+  },
 };
 
 export default eventStore;
