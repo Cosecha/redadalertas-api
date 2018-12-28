@@ -28,9 +28,11 @@ const alertController = {
   },
   async updateAlert(req, h) {
     let alert;
+    let updatedAlert;
     try {
       alert = await alertStore.updateAlert(req.params.alertID);
-      const response = h.response(alert);
+      updatedAlert = await alertStore.getAlert(alert.id);
+      const response = h.response(updatedAlert);
       return response;
     } catch (err) {
       console.error("updateAlert error: ", err);
