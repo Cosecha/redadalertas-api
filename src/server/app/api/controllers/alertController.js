@@ -4,17 +4,24 @@ import Bounce from 'bounce';
 import { logErr } from '../../shared/utils';
 import eventStore from '../stores/eventStore';
 import alertStore from '../stores/alertStore';
+import userStore from '../stores/userStore';
 
 const ObjectId = mongoose.Types.ObjectId;
 
 const alertController = {
   async createAlert(req, h) {
     let alert = null;
+    let user;
     let payloadEvent;
     try {
       if (!ObjectId.isValid(req.payload.event)) throw new Error("Event ID is not valid.");
       payloadEvent = await eventStore.getEvent(req.payload.event);
       if (!payloadEvent) throw new Error("Event not found.");
+      if (req.payload && req.payload["sent.by"]) {
+        if (!ObjectId.isValid(req.payload["sent.by"])) throw new Error("Sent by user ID is not valid.");
+        user = await userStore.getUser(ObjectId(req.payload["sent.by"]));
+        if (!user) throw new Error("Sent by user not found.");
+      }
       const newLoad = {
         ...payloadEvent,
         // TO-DO: add parser with string formatting
