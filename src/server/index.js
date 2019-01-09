@@ -1,5 +1,5 @@
 import Glue from 'glue';
-import { log, err } from './app/shared/utils';
+import { log, logErr } from './app/shared/utils';
 import manifest from './manifest.json';
 import env from 'dotenv';
 
@@ -16,7 +16,7 @@ async function startServer(name) {
     await server.start();
     log(`The ${name} server has started: ${new Date()}`);
   } catch (error) {
-    err(`Error starting ${name} server: `, error);
+    logErr(`Error starting ${name} server: `, error);
   }
 }
 
@@ -26,7 +26,7 @@ async function stopServer(name) {
     await servers[name].stop({ timeout: 10000 });
     log(`The ${name} server has stopped: ${new Date()}`);
   } catch (error) {
-    err(`Error stopping ${name} server: `, error);
+    logErr(`Error stopping ${name} server: `, error);
   }
 }
 
@@ -35,7 +35,7 @@ async function startServers() {
     await startServer("api");
     await startServer("admin");
   } catch (error) {
-    err("Error starting process: ", error);
+    logErr("Error starting process: ", error);
   }
 };
 
@@ -45,7 +45,7 @@ async function stopServers(signal) {
     await stopServer("api");
     await stopServer("admin");
   } catch (error) {
-    err("Error stopping servers: ", error);
+    logErr("Error stopping servers: ", error);
   }
 }
 
@@ -62,7 +62,7 @@ startServers();
         log(`(${signal} received but Node process already exiting.)`);
       }
     } catch (error) {
-      err("Error exiting Node process: ", error);
+      logErr("Error exiting Node process: ", error);
       process.exit(1);
     }
   });

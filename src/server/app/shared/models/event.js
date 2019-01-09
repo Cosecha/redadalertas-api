@@ -110,7 +110,12 @@ const eventSchemaObj = {
   }
 };
 
-const eventSchema = new Schema(eventSchemaObj);
+const eventSchema = new Schema(eventSchemaObj, {
+  timestamps: {
+    createdAt: "created.at",
+    updatedAt: "updated.at"
+  }
+});
 
 eventSchema.getAuthLevel = (payload, doc)=> {
   if (payload && doc && payload.user && doc.created) {

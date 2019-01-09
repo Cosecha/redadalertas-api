@@ -34,7 +34,7 @@ export const log = async (string, object = null)=> {
   /* eslint-enable no-console */
 }
 
-export const err = async (string, error = null)=> {
+export const logErr = async (string, error = null)=> {
   /* eslint-disable no-console */
   console.error("\x1b[31m%s\x1b[0m", string);
   if (error) console.error(error);
