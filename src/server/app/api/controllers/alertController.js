@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Boom from 'boom';
 import Bounce from 'bounce';
-import { err as error } from '../../shared/utils';
+import { logErr } from '../../shared/utils';
 import eventStore from '../stores/eventStore';
 import alertStore from '../stores/alertStore';
 
@@ -30,7 +30,7 @@ const alertController = {
       const response = h.response(alert);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("alertController createAlert error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("alertController createAlert error: ", err.message || err);
       return Boom.badRequest(err.message || "Error creating alert.");
     }
   },
@@ -45,7 +45,7 @@ const alertController = {
       const response = h.response(updatedAlert);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("alertController updateAlert error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("alertController updateAlert error: ", err.message || err);
       return Boom.badRequest(err.message || "Error updating alert.");
     }
   },
@@ -57,7 +57,7 @@ const alertController = {
       const response = h.response(alerts);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("alertController getAlerts error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("alertController getAlerts error: ", err.message || err);
       return Boom.badRequest(err.message || "Error retrieving alerts.");
     }
   },
@@ -69,7 +69,7 @@ const alertController = {
       const response = h.response(alert);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("alertController getAlert error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("alertController getAlert error: ", err.message || err);
       return Boom.badRequest(err.message || "Error retrieving alert.");
     }
   }

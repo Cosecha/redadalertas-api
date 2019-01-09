@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Boom from 'boom';
 import Bounce from 'bounce';
-import { err as error } from '../../shared/utils';
+import { logErr } from '../../shared/utils';
 import userStore from '../stores/userStore';
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -15,7 +15,7 @@ const userController = {
       const response = h.response(user);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("userController createUser error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("userController createUser error: ", err.message || err);
       return Boom.badRequest(err.message || "Error creating user.");
     }
   },
@@ -27,7 +27,7 @@ const userController = {
       const response = h.response(user);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("userController getUser error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("userController getUser error: ", err.message || err);
       return Boom.badRequest(err.message || "Error retrieving user.");
     }
   },
@@ -39,7 +39,7 @@ const userController = {
       const response = h.response(users);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("userController getUsers error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("userController getUsers error: ", err.message || err);
       return Boom.badRequest(err.message || "Error retrieving users.");
     }
   },
@@ -55,7 +55,7 @@ const userController = {
       const response = h.response(updatedUser);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("userController updateUser error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("userController updateUser error: ", err.message || err);
       return Boom.badRequest(err.message || "Error updating user.");
     }
   },
@@ -67,7 +67,7 @@ const userController = {
       const response = h.response(user);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("userController deleteUser error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("userController deleteUser error: ", err.message || err);
       return Boom.badRequest(err.message || "Error deleting user.");
     }
   }

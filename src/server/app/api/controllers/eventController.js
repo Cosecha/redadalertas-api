@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Boom from 'boom';
 import Bounce from 'bounce';
-import { err as error } from '../../shared/utils';
+import { logErr } from '../../shared/utils';
 import eventStore from '../stores/eventStore';
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -15,7 +15,7 @@ const eventController = {
       const response = h.response(event);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("eventController createEvent error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("eventController createEvent error: ", err.message || err);
       return Boom.badRequest(err.message || "Error creating event.");
     }
   },
@@ -31,7 +31,7 @@ const eventController = {
       const response = h.response(updatedEvent);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("eventController updateEvent error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("eventController updateEvent error: ", err.message || err);
       return Boom.badRequest(err.message || "Error updating event.");
     }
   },
@@ -43,7 +43,7 @@ const eventController = {
       const response = h.response(events);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("eventController getEvents error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("eventController getEvents error: ", err.message || err);
       return Boom.badRequest(err.message || "Error retrieving events.");
     }
   },
@@ -55,7 +55,7 @@ const eventController = {
       const response = h.response(event);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("eventController getEvent error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("eventController getEvent error: ", err.message || err);
       return Boom.badRequest(err.message || "Error retrieving event.");
     }
   },
@@ -67,7 +67,7 @@ const eventController = {
       const response = h.response(event);
       return response;
     } catch (err) {
-      if (Bounce.isSystem(err)) error("eventController deleteEvent error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("eventController deleteEvent error: ", err.message || err);
       return Boom.badRequest(err.message || "Error deleting event.");
     }
   }
