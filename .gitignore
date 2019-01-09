@@ -46,3 +46,7 @@ src/manifest.json
 # coverage report
 src/build
 build
+
+# NPM package lock files
+# (because we're using Yarn)
+src/package-lock.json
