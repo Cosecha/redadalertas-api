@@ -29,14 +29,14 @@ export const comparePassword = (providedPassword, storedPassword) => new Promise
 
 export const log = async (string, object = null)=> {
   /* eslint-disable no-console */
-  console.log(string);
+  console.log("\x1b[36m%s\x1b[0m", string);
   if (object) console.log(object);
   /* eslint-enable no-console */
 }
 
 export const err = async (string, error = null)=> {
   /* eslint-disable no-console */
-  console.error(string);
+  console.error("\x1b[31m%s\x1b[0m", string);
   if (error) console.error(error);
   /* eslint-enable no-console */
 }
