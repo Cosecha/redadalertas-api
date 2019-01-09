@@ -24,9 +24,9 @@ const eventController = {
     let updatedEvent;
     try {
       if (!req.payload || !req.payload._id) throw new Error("Did not receive valid information for update.");
-      if (!ObjectId.isValid(req.payload._id)) throw new Error("Not a valid event ID.");
+      if (!ObjectId.isValid(req.payload._id)) throw new Error("Event ID is not valid.");
       event = await eventStore.updateEvent(req.payload);
-      if (!event) throw new Error("No event found.");
+      if (!event) throw new Error("Event not found.");
       updatedEvent = await eventStore.getEvent(event.id);
       const response = h.response(updatedEvent);
       return response;
@@ -63,7 +63,7 @@ const eventController = {
     let event;
     try {
       event = await eventStore.deleteEvent(ObjectId(req.params.eventID));
-      if (!event) throw new Error("No event found.");
+      if (!event) throw new Error("Event not found.");
       const response = h.response(event);
       return response;
     } catch (err) {
