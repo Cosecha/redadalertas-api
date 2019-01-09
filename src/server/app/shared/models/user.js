@@ -57,6 +57,11 @@ const userSchema = new Schema({
     unique: true
   },
   password: String
+}, {
+  timestamps: {
+    createdAt: "created.at",
+    updatedAt: "updated.at"
+  }
 });
 
 

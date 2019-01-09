@@ -26,6 +26,11 @@ const alertSchema = new Schema({
     type: Boolean,
     default: false
   }
+}, {
+  timestamps: {
+    createdAt: "created.at",
+    updatedAt: "updated.at"
+  }
 });
 
 export default alertSchema;

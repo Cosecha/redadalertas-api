@@ -21,7 +21,8 @@ const alertController = {
         type: payloadEvent.type.toString(),
         event: req.payload.event,
         sent: {
-          by: (req.payload && req.payload.sent) ? req.payload.sent.by : null
+          by: (req.payload["sent.by"]) ? req.payload["sent.by"] : null,
+          at: Date.now()
         }
       };
       delete newLoad["id"];
