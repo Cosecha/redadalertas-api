@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Boom from 'boom';
 import Bounce from 'bounce';
-import { logErr } from '../../shared/utils';
+import { log, logErr } from '../../shared/utils';
 import eventStore from '../stores/eventStore';
 import alertStore from '../stores/alertStore';
 import userStore from '../stores/userStore';
@@ -23,10 +23,10 @@ const alertController = {
         if (!user) throw new Error("Sent by user not found.");
       }
       const newLoad = {
-        ...payloadEvent,
+        ...payloadEvent.toObject(),
         // TO-DO: add parser with string formatting
         type: payloadEvent.type.toString(),
-        event: req.payload.event,
+        event: ObjectId(req.payload.event),
         sent: {
           by: (req.payload["sent.by"]) ? req.payload["sent.by"] : null,
           at: Date.now()
