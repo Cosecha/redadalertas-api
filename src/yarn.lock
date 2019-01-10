@@ -2081,6 +2081,14 @@ growl@1.10.5:
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
   integrity sha512-qBr4OuELkhPenW6goKVXiv47US3clb3/IbuWF9KNKEijAy9oeHxU9IgzjvJhHkUzhaj7rOUD7+YGWqUjLp5oSA==
 
+hapi-auth-basic@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/hapi-auth-basic/-/hapi-auth-basic-5.0.0.tgz#0438b00225e4f7baccd7f29e04b4fc5037c012b0"
+  integrity sha1-BDiwAiXk97rM1/KeBLT8UDfAErA=
+  dependencies:
+    boom "7.x.x"
+    hoek "5.x.x"
+
 hapi@17.x.x, hapi@^17.7.0:
   version "17.8.1"
   resolved "https://registry.yarnpkg.com/hapi/-/hapi-17.8.1.tgz#63cc5bbc138b6ae0919e977764647a17556e4c87"

@@ -18,11 +18,13 @@ export default [
     method: 'GET',
     path: '/events',
     handler: eventController.getEvents,
+    options: { auth: false }
   },
   {
     method: 'GET',
     path: '/event/{eventID}',
     handler: eventController.getEvent,
+    options: { auth: false }
   },
   {
     method: 'DELETE',

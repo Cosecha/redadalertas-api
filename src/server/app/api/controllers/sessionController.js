@@ -4,6 +4,8 @@ import userStore from '../stores/userStore';
 import bcrypt from 'bcrypt-nodejs';
 import { comparePassword, checkPasswordExists } from '../../shared/utils';
 
+// TO-DO: implement sessions
+
 const sessionController = {
   createSession(req, reply) {
     // get User by email or phone

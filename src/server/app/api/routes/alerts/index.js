@@ -15,10 +15,12 @@ export default [
     method: 'GET',
     path: '/alerts',
     handler: alertController.getAlerts,
+    options: { auth: false }
   },
   {
     method: 'GET',
     path: '/alert/{alertID}',
     handler: alertController.getAlert,
+    options: { auth: false }
   }
 ];

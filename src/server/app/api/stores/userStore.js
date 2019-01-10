@@ -3,8 +3,6 @@ import { generateSalt, hashPassword } from '../../shared/utils';
 
 const userStore = {
   // TO-DO: fill in authLevel stubs
-  // TO-DO: assume the password gets hashed and salted on the client side
-  // TO-DO: use .findOne(query).populate() to populate subdocs
   async createUser(payload) {
     const salt = await generateSalt();
     return User.create([{
@@ -40,10 +38,12 @@ const userStore = {
   // This method will be used for when logging in. People will have the option to
   // use their email of phone as a username.
   getUserByPhoneOrEmail(payload) {
-    return User.findOne().or([
-      { 'phone': payload },
-      { 'email': payload },
-    ]);
+    return User.findOne({
+      $or: [
+        { 'phone': payload },
+        { 'email': payload }
+      ]
+    });
   }
 };
 
