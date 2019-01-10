@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import bcrypt from 'bcrypt-nodejs';
 import env from 'dotenv';
+import { log, logErr } from '../server/app/shared/utils';
 import {
   User,
   Group,
@@ -16,7 +17,7 @@ mongoose.Promise = bluebird;
 
 let dbURL;
 
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+log(`NODE_ENV: ${process.env.NODE_ENV}`);
 
 switch (process.env.NODE_ENV) {
   case 'test':
@@ -33,25 +34,28 @@ switch (process.env.NODE_ENV) {
 }
 
 let group1;
+let hash1;
 let user1;
 let user2;
+let event1;
+let event2;
+let alert1;
+let alert2;
 
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 
-console.log(`Mongo connection: ${dbURL}`);
-
-let hash1;
+log(`Mongo connection: ${dbURL}`);
 
 const deletedb = ()=> {
   return new Promise((resolve, reject)=> {
     mongoose.connect(dbURL, { useNewUrlParser: true }, ()=> {
-      console.log('Connecting to database.');
+      log('Connecting to database.');
       mongoose.connection.db.dropDatabase((err)=> {
-        console.log('Dropping database.');
+        log('Dropping database.');
         if (!err) {
-          console.log('Database dropped.');
+          log('Database dropped.');
           resolve();
         } else {
           console.error('Error dropping database: ', err);
@@ -66,7 +70,7 @@ const disconnect = ()=> {
   return new Promise((resolve, reject)=> {
     mongoose.disconnect((err)=> {
       if (!err) {
-        console.log('Disconnected.');
+        log('Disconnected.');
         resolve();
       } else {
         reject(err);
@@ -79,11 +83,11 @@ const reconnect = ()=> {
   return new Promise((resolve, reject)=> {
     mongoose.createConnection(dbURL, { useNewUrlParser: true }, (err)=> {
       if (!err) {
-        console.log('Reconnected..');
+        log('Reconnected..');
         mongoose.connect(dbURL, { useNewUrlParser: true });
         resolve();
       } else {
-        console.log(err);
+        log(err);
         reject(err);
       }
     });
@@ -93,14 +97,14 @@ const reconnect = ()=> {
 deletedb().then(disconnect)
   .then(reconnect)
   .then(()=> new Promise((resolve, reject)=> {
-    console.log('Creating test group...');
+    log('Creating test group...');
     return Group.create([{
       name: 'Test Group',
       description: {
         en: 'A test group'
       },
       location: {
-        zipcode: '85012'
+        zipcode: '94110'
       }
     }], {
       authLevel: 'admin'
@@ -116,7 +120,7 @@ deletedb().then(disconnect)
   }))
   .then((res)=> new Promise((resolve, reject)=> {
     group1 = res[0];
-    console.log(`New group created (${group1.name}) with id (${group1.id})... now creating a password salt...`);
+    log(`New group created (${group1.name}) with id (${group1.id})... now creating a password salt...`);
     bcrypt.genSalt(10, (err, res)=> {
       if (!err) {
         resolve(res);
@@ -136,11 +140,12 @@ deletedb().then(disconnect)
   }))
   .then((res)=> {
     hash1 = res;
-    console.log(`Password: ${res}`);
-    console.log('Creating first user...');
+    log(`Password: ${hash1}`);
+    log('Creating first user...');
     return User.create([{
-      email: 'person@mail.com',
-      phone: '5555555555',
+      name: 'person1',
+      email: 'person1@mail.com',
+      phone: '1111111111',
       password: hash1,
       belongs: {
         to: group1.id,
@@ -152,55 +157,81 @@ deletedb().then(disconnect)
   })
   .then((res)=> {
     user1 = res[0];
-    console.log(`New user created (${user1.email})... now creating another user...`);
+    log(`New user created (${user1.email})... now creating another user...`);
     return User.create([{
+      name: 'person2',
       email: 'person2@mail.com',
-      phone: '5556667777',
+      phone: '2222222222',
       password: hash1,
       belongs: {
         to: group1.id,
         as: 'member'
-      }
+      },
     }], {
       authLevel: 'admin'
     });
   })
   .then((res)=> {
     user2 = res[0];
-    console.log(`New user created (${user2.email})... now creating event...`);
+    log(`New user created (${user2.email})... now creating event...`);
     return Event.create([{
+      type: 'checkpoint',
+      description: {
+        en: 'ICE checkpoint',
+        es: 'Punto de control de ICE',
+        fr: 'Point de contrôle de ICE'
+      },
+      present: [{
+        agency: 'ICE'
+      }, {
+        agency: 'CBP'
+      }],
+      created: {
+        by: {
+          user: user1.id
+        }
+      },
       location: {
-        zipcode: '85004',
-        latitude: '33.4591465',
-        longitude: '-112.0774334',
+        address_1: '24th St Mission Station',
+        city: 'San Francisco',
+        state: 'CA',
+        zipcode: '94110',
+        latitude: '37.7549323',
+        longitude: '-122.4194287',
         description: {
           en: 'A car behind the building on the corner.',
           es: 'Un coche detrás del edificio en la esquina.',
           fr: 'Une voiture derrière du bâtiment au coin.'
         }
       },
-      description: {
-        en: 'ICE checkpoint',
-        es: 'Punto de control de ICE',
-        fr: 'Point de contrôle de ICE'
-      },
-      type: 'checkpoint',
-      present: [{
-        agency: 'ICE'
-      }, {
-        agency: 'CBP'
-      }],
     }], {
       authLevel: 'member'
     });
   })
   .then((res)=> {
-    console.log(`New event created (${res[0].description})... now creating event...`);
+    event1 = res[0];
+    log(`New event created (${event1.description})... now creating alert...`);
+    return Alert.create([{
+      ...event1.toObject(),
+      event: event1.id,
+      sent: {
+        by: user1.id
+      }
+    }], {
+      authLevel: 'admin'
+    });
+  })
+  .then((res)=> {
+    alert1 = res[0];
+    log(`New alert created (${alert1.description})... now creating second event...`);
     return Event.create([{
       location: {
-        zipcode: '85012',
-        latitude: '33.5083858',
-        longitude: '-112.0774334',
+        address_1: "John O'Connell Technical High School",
+        city: 'San Francisco',
+        state: 'CA',
+        zipcode: '94110',
+        latitude: '37.7549323',
+        longitude: '-122.4194287',
         description: {
           en: 'Public school',
           es: 'Escuela publica',
@@ -218,16 +249,35 @@ deletedb().then(disconnect)
       }, {
         agency: 'Police'
       }],
+      created: {
+        by: {
+          user: user2.id
+        }
+      },
     }], {
       authLevel: 'admin'
     });
   })
-  .then((event)=> {
-    console.log(`Second event created (${event[0].description}), finished bootstrapping.`);
+  .then((res)=> {
+    event2 = res[0];
+    log(`Second event created (${event2.description})... now creating second alert....`);
+    return Alert.create([{
+      ...event2.toObject(),
+      event: event2.id,
+      sent: {
+        by: user2.id
+      }
+    }], {
+      authLevel: 'admin'
+    });
+  })
+  .then((res)=> {
+    alert2 = res[0];
+    log(`Second alert created (${alert2.description}). Finished bootstrapping.`);
     process.exit(0);
   })
   .catch((err)=> {
-    console.error(err);
+    logErr(err);
     process.exit(1);
     return err;
   });

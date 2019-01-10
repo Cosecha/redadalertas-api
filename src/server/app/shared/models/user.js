@@ -47,16 +47,24 @@ const userSchema = new Schema({
       ]
     }
   },
-  name: String,
+  name: {
+    type: String,
+    unique: true,
+    required: true
+  },
   email: {
     type: String,
-    unique: true
+    unique: true,
+    required: true
   },
   phone: {
     type: String,
     unique: true
   },
-  password: String
+  password: {
+    type: String,
+    required: true
+  }
 }, {
   timestamps: {
     createdAt: "created.at",

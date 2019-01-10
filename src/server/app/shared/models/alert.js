@@ -4,6 +4,16 @@ import { eventSchemaObj } from './event';
 const alertSchema = new Schema({
   // Event copy schema
   ...eventSchemaObj,
+  // but ensure intl strings get cast properly:
+  description: {
+    type: String,
+    intl: true,
+    required: true
+  },
+  "location.description": {
+    type: String,
+    intl: true
+  },
 
   // Alert-specific schema
   event: {
@@ -14,7 +24,8 @@ const alertSchema = new Schema({
   sent: {
     by: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
+      required: true
     },
     at: {
       type: Date,
@@ -30,7 +41,10 @@ const alertSchema = new Schema({
   timestamps: {
     createdAt: "created.at",
     updatedAt: "updated.at"
-  }
+  },
+  toJSON: {
+    virtuals: true
+  },
 });
 
 export default alertSchema;

@@ -1,5 +1,22 @@
 import bcrypt from 'bcrypt-nodejs';
 
+export const getFullPaths = p => {
+  const paths = Object.keys(p);
+  let fullPaths = paths;
+  paths.forEach(path => {
+    if (path.indexOf('.') > -1) {
+      let paths = path.split('.');
+      for (var i = 0; i < paths.length; i++) {
+        const newPath = paths.slice(0, i + 1).join('.');
+        if (!fullPaths.includes(newPath)) {
+          fullPaths.push(newPath);
+        }
+      }
+    }
+  });
+  return fullPaths;
+};
+
 export const ensureObjectExists = (obj, msg) => new Promise((resolve, reject) => {
   if (obj) {
     resolve(obj);

@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 
 // TO-DO: replace Strings with more appropriate data types
-// TO-DO: everything with "required: false" should be true
+// TO-DO: everything with "required: false" should eventually be true
 
 const eventSchemaObj = {
   type: {
@@ -19,7 +19,8 @@ const eventSchemaObj = {
   },
   description: {
     type: String,
-    intl: true
+    intl: true,
+    required: true
   },
   present: {
     type: [{
@@ -46,7 +47,7 @@ const eventSchemaObj = {
       user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: false
+        required: true
       }
     },
   },
@@ -63,12 +64,15 @@ const eventSchemaObj = {
   },
   expire: {
     at: {
+      // TO-DO: make this group's default expire time for event type
       type: Date,
-      required: false
+      default: Date.now() + (1000 * 60 * 60 * 12), // 12 hours
+      required: true
     },
     deleteOnExpire: {
       type: Boolean,
-      required: false
+      default: false,
+      required: true
     },
   },
   verified: {
@@ -86,13 +90,31 @@ const eventSchemaObj = {
     }]
   },
   location: {
-    address_1: String,
+    address_1: {
+      type: String,
+      required: true
+    },
     address_2: String,
-    city: String,
-    state: String,
-    zipcode: Number,
-    latitude: Number,
-    longitude: Number,
+    city: {
+      type: String,
+      required: true
+    },
+    state: {
+      type: String,
+      required: true
+    },
+    zipcode: {
+      type: String,
+      required: true
+    },
+    latitude: {
+      type: String,
+      required: true
+    },
+    longitude: {
+      type: String,
+      required: true
+    },
     description: {
       type: String,
       intl: true
@@ -107,14 +129,17 @@ const eventSchemaObj = {
       type: Number,
       required: false
     },
-  }
+  },
 };
 
 const eventSchema = new Schema(eventSchemaObj, {
   timestamps: {
     createdAt: "created.at",
     updatedAt: "updated.at"
-  }
+  },
+  toJSON: {
+    virtuals: true
+  },
 });
 
 eventSchema.getAuthLevel = (payload, doc)=> {
