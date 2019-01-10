@@ -2,6 +2,7 @@ import Glue from 'glue';
 import { log, logErr } from './app/shared/utils';
 import manifest from './manifest.json';
 import env from 'dotenv';
+import { validateUser as validate } from './app/shared/plugins/auth.js';
 
 env.config();
 
@@ -13,6 +14,8 @@ async function startServer(name) {
   try {
     server = await Glue.compose(manifest[name], { relativeTo: __dirname });
     servers[name] = server;
+    server.auth.strategy('simple', 'basic', { validate });
+    server.auth.default('simple');
     await server.start();
     log(`The ${name} server has started: ${new Date()}`);
   } catch (error) {
