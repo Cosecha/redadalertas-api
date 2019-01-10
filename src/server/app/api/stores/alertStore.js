@@ -20,6 +20,12 @@ const alertStore = {
     return Alert.findById(id);
   },
   getAlerts() {
+    return Alert.find({
+      expireNow: false,
+      "expire.at": { $gt: Date.now() }
+    });
+  },
+  getAllAlerts() {
     return Alert.find();
   },
 };

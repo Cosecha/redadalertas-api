@@ -58,6 +58,7 @@ const alertController = {
     }
   },
   async getAlerts(req, h) {
+    // only fetches unexpired alerts
     let alerts;
     try {
       alerts = await alertStore.getAlerts();
@@ -80,7 +81,19 @@ const alertController = {
       if (Bounce.isSystem(err)) logErr("alertController getAlert error: ", err.message || err);
       return Boom.badRequest(err.message || "Error retrieving alert.");
     }
-  }
+  },
+  async getAllAlerts(req, h) {
+    let alerts;
+    try {
+      alerts = await alertStore.getAllAlerts();
+      if (!alerts) throw new Error("No alerts found.");
+      const response = h.response(alerts);
+      return response;
+    } catch (err) {
+      if (Bounce.isSystem(err)) logErr("alertController getAllAlerts error: ", err.message || err);
+      return Boom.badRequest(err.message || "Error retrieving alerts.");
+    }
+  },
 };
 
 export default alertController;

@@ -20,6 +20,11 @@ const eventStore = {
     return Event.findById(id);
   },
   getEvents() {
+    return Event.find({
+      "expire.at": { $gt: Date.now() }
+    });
+  },
+  getAllEvents() {
     return Event.find();
   },
   deleteEvent(id) {

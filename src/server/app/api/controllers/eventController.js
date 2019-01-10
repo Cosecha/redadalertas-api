@@ -36,6 +36,7 @@ const eventController = {
     }
   },
   async getEvents(req, h) {
+    // only fetches unexpired events
     let events;
     try {
       events = await eventStore.getEvents();
@@ -70,7 +71,19 @@ const eventController = {
       if (Bounce.isSystem(err)) logErr("eventController deleteEvent error: ", err.message || err);
       return Boom.badRequest(err.message || "Error deleting event.");
     }
-  }
+  },
+  async getAllEvents(req, h) {
+    let events;
+    try {
+      events = await eventStore.getAllEvents();
+      if (!events) throw new Error("No events found.");
+      const response = h.response(events);
+      return response;
+    } catch (err) {
+      if (Bounce.isSystem(err)) logErr("eventController getAllEvents error: ", err.message || err);
+      return Boom.badRequest(err.message || "Error retrieving events.");
+    }
+  },
 };
 
 export default eventController;
