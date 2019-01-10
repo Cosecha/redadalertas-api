@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Boom from 'boom';
 import Bounce from 'bounce';
-import { logErr } from '../../shared/utils';
+import { log, logErr } from '../../shared/utils';
 import eventStore from '../stores/eventStore';
 import alertStore from '../stores/alertStore';
 import userStore from '../stores/userStore';
@@ -23,10 +23,10 @@ const alertController = {
         if (!user) throw new Error("Sent by user not found.");
       }
       const newLoad = {
-        ...payloadEvent,
+        ...payloadEvent.toObject(),
         // TO-DO: add parser with string formatting
         type: payloadEvent.type.toString(),
-        event: req.payload.event,
+        event: ObjectId(req.payload.event),
         sent: {
           by: (req.payload["sent.by"]) ? req.payload["sent.by"] : null,
           at: Date.now()
@@ -58,6 +58,7 @@ const alertController = {
     }
   },
   async getAlerts(req, h) {
+    // only fetches unexpired alerts
     let alerts;
     try {
       alerts = await alertStore.getAlerts();
@@ -80,7 +81,19 @@ const alertController = {
       if (Bounce.isSystem(err)) logErr("alertController getAlert error: ", err.message || err);
       return Boom.badRequest(err.message || "Error retrieving alert.");
     }
-  }
+  },
+  async getAllAlerts(req, h) {
+    let alerts;
+    try {
+      alerts = await alertStore.getAllAlerts();
+      if (!alerts) throw new Error("No alerts found.");
+      const response = h.response(alerts);
+      return response;
+    } catch (err) {
+      if (Bounce.isSystem(err)) logErr("alertController getAllAlerts error: ", err.message || err);
+      return Boom.badRequest(err.message || "Error retrieving alerts.");
+    }
+  },
 };
 
 export default alertController;
