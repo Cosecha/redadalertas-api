@@ -14,7 +14,7 @@ export async function validateUser(req, username, password, h) {
       return { credentials: null, isValid: false };
     }
     const isValid = bcrypt.compareSync(password, user.password);
-    const credentials = { id: user._id, name: user.email };
+    const credentials = { id: user._id, email: user.email };
     return { isValid, credentials };
   } catch (err) {
     if (Bounce.isSystem(err)) logErr("validateUser error: ", err.message || err);
