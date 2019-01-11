@@ -43,7 +43,7 @@ const alertSchema = new Schema({
     updatedAt: "updated.at"
   },
   toJSON: {
-    virtuals: true
+    virtuals: true // request returns a string where intl: true
   },
 });
 
