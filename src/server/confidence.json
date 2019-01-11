@@ -1,7 +1,7 @@
 {
   "api": {
     "server": {
-      "port": 8080,
+      "port": 9999,
       "routes": {
         "cors": true
       }
@@ -44,7 +44,7 @@
   },
   "admin": {
     "server": {
-      "port": 8081
+      "port": 9998
     },
     "register": {
       "plugins": {

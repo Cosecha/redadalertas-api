@@ -17,7 +17,7 @@ async function startServer(name) {
     server.auth.strategy('simple', 'basic', { validate });
     server.auth.default('simple');
     await server.start();
-    log(`The ${name} server has started: ${new Date()}`);
+    log(`The ${name.toUpperCase()} server has started on port ${server.info.port}: ${new Date().toUTCString()}`);
   } catch (error) {
     logErr(`Error starting ${name} server: `, error);
   }
@@ -27,7 +27,7 @@ async function stopServer(name) {
   try {
     log(`Stopping ${name} server...`);
     await servers[name].stop({ timeout: 10000 });
-    log(`The ${name} server has stopped: ${new Date()}`);
+    log(`The ${name} server has stopped: ${new Date().toUTCString()}`);
   } catch (error) {
     logErr(`Error stopping ${name} server: `, error);
   }

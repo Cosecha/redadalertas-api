@@ -138,7 +138,7 @@ const eventSchema = new Schema(eventSchemaObj, {
     updatedAt: "updated.at"
   },
   toJSON: {
-    virtuals: true
+    virtuals: true // request returns a string where intl: true
   },
 });
 
