@@ -14,6 +14,7 @@ const eventSchemaObj = {
       'traffic',
       'i9',
       'action',
+      'falsealarm',
       'other'
     ],
   },
