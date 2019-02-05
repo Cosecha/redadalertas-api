@@ -30,8 +30,8 @@ async function startServer(name) {
       http.createServer(greenlock.middleware(redirectHttps())).listen(80, ()=> {
         log('Listening on port 80 to handle ACME http-01 challenge and redirect to https.');
       });
-      servers[name] = server;
     }
+    servers[name] = server;
     server.auth.strategy('simple', 'basic', { validate });
     server.auth.default('simple');
     await server.start();
