@@ -12,7 +12,7 @@ env.config();
 
 let servers = {};
 let stopSignal = false;
-const acmeResponder = null;
+let acmeResponder = null;
 
 async function startServer(name) {
   let server;
@@ -21,7 +21,7 @@ async function startServer(name) {
     if (process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) {
       log(`Configuring HTTPS redirection...`);
       acmeResponder = greenlock.middleware();
-      const httpsServer = https.createServer(greenlock.httpsOptions).listen(443);
+      let httpsServer = https.createServer(greenlock.httpsOptions).listen(443);
       server.connection({
         listener: httpsServer,
         autoListen: false,
