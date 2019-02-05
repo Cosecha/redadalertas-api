@@ -4,8 +4,8 @@ import { log, logErr } from '../server/app/shared/utils';
 
 env.config();
 
-// API_DOMAINS is a space-delimited string of domains
-log(`API_DOMAINS: ${process.env.API_DOMAINS.split(' ')}`);
+// API_DOMAINS is a comma-delimited string of domains
+log(`API_DOMAINS: ${process.env.API_DOMAINS.split(',')}`);
 
 const greenlock = require('greenlock-hapi').create({
   version: 'draft-11' // Let's Encrypt v2
@@ -14,7 +14,7 @@ const greenlock = require('greenlock-hapi').create({
 
 , email: ***REMOVED***
 , agreeTos: true
-, approveDomains: process.env.API_DOMAINS.split(' ')
+, approveDomains: process.env.API_DOMAINS.split(',')
 
 , configDir: require('os').homedir() + '/acme/etc'
 

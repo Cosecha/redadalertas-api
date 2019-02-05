@@ -18,7 +18,7 @@ async function startServer(name) {
   let server;
   try {
     server = await Glue.compose(manifest[name], { relativeTo: __dirname });
-    if (process.env.API_DOMAINS && process.env.API_DOMAINS.split(" ").length > 0) {
+    if (process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) {
       log(`Configuring HTTPS redirection...`);
       acmeResponder = greenlock.middleware();
       const httpsServer = https.createServer(greenlock.httpsOptions).listen(443);
