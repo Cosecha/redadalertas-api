@@ -2,7 +2,6 @@ import Glue from 'glue';
 import env from 'dotenv';
 import http from 'http';
 import https from 'https';
-import * as redirectHttps from 'redirect-https';
 import { log, logErr } from './app/shared/utils';
 import greenlock from './greenlock';
 import manifest from './manifest.json'; // Generated from confidence.json
@@ -17,20 +16,21 @@ let acmeResponder = null;
 async function startServer(name) {
   let server;
   try {
-    if (name === "api" && process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) {
-      log(`Configuring HTTPS redirection...`);
+    const apiRemote = (name === "api" && process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) ? true : false;
+    if (apiRemote) {
+      log(`Configuring HTTPS redirection for ${name.toUpperCase()} server...`);
       acmeResponder = greenlock.middleware();
       // Set https redirect server to listen on port 9997:
-      let httpsServer = https.createServer(greenlock.httpsOptions).listen(9997);
-      // Set server to listen to httpsServer:
+      let httpsServer = https.createServer(greenlock.httpsOptions);
+      // Change Confidence manifest to have api server listen to httpsServer:
       manifest[name].server.listener = httpsServer;
-      manifest[name].server.autoListen = false;
       manifest[name].server.tls = true;
     }
+    log(`Creating server with Glue and Confidence for ${name.toUpperCase()}...`);
     server = await Glue.compose(manifest[name], { relativeTo: __dirname });
-    if (name === "api" && process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) {
-      http.createServer(greenlock.middleware(redirectHttps())).listen(80, ()=> {
-        log('Listening on port 80 to handle ACME http-01 challenge and redirect to https.');
+    if (apiRemote) {
+      http.createServer(greenlock.middleware(require("redirect-https")())).listen(80, ()=> {
+        log(`Listening on port 80 to handle ACME http-01 challenge and redirect to ${name.toUpperCase()} server on https.`);
       });
     }
     servers[name] = server;
