@@ -16,7 +16,7 @@ const greenlock = greenlockExpress.create({
 , agreeTos: true
 , approveDomains: (process.env.API_DOMAINS) ? process.env.API_DOMAINS.split(',') : []
 
-, configDir: require('os').homedir() + '/acme/etc'
+, configDir: require('os').homedir() + '/letsencrypt'
 
 , debug: true
 });
