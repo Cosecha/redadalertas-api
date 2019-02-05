@@ -16,7 +16,8 @@ const greenlock = greenlockExpress.create({
 , agreeTos: true
 , approveDomains: (process.env.API_DOMAINS) ? process.env.API_DOMAINS.split(',') : []
 
-, configDir: require('os').homedir() + '/letsencrypt'
+  // Uses root in Docker container (/root/app/letsencrypt or ~/app/letsencrypt)
+, configDir: require('os').homedir() + '/app/letsencrypt'
 
 , debug: true
 });
