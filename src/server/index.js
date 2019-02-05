@@ -1,19 +1,37 @@
 import Glue from 'glue';
-import { log, logErr } from './app/shared/utils';
-import manifest from './manifest.json';
 import env from 'dotenv';
+import http from 'http';
+import https from 'https';
+import * as redirectHttps from 'redirect-https';
+import { log, logErr } from './app/shared/utils';
+import greenlock from './greenlock';
+import manifest from './manifest.json'; // Generated from confidence.json
 import { validateUser as validate } from './app/shared/plugins/auth.js';
 
 env.config();
 
 let servers = {};
 let stopSignal = false;
+const acmeResponder = null;
 
 async function startServer(name) {
   let server;
   try {
     server = await Glue.compose(manifest[name], { relativeTo: __dirname });
-    servers[name] = server;
+    if (process.env.API_DOMAINS && process.env.API_DOMAINS.split(" ").length > 0) {
+      log(`Configuring HTTPS redirection...`);
+      acmeResponder = greenlock.middleware();
+      const httpsServer = https.createServer(greenlock.httpsOptions).listen(443);
+      server.connection({
+        listener: httpsServer,
+        autoListen: false,
+        tls: true
+      });
+      http.createServer(greenlock.middleware(redirectHttps())).listen(80, ()=> {
+        log('Listening on port 80 to handle ACME http-01 challenge and redirect to https.');
+      });
+      servers[name] = server;
+    }
     server.auth.strategy('simple', 'basic', { validate });
     server.auth.default('simple');
     await server.start();
