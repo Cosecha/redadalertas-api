@@ -20,7 +20,7 @@ async function startServer(name) {
     if (process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) {
       log(`Configuring HTTPS redirection...`);
       acmeResponder = greenlock.middleware();
-      let httpsServer = https.createServer(greenlock.httpsOptions).listen(443);
+      let httpsServer = https.createServer(greenlock.httpsOptions).listen(9999);
       manifest[name].listener = httpsServer;
       manifest[name].autoListen = false;
       manifest[name].tls = true;
