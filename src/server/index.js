@@ -18,15 +18,15 @@ async function startServer(name) {
   let server;
   try {
     if (process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) {
+      log(`Configuring HTTPS redirection...`);
+      acmeResponder = greenlock.middleware();
+      let httpsServer = https.createServer(greenlock.httpsOptions).listen(443);
       manifest[name].listener = httpsServer;
       manifest[name].autoListen = false;
       manifest[name].tls = true;
     }
     server = await Glue.compose(manifest[name], { relativeTo: __dirname });
     if (process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) {
-      log(`Configuring HTTPS redirection...`);
-      acmeResponder = greenlock.middleware();
-      let httpsServer = https.createServer(greenlock.httpsOptions).listen(443);
       http.createServer(greenlock.middleware(redirectHttps())).listen(80, ()=> {
         log('Listening on port 80 to handle ACME http-01 challenge and redirect to https.');
       });
