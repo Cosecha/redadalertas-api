@@ -16,26 +16,26 @@ let acmeResponder = null;
 async function startServer(name) {
   let server;
   try {
-    const apiRemote = (name === "api" && process.env.API_DOMAINS && process.env.API_DOMAINS.split(",").length > 0) ? true : false;
-    if (apiRemote) {
+    const isApiRemote = (name === "api" && process.env.API_DOMAINS &&
+      process.env.API_DOMAINS.split(",").length > 0) ? true : false;
+    if (isApiRemote) {
       log(`Configuring HTTPS redirection for ${name.toUpperCase()} server...`);
       acmeResponder = greenlock.middleware();
-      // Set https redirect server to listen on port 9997:
+      // Create https server with Node httpsOptions from Greenlock:
       let httpsServer = https.createServer(greenlock.httpsOptions);
-      // Change Confidence manifest to have api server listen to httpsServer:
+      // Change Confidence manifest to have api server listen to https server:
       manifest[name].server.listener = httpsServer;
       manifest[name].server.tls = true;
-    }
-    log(`Creating server with Glue and Confidence for ${name.toUpperCase()}...`);
-    server = await Glue.compose(manifest[name], { relativeTo: __dirname });
-    if (apiRemote) {
+      // Create http server to listen on port 80 and redirect traffic to https:
       http.createServer(greenlock.middleware(require("redirect-https")())).listen(80, ()=> {
         log(`Listening on port 80 to handle ACME http-01 challenge and redirect to ${name.toUpperCase()} server on https.`);
       });
     }
-    servers[name] = server;
+    log(`Creating server with Glue for ${name.toUpperCase()}...`);
+    server = await Glue.compose(manifest[name], { relativeTo: __dirname });
     server.auth.strategy('simple', 'basic', { validate });
     server.auth.default('simple');
+    servers[name] = server;
     await server.start();
     log(`The ${name.toUpperCase()} server has started on port ${server.info.port}: ${new Date().toUTCString()}`);
   } catch (error) {
