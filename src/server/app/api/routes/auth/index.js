@@ -7,12 +7,6 @@ export default [
     handler: authController.createAuthToken,
     options: { auth: false }
   },
-  // {
-  //   method: 'PUT',
-  //   path: '/auth',
-  //   handler: authController.authenticateUser,
-  //   options: { auth: false }
-  // },
   {
     method: 'PUT',
     path: '/auth',
