@@ -24,18 +24,24 @@ export async function validateUser(req, username, password, h) {
   }
 };
 
-export async function generateToken(auth, username, password) {
-  let user, group, secret, payload, token;
+async function getSecretFromUserId(userId) {
+  let user, group, secret;
+  // fetch user from auth credentials user ID
+  user = await userStore.getUser(userId);
+  if (!user) throw new Error("User not found");
+  // fetch group ID from username
+  group = await groupStore.getGroup(user.belongs.to);
+  if (!group) throw new Error("User group not found");
+  // fetch group secret from group
+  secret = group.secret;
+  if (!secret) throw new Error("User group has no secret key");
+  return secret;
+}
+
+export async function generateToken(auth) {
+  let secret, payload, token;
   try {
-    // fetch user from auth credentials user ID
-    user = await userStore.getUser(auth.credentials.id);
-    if (!user) throw new Error("User not found");
-    // fetch group ID from username
-    group = await groupStore.getGroup(user.belongs.to);
-    if (!group) throw new Error("User group not found");
-    // fetch group secret from group
-    secret = group.secret;
-    if (!secret) throw new Error("User group has no secret key");
+    secret = await getSecretFromUserId(auth.credentials.id);
     // create payload
     payload = {
       ...auth.credentials,
@@ -52,3 +58,20 @@ export async function generateToken(auth, username, password) {
   }
 };
 
+export async function validateToken(username, token) {
+  let user, secret, decodedToken, validation;
+  try {
+    user = await userStore.getUserByPhoneOrEmail(username);
+    if (!user) throw new Error("User not found");
+    secret = await getSecretFromUserId(user._id);
+    decodedToken = await jwt.decode(secret, token, (err, payload, header)=> {
+      if (err) throw err;
+      return payload;
+    });
+    validation = { ...decodedToken, isValid: true }
+    return validation;
+  } catch (err) {
+    if (Bounce.isSystem(err)) logErr("validateToken error: ", err.message || err);
+    return new Error(err);
+  }
+};

@@ -20,6 +20,22 @@ const authController = {
       return Boom.badRequest(err.message || "Error creating user login token.");
     }
   },
+  async validateAuthToken(req, h) {
+    let validation;
+    try {
+      if (!req.payload) throw new Error("Missing authentication payload.");
+      if (!req.payload.token) throw new Error("Missing authentication token.");
+      if (!req.payload.username) throw new Error("Auth payload missing username.");
+      validation = await validateToken(req.payload.username, req.payload.token);
+      if (Bounce.isError(validation)) throw new Error(validation.message || "No validation returned.");
+      if (!validation.isValid) throw new Error("Auth token not valid.");
+      const response = h.response(validation);
+      return response;
+    } catch (err) {
+      if (Bounce.isSystem(err)) logErr("userController validateAuthToken error: ", err.message || err);
+      return Boom.badRequest(err.message || "Error validating user login token.");
+    }
+  },
   async authenticateUser(req, h) {
     let auth;
     try {
