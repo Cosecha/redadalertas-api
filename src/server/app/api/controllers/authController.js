@@ -4,35 +4,44 @@ import { logErr } from '../../shared/utils';
 import { generateToken, validateUser, validateToken } from '../../shared/plugins/auth';
 
 const authController = {
-  async createAuthToken(req, h) {
+  async createAuthorizationToken(req, h) {
+    const { payload: { username, password } } = req;
     let auth, token;
     try {
-      if (!req.payload.username) throw new Error("Login requires username.");
-      if (!req.payload.password) throw new Error("Login requires password.");
-      auth = await validateUser(req, req.payload.username, req.payload.password, h);
+      if (!username) throw new Error("Login requires username.");
+      if (!password) throw new Error("Login requires password.");
+
+      auth = await validateUser(req, username, password, h);
+
       if (!auth.credentials || !auth.isValid) throw new Error("Login not valid.");
-      token = await generateToken(auth, req.payload.username, req.payload.password);
+
+      token = await generateToken(auth, username, password);
+
       if (Bounce.isError(token)) throw new Error(token.message || "No authentication token returned.");
-      const response = h.response(auth);
-      return response;
+
+      return h.response(auth);
     } catch (err) {
-      if (Bounce.isSystem(err)) logErr("userController createAuthToken error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("userController createAuthorizationToken error: ", err.message || err);
       return Boom.badRequest(err.message || "Error creating user login token.");
     }
   },
-  async validateAuthToken(req, h) {
+  async validateAuthorizationToken(req, h) {
     let validation;
     try {
       if (!req.payload) throw new Error("Missing authentication payload.");
-      if (!req.payload.token) throw new Error("Missing authentication token.");
-      if (!req.payload.username) throw new Error("Auth payload missing username.");
-      validation = await validateToken(req.payload.username, req.payload.token);
+
+      const { payload: { token, username } } = req;
+      if (!token) throw new Error("Missing authentication token.");
+      if (!username) throw new Error("Auth payload missing username.");
+
+      validation = await validateToken(username, token);
+
       if (Bounce.isError(validation)) throw new Error(validation.message || "No validation returned.");
       if (!validation.isValid) throw new Error("Auth token not valid.");
-      const response = h.response(validation);
-      return response;
+
+      return h.response(validation);
     } catch (err) {
-      if (Bounce.isSystem(err)) logErr("userController validateAuthToken error: ", err.message || err);
+      if (Bounce.isSystem(err)) logErr("userController validateAuthorizationToken error: ", err.message || err);
       return Boom.badRequest(err.message || "Error validating user login token.");
     }
   }
