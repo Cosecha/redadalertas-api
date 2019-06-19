@@ -59,16 +59,15 @@ export async function generateToken(auth) {
 };
 
 export async function validateToken(username, token) {
-  let user, secret, decodedToken, validation;
   try {
-    user = await userStore.getUserByPhoneOrEmail(username);
+    const user = await userStore.getUserByPhoneOrEmail(username);
     if (!user) throw new Error("User not found");
-    secret = await getSecretFromUserId(user._id);
-    decodedToken = await jwt.decode(secret, token, (err, payload, header)=> {
+    const secret = await getSecretFromUserId(user._id);
+    const decodedToken = await jwt.decode(secret, token, (err, payload, header)=> {
       if (err) throw err;
       return payload;
     });
-    validation = { ...decodedToken, isValid: true }
+    const validation = { ...decodedToken, isValid: true }
     return validation;
   } catch (err) {
     if (Bounce.isSystem(err)) logErr("validateToken error: ", err.message || err);
