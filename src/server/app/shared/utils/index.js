@@ -25,6 +25,10 @@ export const ensureObjectExists = (obj, msg) => new Promise((resolve, reject) =>
   }
 });
 
+export const addHours = (date, hours)=> {
+  return date + (1000 * 60 * 60 * hours);
+}
+
 export const checkPasswordExists = (user) => new Promise((resolve, reject) => {
   if (user.password) {
     resolve(user.password);
