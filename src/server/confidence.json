@@ -12,7 +12,7 @@
         "development": [
           "./app/shared/plugins/db",
           {
-            "plugin": "hapi-auth-basic",
+            "plugin": "hapi-auth-bearer-token",
             "options": {
               "validate": "./app/shared/plugins/auth"
             }
@@ -27,7 +27,7 @@
         "test": [
           "./app/shared/plugins/db-test",
           {
-            "plugin": "hapi-auth-basic",
+            "plugin": "hapi-auth-bearer-token",
             "options": {
               "validate": "./app/shared/plugins/auth"
             }
@@ -52,7 +52,7 @@
         "development": [
           "./app/shared/plugins/db",
           {
-            "plugin": "hapi-auth-basic",
+            "plugin": "hapi-auth-bearer-token",
             "options": {
               "validate": "./app/shared/plugins/auth"
             }
@@ -61,7 +61,7 @@
         "test": [
           "./app/shared/plugins/db-test",
           {
-            "plugin": "hapi-auth-basic",
+            "plugin": "hapi-auth-bearer-token",
             "options": {
               "validate": "./app/shared/plugins/auth"
             }

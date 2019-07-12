@@ -2,10 +2,11 @@ import Glue from 'glue';
 import env from 'dotenv';
 import http from 'http';
 import https from 'https';
+import AuthBearer from 'hapi-auth-bearer-token';
 import { log, logErr } from './app/shared/utils';
 import greenlock from './greenlock';
 import manifest from './manifest.json'; // Generated from confidence.json
-import { validateUser as validate } from './app/shared/plugins/auth.js';
+import { validateHeader as validate } from './app/shared/plugins/auth.js';
 
 env.config();
 
@@ -33,7 +34,8 @@ async function startServer(name) {
     }
     log(`Creating server with Glue for ${name.toUpperCase()}...`);
     server = await Glue.compose(manifest[name], { relativeTo: __dirname });
-    server.auth.strategy('simple', 'basic', { validate });
+    // Set server authentication method (for when auth isn't set to false)
+    server.auth.strategy('simple', 'bearer-access-token', { validate });
     server.auth.default('simple');
     servers[name] = server;
     await server.start();
