@@ -86,9 +86,10 @@ export async function validateToken(name, token) {
 
 export async function validateHeader(req, token, h) {
   try {
+    if (!token) throw new Error("Missing authentication token.");
+
     const tokenHeader = JSON.parse(Base64.decode(token.split(".")[0]));
     if (!tokenHeader.kid) throw new Error("Missing authentication key id.");
-    if (!token) throw new Error("Missing authentication token.");
 
     const validation = await validateToken(tokenHeader.kid, token);
     if (Bounce.isError(validation)) throw new Error(validation.message || "No validation returned.");
