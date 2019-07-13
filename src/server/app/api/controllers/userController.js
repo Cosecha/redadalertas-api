@@ -44,14 +44,25 @@ const userController = {
     }
   },
   async updateUser(req, h) {
-    let user;
-    let updatedUser;
+    let data, user, updatedUser;
     try {
-      if (!req.payload || !req.payload._id) throw new Error("Did not receive valid information for update.");
-      if (!ObjectId.isValid(req.payload._id)) throw new Error("User ID is not valid.");
-      user = await userStore.updateUser(req.payload);
+      if (!req.payload) throw new Error("Did not receive valid information for update.");
+      data = req.payload;
+
+      // Fetch user id from username
+      user = await userStore.getUserByPhoneOrEmail(data.user.username);
+      if (!ObjectId.isValid(user._id)) throw new Error("User ID is not valid.");
+
+      // Modify update data to remove username and add id
+      delete data["user"];
+      data["_id"] = ObjectId(user._id);
+
+      // Update user with data
+      user = await userStore.updateUser(data);
       if (!user) throw new Error("User not found.");
-      updatedUser = await userStore.getUser(user.id);
+
+      // Fetch new user info for response
+      updatedUser = await userStore.getUser(data._id);
       const response = h.response(updatedUser);
       return response;
     } catch (err) {
