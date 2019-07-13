@@ -14,6 +14,7 @@ const eventController = {
       data = req.payload;
       // Fetch user id from username and add to created.by.user
       const user = await userStore.getUserByPhoneOrEmail(data.user.username);
+      delete data["user"];
       data["created.by.user"] = user._id;
       const event = await eventStore.createEvent(data);
       if (!event) throw new Error("Event returned empty.");
