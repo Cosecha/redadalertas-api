@@ -2,9 +2,15 @@ import authController from '../../controllers/authController';
 
 export default [
   {
-    method: 'PUT',
+    method: 'POST',
     path: '/auth',
-    handler: authController.authenticateUser,
+    handler: authController.createAuthorizationToken,
     options: { auth: false }
   },
+  {
+    method: 'PUT',
+    path: '/auth',
+    handler: authController.validateAuthorizationToken,
+    options: { auth: false }
+  }
 ];

@@ -47,6 +47,7 @@
     "hapi-auth-basic": "^5.0.0",
     "inert": "^5.1.2",
     "joi": "^14.1.0",
+    "json-web-token": "^3.0.0",
     "mongoose": "^5.3.12",
     "mongoose-authorization": "^2.0.0-alpha.1",
     "mongoose-intl": "^3.1.0",

@@ -40,6 +40,10 @@ const groupSchema = new Schema({
     type: [{
       hash: String
     }]
+  },
+  secret: {
+    type: String,
+    unique: true
   }
 });
 
