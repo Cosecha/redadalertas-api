@@ -4,13 +4,13 @@ export default [
   {
     method: 'POST',
     path: '/auth',
-    handler: authController.createAuthorizationToken,
+    handler: authController.createAuthenticationToken,
     options: { auth: false }
   },
   {
     method: 'PUT',
     path: '/auth',
-    handler: authController.validateAuthorizationToken,
+    handler: authController.validateAuthenticationToken,
     options: { auth: false }
   }
 ];

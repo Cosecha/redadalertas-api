@@ -3,14 +3,20 @@ import Boom from 'boom';
 import Bounce from 'bounce';
 import { logErr } from '../../shared/utils';
 import eventStore from '../stores/eventStore';
+import userStore from '../stores/userStore';
 
 const ObjectId = mongoose.Types.ObjectId;
 
 const eventController = {
   async createEvent(req, h) {
-    let event;
+    let data;
     try {
-      event = await eventStore.createEvent(req.payload);
+      data = req.payload;
+      // Fetch user id from username and add to created.by.user
+      const user = await userStore.getUserByPhoneOrEmail(data.user.username);
+      delete data["user"];
+      data["created.by.user"] = user._id;
+      const event = await eventStore.createEvent(data);
       if (!event) throw new Error("Event returned empty.");
       const response = h.response(event);
       return response;
