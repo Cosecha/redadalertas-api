@@ -13,7 +13,11 @@ const eventStore = {
     return Event.findOneAndUpdate(
       { _id: payload._id },
       payload,
-      { authLevel: false }
+      {
+        overwrite: true,
+        authLevel: false,
+        returnNewDocument: true
+      }
     );
   },
   getEvent(id) {

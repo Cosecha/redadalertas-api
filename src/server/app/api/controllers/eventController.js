@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 import Boom from 'boom';
 import Bounce from 'bounce';
 import { logErr } from '../../shared/utils';
@@ -26,14 +27,14 @@ const eventController = {
     }
   },
   async updateEvent(req, h) {
-    let event;
     let updatedEvent;
     try {
       if (!req.payload || !req.payload._id) throw new Error("Did not receive valid information for update.");
       if (!ObjectId.isValid(req.payload._id)) throw new Error("Event ID is not valid.");
-      event = await eventStore.updateEvent(req.payload);
-      if (!event) throw new Error("Event not found.");
-      updatedEvent = await eventStore.getEvent(event.id);
+
+      updatedEvent = await eventStore.updateEvent(req.payload);
+      if (!updatedEvent) throw new Error("Event not found.");
+
       const response = h.response(updatedEvent);
       return response;
     } catch (err) {
