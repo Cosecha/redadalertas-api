@@ -58,11 +58,9 @@ const userController = {
       data["_id"] = ObjectId(user._id);
 
       // Update user with data
-      user = await userStore.updateUser(data);
+      updatedUser = await userStore.updateUser(data);
       if (!user) throw new Error("User not found.");
 
-      // Fetch new user info for response
-      updatedUser = await userStore.getUser(data._id);
       const response = h.response(updatedUser);
       return response;
     } catch (err) {

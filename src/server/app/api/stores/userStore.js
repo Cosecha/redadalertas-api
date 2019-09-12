@@ -20,7 +20,10 @@ const userStore = {
     return User.findOneAndUpdate(
       { _id: payload._id },
       payload,
-      { authLevel: false }
+      {
+        authLevel: false,
+        returnNewDocument: true
+      }
     );
   },
   getUser(id) {
