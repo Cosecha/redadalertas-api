@@ -35,10 +35,6 @@ const eventSchemaObj = {
     }]
   },
   created: {
-    at: {
-      type: Date,
-      default: Date.now
-    },
     by: {
       group: {
         type: Schema.Types.ObjectId,
@@ -53,14 +49,11 @@ const eventSchemaObj = {
     },
   },
   updated: {
-    at: {
-      type: Date,
-      default: Date.now
-    },
     by: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: false
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
     },
   },
   expire: {
