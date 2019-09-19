@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import mongooseAuth from 'mongoose-authorization';
 import mongooseIntl from 'mongoose-intl';
 import { log, logErr, getFullPaths } from '../utils';
 import removeUnderscore from '../plugins/removeUnderscore';
@@ -22,33 +21,10 @@ schemas.map((schema) => {
 
   // Initialize plugins
   schema.plugin(removeUnderscore);
-  schema.plugin(mongooseAuth);
   schema.plugin(mongooseIntl, {
     languages: langs,
     defaultLanguage: 'en'
   });
-
-  // Include nested and subdoc paths
-  // for mongooseAuth with mongooseIntl
-  const fullPaths = getFullPaths(schema.paths);
-
-  // Default permissions for mongoose-authorization
-  if (!schema.permissions) {
-    schema.permissions = {
-      defaults: {
-        read: fullPaths
-      },
-      member: {
-        write: fullPaths,
-        create: true
-      },
-      admin: {
-        write: fullPaths,
-        create: true,
-        remove: true
-      }
-    };
-  }
 
 });
 
