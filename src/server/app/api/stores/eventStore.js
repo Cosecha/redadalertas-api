@@ -14,9 +14,8 @@ const eventStore = {
       { _id: payload._id },
       payload,
       {
-        overwrite: true,
         authLevel: false,
-        returnNewDocument: true
+        new: true
       }
     );
   },
