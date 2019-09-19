@@ -3,6 +3,7 @@ import Boom from 'boom';
 import Bounce from 'bounce';
 import { logErr } from '../../shared/utils';
 import userStore from '../stores/userStore';
+import { validateHeader } from '../../shared/plugins/auth.js';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -53,11 +54,16 @@ const userController = {
       user = await userStore.getUserByPhoneOrEmail(data.user.username);
       if (!ObjectId.isValid(user._id)) throw new Error("User ID is not valid.");
 
-      // Modify update data to remove username and add id
-      delete data["user"];
-      data["_id"] = ObjectId(user._id);
+      // Validate user in header auth token
+      const userValidation = await validateHeader(req);
+      if (!userValidation.isValid) throw new Error("User is invalid.");
 
-      // Update user with data
+      // Modify data with user id to update and user id doing the updating
+      data["_id"] = ObjectId(user._id);
+      data["updated.by.user"] = userValidation.id;
+      delete data["user"];
+
+      // Update user with modified data
       updatedUser = await userStore.updateUser(data);
       if (!user) throw new Error("User not found.");
 
