@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcrypt';
 import env from 'dotenv';
 import { log, logErr } from '../server/app/shared/utils';
 import {

@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcrypt';
 import jwt from 'json-web-token';
 import { Base64 } from 'js-base64';
 import Bounce from 'bounce';

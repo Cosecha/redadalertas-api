@@ -22,7 +22,7 @@ const userStore = {
       payload,
       {
         authLevel: false,
-        returnNewDocument: true
+        new: true
       }
     );
   },
