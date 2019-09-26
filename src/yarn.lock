@@ -783,7 +783,7 @@
   dependencies:
     "@hapi/hoek" "8.x.x"
 
-"@hapi/boom@7.x.x", "@hapi/boom@^7.4.2":
+"@hapi/boom@7.x.x":
   version "7.4.5"
   resolved "https://registry.yarnpkg.com/@hapi/boom/-/boom-7.4.5.tgz#8ccec05b70771a4d0f56ca9841286634f16fe217"
   integrity sha512-5ObN7YV5A/ScUap3FZqaedDumvSBd/4gOSAI7z5NWCwNbUYewkeqEgLfmT2ZBM1jFRzBHWTGTH1LYVOObVLCWw==
@@ -891,11 +891,6 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-8.2.4.tgz#684a14f4ca35d46f44abc87dfc696e5e4fe8a020"
   integrity sha512-Ze5SDNt325yZvNO7s5C4fXDscjJ6dcqLFXJQ/M7dZRQCewuDj2iDUuBi6jLQt+APbW9RjjVEvLr35FXuOEqjow==
 
-"@hapi/hoek@^6.2.3":
-  version "6.2.4"
-  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-6.2.4.tgz#4b95fbaccbfba90185690890bdf1a2fbbda10595"
-  integrity sha512-HOJ20Kc93DkDVvjwHyHawPwPkX44sIrbXazAUDiUXaY2R9JwQGo2PhFfnQtdrsIe4igjG2fPgMra7NYw7qhy0A==
-
 "@hapi/iron@5.x.x":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@hapi/iron/-/iron-5.1.1.tgz#0e819729f26ee76dea68e4c4e4b5c996fd0513a5"
@@ -906,7 +901,7 @@
     "@hapi/cryptiles" "4.x.x"
     "@hapi/hoek" "8.x.x"
 
-"@hapi/joi@15.x.x", "@hapi/joi@^15.0.3":
+"@hapi/joi@15.x.x":
   version "15.1.1"
   resolved "https://registry.yarnpkg.com/@hapi/joi/-/joi-15.1.1.tgz#c675b8a71296f02833f8d6d243b34c57b8ce19d7"
   integrity sha512-entf8ZMOK8sc+8YfeOlM8pCfg3b5+WZIKBfUaaJT8UsjAAPjartzxIYm3TIbjvA4u+u++KbcXD38k682nVHDAQ==
@@ -2448,15 +2443,6 @@ growl@1.10.5:
   version "1.10.5"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
   integrity sha512-qBr4OuELkhPenW6goKVXiv47US3clb3/IbuWF9KNKEijAy9oeHxU9IgzjvJhHkUzhaj7rOUD7+YGWqUjLp5oSA==
-
-hapi-auth-bearer-token@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/hapi-auth-bearer-token/-/hapi-auth-bearer-token-6.2.1.tgz#9f7fde713e02d959aae374e031d28f099ef5d80c"
-  integrity sha512-8HeeT3vvbE2TUBxoX+XdwTwjvdBKEJz+UOdcJ8xf182p2gBCrjdUXZboFbf0Ef3QrPtMQ4lTYRO5F8sL6jnWWQ==
-  dependencies:
-    "@hapi/boom" "^7.4.2"
-    "@hapi/hoek" "^6.2.3"
-    "@hapi/joi" "^15.0.3"
 
 hapi@17.x.x:
   version "17.8.4"

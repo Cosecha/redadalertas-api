@@ -136,14 +136,5 @@ const eventSchema = new Schema(eventSchemaObj, {
   },
 });
 
-eventSchema.getAuthLevel = (payload, doc)=> {
-  if (payload && doc && payload.user && doc.created) {
-    const userGroup = payload.user.belongs.find({ to: doc.created.by.group });
-    const userRole = userGroup ? userGroup.as : false;
-    const userRoleInDoc = userRole ? doc.permissions[userRole] : false;
-    if (userGroup && userRole && userRoleInDoc) return userRole;
-  }
-}
-
 module.exports.eventSchema = eventSchema;
 module.exports.eventSchemaObj = eventSchemaObj;

@@ -1,20 +1,16 @@
 import { Event } from '../../shared/models';
 
 const eventStore = {
-  // TO-DO: fill in authLevel stubs
   async createEvent(payload) {
     return Event.create([
       { ...payload }
-    ], {
-      authLevel: false
-    });
+    ]);
   },
   updateEvent(payload) {
     return Event.findOneAndUpdate(
       { _id: payload._id },
       payload,
       {
-        authLevel: false,
         new: true
       }
     );
@@ -32,8 +28,7 @@ const eventStore = {
   },
   deleteEvent(id) {
     return Event.findOneAndDelete(
-      { _id: id },
-      { authLevel: false }
+      { _id: id }
     );
   },
 };

@@ -44,7 +44,6 @@
     "dotenv": "^6.1.0",
     "glue": "^5.0.0",
     "greenlock-express": "^2.6.7",
-    "hapi-auth-bearer-token": "^6.2.1",
     "inert": "^5.1.2",
     "joi": "^14.1.0",
     "js-base64": "^2.5.1",

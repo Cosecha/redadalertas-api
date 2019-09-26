@@ -12,12 +12,6 @@
         "development": [
           "./app/shared/plugins/db",
           {
-            "plugin": "hapi-auth-bearer-token",
-            "options": {
-              "validate": "./app/shared/plugins/auth"
-            }
-          },
-          {
             "plugin": "./app/api",
             "routes": {
               "prefix": "/api"
@@ -26,12 +20,6 @@
         ],
         "test": [
           "./app/shared/plugins/db-test",
-          {
-            "plugin": "hapi-auth-bearer-token",
-            "options": {
-              "validate": "./app/shared/plugins/auth"
-            }
-          },
           {
             "plugin": "./app/api",
             "routes": {
@@ -42,32 +30,4 @@
       },
     },
   },
-  "admin": {
-    "server": {
-      "port": 9998
-    },
-    "register": {
-      "plugins": {
-        "$filter": "env",
-        "development": [
-          "./app/shared/plugins/db",
-          {
-            "plugin": "hapi-auth-bearer-token",
-            "options": {
-              "validate": "./app/shared/plugins/auth"
-            }
-          },
-        ],
-        "test": [
-          "./app/shared/plugins/db-test",
-          {
-            "plugin": "hapi-auth-bearer-token",
-            "options": {
-              "validate": "./app/shared/plugins/auth"
-            }
-          },
-        ]
-      }
-    }
-  }
 }
