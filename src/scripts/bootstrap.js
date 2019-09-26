@@ -34,6 +34,7 @@ switch (process.env.NODE_ENV) {
 }
 
 let group1;
+let group2;
 let hash1;
 let user1;
 let user2;
@@ -97,21 +98,20 @@ const reconnect = ()=> {
 deletedb().then(disconnect)
   .then(reconnect)
   .then(()=> new Promise((resolve, reject)=> {
-    log('Creating test group...');
+    log('Creating first test group...');
     return Group.create([{
-      name: 'Test Group',
+      name: 'Test Group 1',
       description: {
         en: 'A test group'
       },
       location: {
         zipcode: '94110'
-      }
-    }], {
-      authLevel: 'admin'
-    },
+      },
+      secret: 'testgroup1secret'
+    }],
+    null,
     function(err, doc) {
       if (err) {
-        console.error('Error creating test group: ', err);
         reject(err);
       } else if (doc) {
         resolve(doc);
@@ -120,17 +120,40 @@ deletedb().then(disconnect)
   }))
   .then((res)=> new Promise((resolve, reject)=> {
     group1 = res[0];
-    log(`New group created (${group1.name}) with id (${group1.id})... now creating a password salt...`);
+    log(`First test group created (${group1.name}) with id (${group1.id}).\nCreating second test group...`);
+    return Group.create([{
+      name: 'Test Group 2',
+      description: {
+        en: 'Another test group'
+      },
+      location: {
+        zipcode: '94110'
+      },
+      secret: 'testgroup2secret'
+    }],
+    null,
+    function(err, doc) {
+      if (err) {
+        reject(err);
+      } else if (doc) {
+        resolve(doc);
+      }
+    });
+  }))
+  .then((res)=> new Promise((resolve, reject)=> {
+    group2 = res[0];
+    log(`Second group created (${group2.name}) with id (${group2.id}).\nNow creating a password salt...`);
     bcrypt.genSalt(10, (err, res)=> {
       if (!err) {
         resolve(res);
       } else {
-        reject('Error generating salt...');
+        reject('Error generating salt');
       }
     });
   }))
   .then((salt)=> new Promise((resolve, reject) => {
-    bcrypt.hash('password', salt, null, (err, res) => {
+    log(`Salt created: ${salt}\nHashing password...`);
+    bcrypt.hash('password', salt, (err, res) => {
       if (!err) {
         resolve(res);
       } else {
@@ -140,7 +163,7 @@ deletedb().then(disconnect)
   }))
   .then((res)=> {
     hash1 = res;
-    log(`Password: ${hash1}`);
+    log(`Password hash: ${hash1}`);
     log('Creating first user...');
     return User.create([{
       name: 'person1',
@@ -151,9 +174,7 @@ deletedb().then(disconnect)
         to: group1.id,
         as: 'admin'
       }
-    }], {
-      authLevel: 'admin'
-    });
+    }], null);
   })
   .then((res)=> {
     user1 = res[0];
@@ -164,12 +185,10 @@ deletedb().then(disconnect)
       phone: '2222222222',
       password: hash1,
       belongs: {
-        to: group1.id,
+        to: group2.id,
         as: 'member'
       },
-    }], {
-      authLevel: 'admin'
-    });
+    }], null);
   })
   .then((res)=> {
     user2 = res[0];
@@ -204,9 +223,7 @@ deletedb().then(disconnect)
           fr: 'Une voiture derrière du bâtiment au coin.'
         }
       },
-    }], {
-      authLevel: 'member'
-    });
+    }], null);
   })
   .then((res)=> {
     event1 = res[0];
@@ -217,9 +234,7 @@ deletedb().then(disconnect)
       sent: {
         by: user1.id
       }
-    }], {
-      authLevel: 'admin'
-    });
+    }], null);
   })
   .then((res)=> {
     alert1 = res[0];
@@ -254,9 +269,7 @@ deletedb().then(disconnect)
           user: user2.id
         }
       },
-    }], {
-      authLevel: 'admin'
-    });
+    }], null);
   })
   .then((res)=> {
     event2 = res[0];
@@ -267,13 +280,11 @@ deletedb().then(disconnect)
       sent: {
         by: user2.id
       }
-    }], {
-      authLevel: 'admin'
-    });
+    }], null);
   })
   .then((res)=> {
     alert2 = res[0];
-    log(`Second alert created (${alert2.description}). Finished bootstrapping.`);
+    log(`Second alert created (${alert2.description}).\nFinished bootstrapping.`);
     process.exit(0);
   })
   .catch((err)=> {
