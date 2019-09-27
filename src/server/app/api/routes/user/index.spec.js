@@ -20,11 +20,4 @@ describe('POST /api/user', () => {
     });
   });
 
-  it('returns 404 with no required fields', (done) => {
-    Wreck.post(`${baseURL}/api/v1/session`, (err, res) => {
-      expect(err).to.be.null;
-      expect(res.statusCode).to.equal(404);
-      done();
-    });
-  });
 });

@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 import Boom from 'boom';
 import Bounce from 'bounce';
 import { logErr } from '../../shared/utils';
 import eventStore from '../stores/eventStore';
 import userStore from '../stores/userStore';
+import { validateHeader } from '../../shared/plugins/auth.js';
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -12,13 +14,15 @@ const eventController = {
     let data;
     try {
       data = req.payload;
-      // Fetch user id from username and add to created.by.user
-      const user = await userStore.getUserByPhoneOrEmail(data.user.username);
-      delete data["user"];
-      data["created.by.user"] = user._id;
-      const event = await eventStore.createEvent(data);
-      if (!event) throw new Error("Event returned empty.");
-      const response = h.response(event);
+      const userValidation = await validateHeader(req);
+      if (!userValidation.isValid) throw new Error("User invalid.");
+
+      if (data["user"]) delete data["user"]; // TO-DO: remove this on app side
+      data["created.by.user"] = userValidation.id;
+      const eventData = await eventStore.createEvent(data);
+      if (!eventData) throw new Error("Event returned empty.");
+
+      const response = h.response(eventData);
       return response;
     } catch (err) {
       if (Bounce.isSystem(err)) logErr("eventController createEvent error: ", err.message || err);
@@ -26,14 +30,20 @@ const eventController = {
     }
   },
   async updateEvent(req, h) {
-    let event;
+    let data;
     let updatedEvent;
     try {
       if (!req.payload || !req.payload._id) throw new Error("Did not receive valid information for update.");
       if (!ObjectId.isValid(req.payload._id)) throw new Error("Event ID is not valid.");
-      event = await eventStore.updateEvent(req.payload);
-      if (!event) throw new Error("Event not found.");
-      updatedEvent = await eventStore.getEvent(event.id);
+
+      const userValidation = await validateHeader(req);
+      if (!userValidation.isValid) throw new Error("User is invalid.");
+
+      data = req.payload;
+      data["updated.by.user"] = userValidation.id;
+      updatedEvent = await eventStore.updateEvent(data);
+      if (!updatedEvent) throw new Error("Event not found.");
+
       const response = h.response(updatedEvent);
       return response;
     } catch (err) {

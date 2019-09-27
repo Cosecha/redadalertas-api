@@ -6,7 +6,7 @@ import AuthBearer from 'hapi-auth-bearer-token';
 import { log, logErr } from './app/shared/utils';
 import greenlock from './greenlock';
 import manifest from './manifest.json'; // Generated from confidence.json
-import { validateHeader as validate } from './app/shared/plugins/auth.js';
+import { validateServer as validate } from './app/shared/plugins/auth.js';
 
 env.config();
 

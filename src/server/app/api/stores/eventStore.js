@@ -13,7 +13,10 @@ const eventStore = {
     return Event.findOneAndUpdate(
       { _id: payload._id },
       payload,
-      { authLevel: false }
+      {
+        authLevel: false,
+        new: true
+      }
     );
   },
   getEvent(id) {

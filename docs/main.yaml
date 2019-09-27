@@ -67,53 +67,6 @@ paths:
           description: Invalid input
           schema:
             $ref: '#/definitions/Error'
-  /session:
-    post:
-      summary: Creates a new session, logging the user in
-      description: Accepts a username and password, return an accessToken
-      consumes:
-        - application/json
-      produces:
-        - applications/json
-      parameters:
-        -
-          name: userLogin
-          in: body
-          description: Object with user login details
-          required: true
-          schema:
-            $ref: '#/definitions/UserLogin'
-      responses:
-        201:
-          description: A new session was created. Returns an accessToken
-          schema:
-            $ref: '#/definitions/AccessToken'
-        500:
-          description: Server error
-          schema:
-            $ref: '#/definitions/Error'
-    delete:
-      summary: Deletes a session, loggin the user out.
-      description: This will return nothing
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        -
-          name: accessToken
-          description: The accessToken received on login
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/AccessToken'
-      responses:
-        200:
-          description: Successfully logged user out, deleting user session
-        400:
-          description: Server error.
-          schema:
-            $ref: '#/definitions/Error'
   /subscriber:
     post:
       summary: Creates a new subscriber

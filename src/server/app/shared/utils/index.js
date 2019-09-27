@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcrypt';
 
 export const getFullPaths = p => {
   const paths = Object.keys(p);
@@ -68,7 +68,7 @@ async function generateSalt() {
       if (!err) {
         resolve(res);
       } else {
-        reject('Error generating salt...');
+        reject('Error generating salt');
       }
     });
   });
@@ -76,7 +76,7 @@ async function generateSalt() {
 
 async function hashPassword(nonHashed, salt) {
  return new Promise((resolve, reject) => {
-   bcrypt.hash(nonHashed, salt, null, (err, res) => {
+   bcrypt.hash(nonHashed, salt, (err, res) => {
      if (!err) {
        resolve(res);
      } else {
