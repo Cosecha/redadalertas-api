@@ -227,7 +227,7 @@ deletedb().then(disconnect)
   })
   .then((res)=> {
     event1 = res[0];
-    log(`New event created (${event1.description})... now creating alert...`);
+    log(`New event created (${event1.description.en})... now creating alert...`);
     return Alert.create([{
       ...event1.toObject(),
       event: event1.id,
@@ -238,15 +238,15 @@ deletedb().then(disconnect)
   })
   .then((res)=> {
     alert1 = res[0];
-    log(`New alert created (${alert1.description})... now creating second event...`);
+    log(`New alert created (${alert1.description.en})... now creating second event...`);
     return Event.create([{
       location: {
         address_1: "John O'Connell Technical High School",
         city: 'San Francisco',
         state: 'CA',
         zipcode: '94110',
-        latitude: '37.7549323',
-        longitude: '-122.4194287',
+        latitude: '37.7595222',
+        longitude: '-122.4140747',
         description: {
           en: 'Public school',
           es: 'Escuela publica',
@@ -273,7 +273,7 @@ deletedb().then(disconnect)
   })
   .then((res)=> {
     event2 = res[0];
-    log(`Second event created (${event2.description})... now creating second alert....`);
+    log(`Second event created (${event2.description.en})... now creating second alert....`);
     return Alert.create([{
       ...event2.toObject(),
       event: event2.id,
@@ -284,7 +284,7 @@ deletedb().then(disconnect)
   })
   .then((res)=> {
     alert2 = res[0];
-    log(`Second alert created (${alert2.description}).\nFinished bootstrapping.`);
+    log(`Second alert created (${alert2.description.en}).\nFinished bootstrapping.`);
     process.exit(0);
   })
   .catch((err)=> {

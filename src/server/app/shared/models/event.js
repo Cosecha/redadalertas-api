@@ -19,9 +19,12 @@ const eventSchemaObj = {
     ],
   },
   description: {
-    type: String,
-    intl: true,
-    required: true
+    en: {
+      type: String,
+      required: true
+    },
+    es: { type: String },
+    fr: { type: String }
   },
   present: {
     type: [{
@@ -110,8 +113,8 @@ const eventSchemaObj = {
       required: true
     },
     description: {
-      type: String,
-      intl: true
+      type: Map,
+      of: String
     }
   },
   radius: {
@@ -130,10 +133,7 @@ const eventSchema = new Schema(eventSchemaObj, {
   timestamps: {
     createdAt: "created.at",
     updatedAt: "updated.at"
-  },
-  toJSON: {
-    virtuals: true // request returns a string where intl: true
-  },
+  }
 });
 
 module.exports.eventSchema = eventSchema;
