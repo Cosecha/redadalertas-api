@@ -2,15 +2,12 @@ import { User } from '../../shared/models';
 import { generateSalt, hashPassword } from '../../shared/utils';
 
 const userStore = {
-  // TO-DO: fill in authLevel stubs
   async createUser(payload) {
     const salt = await generateSalt();
     return User.create([{
       ...payload,
       password: await hashPassword(payload.password, salt),
-    }], {
-      authLevel: false
-    });
+    }]);
   },
   async updateUser(payload) {
     if (payload.password) {
@@ -21,7 +18,6 @@ const userStore = {
       { _id: payload._id },
       payload,
       {
-        authLevel: false,
         new: true
       }
     );
@@ -34,8 +30,7 @@ const userStore = {
   },
   deleteUser(id) {
     return User.findOneAndDelete(
-      { _id: id },
-      { authLevel: false }
+      { _id: id }
     );
   },
   // This method will be used for when logging in. People will have the option to

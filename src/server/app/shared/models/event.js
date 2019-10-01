@@ -19,9 +19,12 @@ const eventSchemaObj = {
     ],
   },
   description: {
-    type: String,
-    intl: true,
-    required: true
+    en: {
+      type: String,
+      required: true
+    },
+    es: { type: String },
+    fr: { type: String }
   },
   present: {
     type: [{
@@ -110,8 +113,8 @@ const eventSchemaObj = {
       required: true
     },
     description: {
-      type: String,
-      intl: true
+      type: Map,
+      of: String
     }
   },
   radius: {
@@ -130,20 +133,8 @@ const eventSchema = new Schema(eventSchemaObj, {
   timestamps: {
     createdAt: "created.at",
     updatedAt: "updated.at"
-  },
-  toJSON: {
-    virtuals: true // request returns a string where intl: true
-  },
-});
-
-eventSchema.getAuthLevel = (payload, doc)=> {
-  if (payload && doc && payload.user && doc.created) {
-    const userGroup = payload.user.belongs.find({ to: doc.created.by.group });
-    const userRole = userGroup ? userGroup.as : false;
-    const userRoleInDoc = userRole ? doc.permissions[userRole] : false;
-    if (userGroup && userRole && userRoleInDoc) return userRole;
   }
-}
+});
 
 module.exports.eventSchema = eventSchema;
 module.exports.eventSchemaObj = eventSchemaObj;

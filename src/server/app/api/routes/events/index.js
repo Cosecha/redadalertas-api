@@ -5,26 +5,22 @@ export default [
   {
     method: 'POST',
     path: '/event',
-    handler: eventController.createEvent,
-    // config: config.event,
+    handler: eventController.createEvent
   },
   {
     method: 'PUT',
     path: '/event',
-    handler: eventController.updateEvent,
-    // config: config.updatedEvent,
+    handler: eventController.updateEvent
   },
   {
     method: 'GET',
     path: '/events',
-    handler: eventController.getEvents,
-    options: { auth: false }
+    handler: eventController.getEvents
   },
   {
     method: 'GET',
     path: '/event/{eventID}',
-    handler: eventController.getEvent,
-    options: { auth: false }
+    handler: eventController.getEvent
   },
   {
     method: 'DELETE',
