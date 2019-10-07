@@ -13,8 +13,12 @@ const groupSchema = new Schema({
   },
   name: String,
   description: {
-    type: String,
-    intl: true
+    en: {
+      type: String,
+      required: true
+    },
+    es: { type: String },
+    fr: { type: String }
   },
   location: {
     city: String,

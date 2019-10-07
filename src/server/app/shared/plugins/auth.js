@@ -108,20 +108,3 @@ export async function validateHeader(req) {
     return new Error(err);
   }
 }
-
-export async function validateServer(req, token, h) {
-  try {
-    if (!token) throw new Error("Missing authentication token.");
-
-    const tokenHeader = JSON.parse(Base64.decode(token.split(".")[0]));
-    if (!tokenHeader.kid) throw new Error("Missing authentication key id.");
-    const validation = await validateToken(tokenHeader.kid, token);
-    if (Bounce.isError(validation)) throw new Error(validation.message || "No validation returned.");
-    if (!validation) throw new Error("Authentication token not valid.");
-
-    return { isValid: true, credentials: validation };
-  } catch (err) {
-    if (Bounce.isSystem(err)) logErr("validateHeader error: ", err.message || err);
-    return new Error(err);
-  }
-}

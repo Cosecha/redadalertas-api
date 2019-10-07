@@ -5,14 +5,12 @@ export default [
   {
     method: 'POST',
     path: '/user',
-    handler: userController.createUser,
-    // config: config.user,
+    handler: userController.createUser
   },
   {
     method: 'PUT',
     path: '/user',
-    handler: userController.updateUser,
-    // config: config.updatedUser,
+    handler: userController.updateUser
   },
   {
     method: 'GET',
@@ -22,8 +20,7 @@ export default [
   {
     method: 'GET',
     path: '/user/{userID}',
-    handler: userController.getUser,
-    // config: config.id,
+    handler: userController.getUser
   },
   {
     method: 'DELETE',
