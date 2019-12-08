@@ -1,4 +1,4 @@
-import Glue from 'glue';
+import Glue from '@hapi/glue';
 import env from 'dotenv';
 import http from 'http';
 import https from 'https';
