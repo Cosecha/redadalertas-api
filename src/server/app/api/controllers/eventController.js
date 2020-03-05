@@ -15,7 +15,7 @@ const eventController = {
     try {
       data = req.payload;
       const userValidation = await validateHeader(req);
-      if (!userValidation.isValid) throw new Error("User invalid.");
+      if (Bounce.isError(userValidation) || !userValidation.isValid) throw userValidation;
 
       if (data["user"]) delete data["user"]; // TO-DO: remove this on app side
       data["created.by.user"] = userValidation.id;
@@ -37,7 +37,7 @@ const eventController = {
       if (!ObjectId.isValid(req.payload._id)) throw new Error("Event ID is not valid.");
 
       const userValidation = await validateHeader(req);
-      if (!userValidation.isValid) throw new Error("User is invalid.");
+      if (Bounce.isError(userValidation) || !userValidation.isValid) throw userValidation;
 
       data = req.payload;
       data["updated.by.user"] = userValidation.id;

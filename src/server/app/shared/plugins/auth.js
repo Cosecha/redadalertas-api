@@ -19,7 +19,7 @@ export async function validateUser(req, username, password, h) {
     return { isValid, id: user._id, email: user.email };
   } catch (err) {
     if (Bounce.isSystem(err)) logErr("validateUser error: ", err.message || err);
-    return new Error(err);
+    return new Error(err.message || err);
   }
 };
 
@@ -57,32 +57,33 @@ export async function generateToken(auth) {
     return token;
   } catch (err) {
     if (Bounce.isSystem(err)) logErr("generateToken error: ", err.message || err);
-    return new Error(err);
+    return new Error(err.message || err);
   }
 };
 
 export async function validateToken(name, token) {
   try {
     const user = await userStore.getUserByPhoneOrEmail(name);
-    if (!user) throw new Error("User not found");
+    if (Bounce.isError(user) || !user) throw new Error(user.message || "User not found.");
     const secret = await getSecretFromUserId(user._id);
     const decodedToken = await jwt.decode(secret, token, (err, payload, header)=> {
       if (err) throw err;
       return payload;
     });
     const { username, dateGenerated, expireAt } = decodedToken;
-    if (!username) throw new Error("Authentication token missing username");
-    if (!dateGenerated) throw new Error("Authentication token missing date generated");
-    if (!expireAt) throw new Error("Authentication token missing expiration date");
+    if (!username) throw new Error("Login token missing username.");
+    if (!dateGenerated) throw new Error("Login token missing creation date.");
+    if (!expireAt) throw new Error("Login token missing expiration date.");
 
     const now = Date.now();
-    if (dateGenerated > now || expireAt < now) throw new Error("Authentication token has invalid dates");
+    if (expireAt < now) throw new Error("Login token has expired. Please log in again.");
+    if (dateGenerated > now) throw new Error("Login token has invalid creation date.");
     const tokenValidation = { ...decodedToken, id: user._id };
 
     return tokenValidation;
   } catch (err) {
     if (Bounce.isSystem(err)) logErr("validateToken error: ", err.message || err);
-    return new Error(err);
+    return new Error(err.message || err);
   }
 };
 
@@ -92,19 +93,20 @@ export async function validateHeader(req) {
     if (!req.headers['authorization']) throw new Error("Missing authorization header.");
 
     const token = req.headers['authorization'].replace("Bearer ", "");
-    if (!token) throw new Error("Missing authentication token.");
+    if (!token) throw new Error("Missing login token.");
 
     const tokenHeader = JSON.parse(Base64.decode(token.split(".")[0]));
     if (!tokenHeader.kid) throw new Error("Missing authentication key id.");
 
     const tokenValidation = await validateToken(tokenHeader.kid, token);
-    if (Bounce.isError(tokenValidation)) throw new Error(tokenValidation.message || "No validation returned.");
-    if (!tokenValidation) throw new Error("Authentication token not valid.");
+    if (Bounce.isError(tokenValidation) || !tokenValidation) {
+      throw new Error(tokenValidation.message || "Login token missing or not valid.");
+    }
 
     const validation = { isValid: true, ...tokenValidation };
     return validation;
   } catch (err) {
     if (Bounce.isSystem(err)) logErr("validateHeader error: ", err.message || err);
-    return new Error(err);
+    return new Error(err.message || err);
   }
 }
