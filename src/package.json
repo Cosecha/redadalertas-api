@@ -36,7 +36,7 @@
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@hapi/glue": "^6.2.0",
-    "@hapi/hapi": "^18.4.0",
+    "@hapi/hapi": "^19.1.1",
     "bcrypt": "^3.0.6",
     "bluebird": "^3.5.3",
     "boom": "^7.2.2",
