@@ -52,7 +52,7 @@
     "redirect-https": "^1.3.0",
     "vision": "^5.4.3",
     "wreck": "^14.1.3",
-    "yarn": "^1.12.3"
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
